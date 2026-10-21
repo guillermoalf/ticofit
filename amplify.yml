@@ -1,0 +1,28 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install --frozen-lockfile
+    build:
+      commands:
+        # Force a clean build so no stale .next output is reused.
+        - rm -rf .next
+        - yarn build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  # Caching temporarily disabled — the cache backend was failing to write
+  # ("Unable to write cache: 404"), so builds kept restoring a stale cache.
+  environment:
+    variables:
+      - NEXT_PUBLIC_SUPABASE_URL
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY
+      # Public origin fallback for server-side redirects (see
+      # src/lib/public-origin.ts). Must match the branch's Amplify URL.
+      - NEXT_PUBLIC_SITE_URL
+      # Server-only secret. Declared here so it is present in the build
+      # environment, where next.config.ts inlines it into the SSR bundle
+      # (Amplify does not forward runtime env vars to the Next.js compute).
+      - SUPABASE_SERVICE_ROLE_KEY

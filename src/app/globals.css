@@ -1,0 +1,207 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ————————————————————————————————————————————————
+   Design tokens — monochrome first, one accent only.
+   The app is a black & white room with ONE glowing element: a near-black
+   wall with a single lit tube. Rule of thumb: ~90% monochrome, ~10%
+   accent. When in doubt, choose monochrome.
+
+   The accent values below are FALLBACKS. The live theme color comes from
+   `BRAND.accent` in src/config/brand.ts, injected as inline CSS variables
+   on <html> by the root layout — theme the app there, not here.
+   ———————————————————————————————————————————————— */
+:root {
+  /* FOUNDATION — true/near black + white + neutral grays (no hue) */
+  --base: #0a0a0a; /* page */
+  --surface: #111111; /* card */
+  --surface-2: #171717; /* elevated */
+  --surface-hover: #1c1c1c; /* card / control hover wash */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --ink: #ffffff; /* primary text — white */
+  --muted: #a1a1aa; /* secondary (zinc-400) */
+  --muted-2: #71717a; /* hint (zinc-500) */
+
+  /* ACCENT — ONE hue, used sparingly: wordmark glow, thin dividers, status
+     dot, hover/focus, ≤1 per section. Overridden at runtime by BRAND.accent.
+     --primary-2 / --accent are legacy aliases kept so every section builds. */
+  --accent-rgb: 228 228 231; /* accent channels, for the glow alphas */
+  --primary: #e4e4e7; /* the only accent */
+  --primary-2: #e4e4e7; /* alias */
+  --accent: #e4e4e7; /* alias */
+  --primary-ink: #0a0a0a; /* text on a rare solid accent fill */
+
+  /* radii */
+  --card-radius: 1.25rem;
+
+  /* glow — derived from the accent, reserved for accent moments only */
+  --glow-primary: 0 0 22px -2px rgb(var(--accent-rgb) / 0.5);
+  --glow-accent: 0 0 22px -2px rgb(var(--accent-rgb) / 0.5); /* alias */
+  --glow-soft: 0 0 16px -4px rgb(var(--accent-rgb) / 0.4);
+  --glow-line: 0 0 8px rgb(var(--accent-rgb) / 0.65);
+  --glow-wordmark: 0 0 18px rgb(var(--accent-rgb) / 0.55), 0 0 5px rgb(var(--accent-rgb) / 0.5);
+}
+
+/* Register tokens with Tailwind so utilities resolve:
+   bg-base, bg-surface, text-ink, text-muted, text-primary, text-accent,
+   border-border, shadow-glow, font-display, font-sans, etc.
+   Fonts come from next/font variables set in layout.tsx. */
+@theme inline {
+  --color-base: var(--base);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+
+  --color-primary: var(--primary);
+  --color-primary-2: var(--primary-2);
+  --color-accent: var(--accent);
+  --color-primary-ink: var(--primary-ink);
+
+  --radius-card: var(--card-radius);
+
+  --shadow-glow: var(--glow-primary);
+  --shadow-glow-accent: var(--glow-accent);
+  --shadow-glow-soft: var(--glow-soft);
+
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    /* a dark room: near-black with a faint neutral vignette for depth
+       (no hue — the only color on the page is the accent). */
+    background:
+      radial-gradient(75% 50% at 50% -10%, rgba(255, 255, 255, 0.035), transparent 70%),
+      var(--base);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-ink);
+  }
+}
+
+/* iOS Safari auto-zooms focused inputs under 16px; keep controls at 16px. */
+@media (max-width: 700px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  /* Wordmark: white text with a soft accent glow.
+     Reserved for the brand wordmark only (sidebar, navbar, footer, hero). */
+  .text-neon {
+    color: #fff;
+    text-shadow: var(--glow-wordmark);
+  }
+
+  /* Thin glowing accent line — for dividers / underlines, used sparingly. */
+  .divider-neon {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: var(--glow-line);
+  }
+
+  /* Hero scroll cue: a thin vertical line with a falling highlight. */
+  .scroll-cue-line {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 2.5rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .scroll-cue-line::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: -50%;
+    height: 50%;
+    background: var(--ink);
+    animation: cue-fall 1.8s ease-in-out infinite;
+  }
+  @keyframes cue-fall {
+    to {
+      top: 100%;
+    }
+  }
+
+  /* Service-name ribbon: content is duplicated once, so -50% loops cleanly. */
+  .animate-marquee {
+    animation: marquee 28s linear infinite;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue-line::after,
+    .animate-marquee {
+      animation: none;
+    }
+  }
+}
+
+/* Soft accent glow around a white logo PNG. */
+@utility logo-glow {
+  filter: drop-shadow(0 0 10px rgb(var(--accent-rgb) / 0.5))
+    drop-shadow(0 0 2px rgb(var(--accent-rgb) / 0.45));
+}
+
+/* Soft neon glow + subtle lift on hover for interactive cards. */
+@utility glow-hover {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  &:hover {
+    box-shadow: var(--glow-primary);
+    border-color: var(--border-strong);
+    transform: translateY(-3px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+# dependencies
+/node_modules
+.yarn/*
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+.env
+.env*.local
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# local reference project (not part of this repo)
+/reference
+
+# agent tooling — per-instance, points at one Supabase project
+.mcp.json
+.claude/settings.local.json
