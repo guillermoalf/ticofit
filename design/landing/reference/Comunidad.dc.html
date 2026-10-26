@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ticofit — Comunidad</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div style="width: 100%">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 20px 48px; background: #24301C">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; line-height: 1; color: #FFFEE1; text-decoration: none">tico<span style="font-style: italic">fit</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-left: auto">
+      <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; gap: 7px; line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Sedes <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#B4D780" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      <a href="Clases.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Clases</a>
+      <a href="Numa.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Membresías</a>
+      <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 15px; color: #B4D780; text-decoration: none">Comunidad</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <section style="display: flex; flex-wrap: wrap; gap: 48px; padding: 88px 48px">
+    <div style="flex: 999 1 480px; min-width: 0">
+      <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 68px; line-height: 1; font-weight: 400">Comunidad</h1>
+      <p style="margin: 24px 0 0; max-width: 560px; font-size: 18px; line-height: 1.6; color: #4A5A3E">ticofit nació de una idea sencilla: que entrenar también sea sentirse bien, acompañado y parte de algo. Acá nadie es un número de casillero.</p>
+      <p style="margin: 18px 0 0; max-width: 560px; font-size: 16px; line-height: 1.6; color: #5B6B4E">[Pendiente — Jeremy: la historia del club en sus propias palabras.]</p>
+    </div>
+    <div style="flex: 1 1 360px; min-width: 0; min-height: 380px; border-radius: 28px; overflow: hidden; background: #D7DEC8"><img src="/_blob/f2ff19ed68ce155aa7f125a85d41a649" alt="Miembros de ticofit a la entrada del club" style="width: 100%; height: 100%; min-height: 380px; object-fit: cover; display: block"></div>
+  </section>
+
+  <section style="padding: 0 48px 88px">
+    <h2 style="margin: 0 0 32px; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.04; font-weight: 400">El equipo</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+      <sc-for list="{{equipo}}" as="e" hint-placeholder-count="4">
+        <article>
+          <div style="display: flex; align-items: center; justify-content: center; height: 260px; border-radius: 20px; background: #E6E8C4; font-size: 13px; color: #6B7A5C">[Retrato]</div>
+          <h3 style="margin: 16px 0 4px; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; font-weight: 400">[Nombre]</h3>
+          <p style="margin: 0; font-size: 14px; color: #5B6B4E">[Rol y certificaciones]</p>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px; padding: 72px 48px; background: #E1E289">
+    <div style="flex: 1 1 280px; min-width: 0">
+      <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 72px; line-height: 1">4.9</p>
+      <p style="margin: 8px 0 0; font-size: 16px; color: #3B4A2E">19 reseñas en Google</p>
+    </div>
+    <p style="flex: 999 1 460px; min-width: 0; margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; line-height: 1.35">
+      [Pendiente — Jeremy: dos o tres reseñas reales de Google, con nombre y fecha.]
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding: 80px 48px 48px; background: #24301C; color: #FFFEE1">
+    <div style="display: flex; flex-wrap: wrap; gap: 48px; padding-bottom: 56px; border-bottom: 1px solid #3C4A30">
+      <div style="flex: 999 1 420px; min-width: 0">
+        <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 46px; line-height: 1.1">Un nuevo comienzo<br><span style="font-style: italic">se siente.</span></p>
+        <a href="https://wa.me/50688272099" style="display: inline-flex; align-items: center; min-height: 52px; margin-top: 32px; padding: 0 34px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 16px; font-weight: 600; text-decoration: none">Escribinos por WhatsApp</a>
+      </div>
+
+      <div style="flex: 1 1 220px; min-width: 0">
+        <h2 style="margin: 0 0 16px; font-size: 12px; letter-spacing: 2.4px; color: #B4D780">SEDES</h2>
+        <p style="margin: 0 0 14px; font-size: 15px; line-height: 1.5; color: #D9E6C6">ticofit pavas<br>Rohrmoser, San José</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #D9E6C6">ticofit parque del café<br>Próximamente</p>
+      </div>
+
+      <div style="flex: 1 1 220px; min-width: 0">
+        <h2 style="margin: 0 0 16px; font-size: 12px; letter-spacing: 2.4px; color: #B4D780">CONTACTO</h2>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="https://wa.me/50688272099" style="color: #D9E6C6; text-decoration: none">+506 8827-2099</a></p>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="https://maps.app.goo.gl/DQkPhczxUTHfDDae9" style="color: #D9E6C6; text-decoration: none">Cómo llegar</a></p>
+        <p style="margin: 0; font-size: 15px; color: #9FB08E">[Instagram — pendiente]</p>
+      </div>
+
+      <div style="flex: 1 1 200px; min-width: 0">
+        <h2 style="margin: 0 0 16px; font-size: 12px; letter-spacing: 2.4px; color: #B4D780">EL CLUB</h2>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="Clases.dc.html" style="color: #D9E6C6; text-decoration: none">Clases</a></p>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="Numa.dc.html" style="color: #D9E6C6; text-decoration: none">Numa ProteinBar</a></p>
+        <p style="margin: 0; font-size: 15px"><a href="Membresias.dc.html" style="color: #D9E6C6; text-decoration: none">Membresías</a></p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; padding-top: 28px">
+      <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px">tico<span style="font-style: italic">fit</span><span style="font-size: 11px; vertical-align: super">®</span> <span style="font-family: Figtree, sans-serif; font-size: 11px; letter-spacing: 3px; color: #B4D780">WELLNESS CLUB</span></p>
+      <p style="margin: 0; font-size: 13px; color: #9FB08E">© 2026 ticofit wellness club · San José, Costa Rica</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":2200}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { equipo: [1, 2, 3, 4] };
+  }
+}
+</script>
+</body>
+</html>

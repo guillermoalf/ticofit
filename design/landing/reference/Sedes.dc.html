@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ticofit — Sedes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div style="width: 100%">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 20px 48px; background: #24301C">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; line-height: 1; color: #FFFEE1; text-decoration: none">tico<span style="font-style: italic">fit</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-left: auto">
+      <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; gap: 7px; line-height: 44px; font-size: 15px; color: #B4D780; text-decoration: none">Sedes <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#B4D780" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      <a href="Clases.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Clases</a>
+      <a href="Numa.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Membresías</a>
+      <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Comunidad</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <!-- SWITCHER -->
+  <section style="padding: 72px 48px 40px; background: #FFFEE1">
+    <h1 style="margin: 0 0 12px; font-family: 'Instrument Serif', Georgia, serif; font-size: 64px; line-height: 1.02; font-weight: 400">Dos sedes, dos clubes</h1>
+    <p style="margin: 0 0 40px; max-width: 580px; font-size: 17px; line-height: 1.6; color: #4A5A3E">No comparten horarios ni precios. Escogé una y toda la página se acomoda a esa sede.</p>
+
+    <div role="tablist" aria-label="Sede" style="display: inline-flex; padding: 6px; border-radius: 999px; background: #E1E289">
+      <button type="button" role="tab" aria-selected="{{esPavas}}" onClick="{{verPavas}}" style="{{btnPavas}}">ticofit pavas</button>
+      <button type="button" role="tab" aria-selected="{{esCafe}}" onClick="{{verCafe}}" style="{{btnCafe}}">ticofit parque del café</button>
+    </div>
+  </section>
+
+  <!-- PAVAS -->
+  <sc-if value="{{esPavas}}" hint-placeholder-val="{{true}}">
+    <div>
+      <section style="display: flex; flex-wrap: wrap; gap: 48px; padding: 24px 48px 88px; background: #FFFEE1">
+        <div style="flex: 1 1 420px; min-width: 0">
+          <span style="display: inline-block; padding: 7px 18px; border: 1px solid #24301C; border-radius: 999px; font-size: 11px; letter-spacing: 2.4px">ABIERTA HOY</span>
+          <h2 style="margin: 22px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 52px; line-height: 1.04; font-weight: 400">ticofit pavas</h2>
+          <p style="margin: 14px 0 0; font-size: 17px; line-height: 1.6; color: #4A5A3E">Rohrmoser, San José. El club original: open gym de verdad, entrá a la hora que querrás y entrená a su ritmo, con un coach cerca si lo necesita.</p>
+
+          <dl style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 36px 0 0">
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">ENTRADA</dt><dd style="margin: 6px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px">Sin reserva</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">AMBIENTE</dt><dd style="margin: 6px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px">Nunca lleno</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">LUN A VIE</dt><dd style="margin: 6px 0 0; font-size: 18px">6:00 a.m. – 9:00 p.m.</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">SÁBADO</dt><dd style="margin: 6px 0 0; font-size: 18px">8:00 a.m. – 12:00 m.d.</dd></div>
+          </dl>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px">
+            <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 16px; font-weight: 600; text-decoration: none">Ver precios de pavas</a>
+            <a href="https://maps.app.goo.gl/DQkPhczxUTHfDDae9" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 999px; border: 1px solid #24301C; font-size: 16px; text-decoration: none">Cómo llegar</a>
+          </div>
+        </div>
+
+        <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+          <div style="height: 320px; border-radius: 24px; overflow: hidden; background: #D7DEC8"><img src="/_blob/a8aaea8edbeb4199bede44eff19d9325" alt="Piso de open gym en ticofit pavas" style="width: 100%; height: 100%; object-fit: cover; display: block"></div>
+          <div style="padding: 28px; border-radius: 24px; background: #B4D780">
+            <h3 style="margin: 0 0 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; color: #24301C">Qué hay acá</h3>
+            <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 9px; font-size: 15px; color: #24301C">
+              <li>Open gym — ₡40.000 + IVA al mes</li>
+              <li>Entrenamiento personal en paquetes de 4, 8 y 12</li>
+              <li>Consultorio por hora: fisioterapia y nutrición</li>
+              <li>Medición mensual con InBody y cinta métrica</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- CAFÉ -->
+  <sc-if value="{{esCafe}}" hint-placeholder-val="{{true}}">
+    <div>
+      <section style="display: flex; flex-wrap: wrap; gap: 48px; padding: 24px 48px 88px; background: #FFFEE1">
+        <div style="flex: 1 1 420px; min-width: 0">
+          <span style="display: inline-block; padding: 7px 18px; border: 1px solid #10343A; border-radius: 999px; font-size: 11px; letter-spacing: 2.4px; color: #10343A">PRÓXIMAMENTE</span>
+          <h2 style="margin: 22px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 52px; line-height: 1.04; font-weight: 400">ticofit parque del café</h2>
+          <p style="margin: 14px 0 0; font-size: 17px; line-height: 1.6; color: #4A5A3E">El club nuevo. Acá reservá su espacio antes de venir, hasta para el open gym, así nunca le toca hacer fila por una máquina.</p>
+
+          <dl style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 36px 0 0">
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">ENTRADA</dt><dd style="margin: 6px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px">Con reserva</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">CLASES</dt><dd style="margin: 6px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px">Grupos pequeños</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">PILATES REFORMER</dt><dd style="margin: 6px 0 0; font-size: 18px">Cupo muy limitado</dd></div>
+            <div><dt style="font-size: 12px; letter-spacing: 2px; color: #5B6B4E">APERTURA</dt><dd style="margin: 6px 0 0; font-size: 18px">[Pendiente — Jeremy]</dd></div>
+          </dl>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px">
+            <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 999px; background: #10343A; color: #FFFEE1; font-size: 16px; font-weight: 600; text-decoration: none">Ver membresías</a>
+            <a href="Clases.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 32px; border-radius: 999px; border: 1px solid #10343A; color: #10343A; font-size: 16px; text-decoration: none">Ver las clases</a>
+          </div>
+        </div>
+
+        <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+          <div style="height: 320px; border-radius: 24px; overflow: hidden; background: #BCD6DA"><img src="/_blob/42c43b15976c5e68e93e39e9977f8bd5" alt="Salón mova de ticofit parque del café" style="width: 100%; height: 100%; object-fit: cover; display: block"></div>
+          <div style="padding: 28px; border-radius: 24px; background: #81B6BD">
+            <h3 style="margin: 0 0 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; font-weight: 400; color: #10343A">Los salones</h3>
+            <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 9px; font-size: 15px; color: #10343A">
+              <li><strong>mova</strong> — pilates, yoga, barre y baile</li>
+              <li><strong>reset</strong> — sauna, cold plunge y terapia roja</li>
+              <li>Salón funcional, con clase todos los días</li>
+              <li>Numa ProteinBar y coworking</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":2200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sede: 'pavas' };
+  }
+  renderVals() {
+    const base = 'min-height:44px;padding:0 30px;border:0;border-radius:999px;cursor:pointer;font-family:Figtree,sans-serif;font-size:15px;font-weight:600;';
+    const on = base + 'background:#24301C;color:#FFFEE1';
+    const off = base + 'background:transparent;color:#3B4A2E';
+    const esPavas = this.state.sede === 'pavas';
+    return {
+      esPavas: esPavas,
+      esCafe: !esPavas,
+      btnPavas: esPavas ? on : off,
+      btnCafe: esPavas ? off : on,
+      verPavas: () => this.setState({ sede: 'pavas' }),
+      verCafe: () => this.setState({ sede: 'cafe' })
+    };
+  }
+}
+</script>
+</body>
+</html>

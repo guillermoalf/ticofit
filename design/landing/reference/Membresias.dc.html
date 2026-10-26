@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ticofit — Membresías</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #24301C; color: #FFFEE1; }
+    a { color: #FFFEE1; } a:hover { color: #B4D780; }
+    * { box-sizing: border-box; }
+    table { border-collapse: collapse; width: 100%; }
+    .ph { position: relative; overflow: hidden; }
+    .ph::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(255,254,225,0.06) 1px, transparent 1px); background-size: 6px 6px; }
+  </style>
+</helmet>
+
+<div style="width: 100%; background: #24301C">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 18px 40px">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1; color: #FFFEE1; text-decoration: none">tico<span style="font-style: italic">fit</span><span style="font-size: 12px; vertical-align: super">®</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; margin-left: auto">
+      <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; gap: 7px; line-height: 44px; font-size: 14px; color: #FFFEE1; text-decoration: none">Sedes <svg width="10" height="6" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#B4D780" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      <a href="Clases.dc.html" style="line-height: 44px; font-size: 14px; color: #FFFEE1; text-decoration: none">Clases</a>
+      <a href="Numa.dc.html" style="line-height: 44px; font-size: 14px; color: #FFFEE1; text-decoration: none">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="line-height: 44px; font-size: 14px; color: #B4D780; text-decoration: none; border-bottom: 1px solid #B4D780">Membresías</a>
+      <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 14px; color: #FFFEE1; text-decoration: none">Comunidad</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 13px; font-weight: 600; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <!-- INTRO -->
+  <section style="padding: 72px 40px 48px; text-align: center">
+    <p style="margin: 0 0 18px; font-size: 11px; letter-spacing: 3px; color: #B4D780">LOS PLANES</p>
+    <h1 style="margin: 0 auto; max-width: 760px; font-family: 'Instrument Serif', Georgia, serif; font-size: 68px; line-height: 1; font-weight: 400">Elegí cómo querés<br><span style="font-style: italic; color: #B4D780">vivir ticofit.</span></h1>
+    <p style="margin: 22px auto 0; max-width: 540px; font-size: 17px; line-height: 1.6; color: #C8D6B6">Todos los planes incluyen recovery, porque recuperarse no es un extra. Precios mensuales, IVA aparte.</p>
+
+    <div role="tablist" aria-label="Sede" style="display: inline-flex; margin-top: 36px; padding: 5px; border-radius: 999px; background: #1A2314">
+      <button type="button" role="tab" aria-selected="{{esPavas}}" onClick="{{verPavas}}" style="{{btnPavas}}">ticofit pavas</button>
+      <button type="button" role="tab" aria-selected="{{esCafe}}" onClick="{{verCafe}}" style="{{btnCafe}}">ticofit parque del café</button>
+    </div>
+  </section>
+
+  <!-- PAVAS -->
+  <sc-if value="{{esPavas}}" hint-placeholder-val="{{true}}">
+    <div>
+      <section style="padding: 0 40px 72px">
+        <div style="display: flex; flex-wrap: wrap; gap: 18px">
+          <article style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; padding: 40px; border-radius: 18px; background: #B4D780; color: #24301C">
+            <p style="margin: 0; font-size: 11px; letter-spacing: 2.4px">LA MENSUALIDAD</p>
+            <h2 style="margin: 14px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1; font-weight: 400">Open gym</h2>
+            <p style="margin: 22px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 68px; line-height: 1">₡40.000</p>
+            <p style="margin: 4px 0 0; font-size: 14px; color: #35472A">+ IVA · al mes</p>
+            <ul style="margin: 30px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 13px; font-size: 16px">
+              <sc-for list="{{pavasIncluye}}" as="i" hint-placeholder-count="4">
+                <li style="display: flex; gap: 11px"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="#24301C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>{{i}}</span></li>
+              </sc-for>
+            </ul>
+            <a href="Comunidad.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 52px; margin-top: 36px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 15px; font-weight: 600; text-decoration: none">Empezar con open gym</a>
+          </article>
+
+          <article style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; padding: 40px; border-radius: 18px; border: 1px solid #3C4A30">
+            <p style="margin: 0; font-size: 11px; letter-spacing: 2.4px; color: #B4D780">SI QUIERE ACOMPAÑAMIENTO</p>
+            <h2 style="margin: 14px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1; font-weight: 400">Entrenamiento personal</h2>
+            <p style="margin: 18px 0 0; font-size: 16px; line-height: 1.6; color: #C8D6B6">Se suma a la mensualidad. Entre más sesiones, menos paga por cada una.</p>
+            <div style="margin: 26px 0 0">
+              <sc-for list="{{personal}}" as="p" hint-placeholder-count="3">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 17px 0; border-top: 1px solid #3C4A30">
+                  <span style="font-size: 16px; color: #E4EDD6">{{p.label}}</span>
+                  <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; color: #B4D780">{{p.precio}}<span style="font-family: Figtree, sans-serif; font-size: 12px; color: #9FB08E"> c/u</span></span>
+                </div>
+              </sc-for>
+            </div>
+            <a href="Comunidad.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 52px; margin-top: auto; border: 1px solid #B4D780; border-radius: 999px; color: #B4D780; font-size: 15px; font-weight: 600; text-decoration: none">Hablar con un coach</a>
+          </article>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- CAFÉ -->
+  <sc-if value="{{esCafe}}" hint-placeholder-val="{{true}}">
+    <div>
+      <section style="padding: 0 40px 64px">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch">
+          <sc-for list="{{planes}}" as="p" hint-placeholder-count="3">
+            <article style="display: flex; flex-direction: column; padding: 38px 32px; border-radius: 18px; background: {{p.fondo}}; border: 1px solid {{p.borde}}">
+              <sc-if value="{{p.destacado}}" hint-placeholder-val="{{true}}">
+                <span style="align-self: flex-start; margin-bottom: 16px; padding: 6px 15px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 10px; font-weight: 600; letter-spacing: 2px">EL MÁS COMPLETO</span>
+              </sc-if>
+              <p style="margin: 0; font-size: 11px; letter-spacing: 2.4px; color: {{p.sub}}">{{p.kicker}}</p>
+              <h2 style="margin: 12px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1.02; font-weight: 400; color: {{p.texto}}">{{p.nombre}}</h2>
+              <p style="margin: 20px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 58px; line-height: 1; color: {{p.acento}}">{{p.precio}}</p>
+              <p style="margin: 4px 0 0; font-size: 13px; color: {{p.sub}}">+ IVA · al mes</p>
+              <ul style="margin: 28px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px">
+                <sc-for list="{{p.incluye}}" as="i" hint-placeholder-count="4">
+                  <li style="display: flex; gap: 11px; font-size: 15px; line-height: 1.45; color: {{p.texto}}">
+                    <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="{{p.acento}}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>{{i}}</span>
+                  </li>
+                </sc-for>
+              </ul>
+              <a href="Comunidad.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 50px; margin-top: 34px; border-radius: 999px; background: {{p.btnFondo}}; color: {{p.btnTexto}}; font-size: 15px; font-weight: 600; text-decoration: none">Empezar con {{p.nombre}}</a>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+
+      <!-- COMPARATIVA -->
+      <section style="padding: 0 40px 72px">
+        <h2 style="margin: 0 0 28px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.04; font-weight: 400">Todo de un <span style="font-style: italic; color: #B4D780">vistazo.</span></h2>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" style="padding: 16px 14px; text-align: left; font-size: 11px; letter-spacing: 2px; font-weight: 500; color: #9FB08E; border-bottom: 1px solid #3C4A30">QUÉ INCLUYE</th>
+              <th scope="col" style="padding: 16px 14px; text-align: center; font-size: 13px; font-weight: 600; color: #FFFEE1; border-bottom: 1px solid #3C4A30">Premium</th>
+              <th scope="col" style="padding: 16px 14px; text-align: center; font-size: 13px; font-weight: 600; color: #FFFEE1; border-bottom: 1px solid #3C4A30">Plus Premium</th>
+              <th scope="col" style="padding: 16px 14px; text-align: center; font-size: 13px; font-weight: 600; color: #B4D780; border-bottom: 1px solid #3C4A30">Plus +</th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{tabla}}" as="f" hint-placeholder-count="6">
+              <tr>
+                <th scope="row" style="padding: 17px 14px; text-align: left; font-size: 15px; font-weight: 400; color: #E4EDD6; border-bottom: 1px solid #2E3A23">{{f.fila}}</th>
+                <td style="padding: 17px 14px; text-align: center; font-size: 15px; color: #C8D6B6; border-bottom: 1px solid #2E3A23">{{f.a}}</td>
+                <td style="padding: 17px 14px; text-align: center; font-size: 15px; color: #C8D6B6; border-bottom: 1px solid #2E3A23">{{f.b}}</td>
+                <td style="padding: 17px 14px; text-align: center; font-size: 15px; color: #B4D780; border-bottom: 1px solid #2E3A23">{{f.c}}</td>
+              </tr>
+            </sc-for>
+            <tr>
+              <th scope="row" style="padding: 20px 14px; text-align: left; font-size: 13px; letter-spacing: 1.6px; color: #9FB08E">PRECIO MENSUAL</th>
+              <td style="padding: 20px 14px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 28px">₡60.000</td>
+              <td style="padding: 20px 14px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 28px">₡80.000</td>
+              <td style="padding: 20px 14px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; color: #B4D780">₡100.000</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- RECOVERY DESTACADO -->
+      <section style="display: flex; flex-wrap: wrap; gap: 0; margin: 0 40px 72px; border-radius: 18px; overflow: hidden">
+        <div style="flex: 1 1 380px; min-width: 0; min-height: 400px; background: #8A5A4E">
+          <img src="/_blob/ef46f33df3ee8a9b82c9b388ead93dc9" alt="Sauna con terapia de luz roja en el salón reset" style="width: 100%; height: 100%; min-height: 400px; object-fit: cover; display: block">
+        </div>
+        <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; justify-content: center; padding: 48px; background: #1A2314">
+          <p style="margin: 0 0 14px; font-size: 11px; letter-spacing: 2.6px; color: #B4D780">SALÓN RESET</p>
+          <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.02; font-weight: 400">Sauna, cold plunge<br>y luz roja.</h2>
+          <p style="margin: 18px 0 0; max-width: 460px; font-size: 16px; line-height: 1.65; color: #C8D6B6">Lo que hace que al día siguiente pueda volver. Viene incluido en Plus + o lo compra por sesión.</p>
+          <div style="margin: 28px 0 0; max-width: 420px">
+            <sc-for list="{{recovery}}" as="r" hint-placeholder-count="4">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 15px 0; border-top: 1px solid #3C4A30">
+                <span style="font-size: 15px; color: #E4EDD6">{{r.label}}</span>
+                <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; color: #B4D780">{{r.precio}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIN MEMBRESÍA -->
+      <section style="padding: 0 40px 72px">
+        <h2 style="margin: 0 0 10px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.04; font-weight: 400">¿Querés probar antes de<br><span style="font-style: italic; color: #B4D780">comprometerte?</span></h2>
+        <p style="margin: 0 auto 36px; max-width: 520px; text-align: center; font-size: 16px; line-height: 1.6; color: #C8D6B6">Comprá clases sueltas y venga cuando pueda. Entre más clases, menos paga por cada una.</p>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
+          <sc-for list="{{paquetes}}" as="q" hint-placeholder-count="3">
+            <article style="display: flex; flex-direction: column; padding: 34px; border-radius: 18px; border: 1px solid #3C4A30; background: #1A2314">
+              <h3 style="margin: 0; font-size: 13px; letter-spacing: 2px; color: #B4D780">{{q.titulo}}</h3>
+              <p style="margin: 18px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 52px; line-height: 1">{{q.precio}}</p>
+              <p style="margin: 4px 0 0; font-size: 13px; color: #9FB08E">por clase · + IVA</p>
+              <p style="margin: 18px 0 0; font-size: 15px; line-height: 1.6; color: #C8D6B6">{{q.nota}}</p>
+              <a href="Clases.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 28px; border: 1px solid #B4D780; border-radius: 999px; color: #B4D780; font-size: 14px; font-weight: 600; text-decoration: none">Comprar</a>
+            </article>
+          </sc-for>
+        </div>
+        <p style="margin: 22px 0 0; text-align: center; font-size: 14px; color: #9FB08E">También estamos armando planes de coworking y de cumpleaños. [Pendiente — Jeremy]</p>
+      </section>
+    </div>
+  </sc-if>
+
+  <!-- CTA -->
+  <section style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px; padding: 64px 40px; background: #B4D780; color: #24301C; text-align: center">
+    <div style="flex: 999 1 460px; min-width: 0">
+      <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 42px; line-height: 1.06; font-weight: 400">¿Todavía no sabe cuál le sirve?</h2>
+      <p style="margin: 10px 0 0; font-size: 16px; color: #35472A">Escribanos y le ayudamos a escoger en dos minutos.</p>
+    </div>
+    <a href="https://wa.me/50688272099" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 34px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 15px; font-weight: 600; text-decoration: none">Escribinos por WhatsApp</a>
+  </section>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":3400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sede: 'cafe' };
+  }
+  renderVals() {
+    const base = 'min-height:44px;padding:0 28px;border:0;border-radius:999px;cursor:pointer;font-family:Figtree,sans-serif;font-size:14px;font-weight:600;';
+    const on = base + 'background:#B4D780;color:#24301C';
+    const off = base + 'background:transparent;color:#C8D6B6';
+    const esPavas = this.state.sede === 'pavas';
+
+    return {
+      esPavas: esPavas,
+      esCafe: !esPavas,
+      btnPavas: esPavas ? on : off,
+      btnCafe: esPavas ? off : on,
+      verPavas: () => this.setState({ sede: 'pavas' }),
+      verCafe: () => this.setState({ sede: 'cafe' }),
+
+      pavasIncluye: [
+        'Entrada libre todo el horario del club',
+        'Coach en piso para corregirle la técnica',
+        'Medición mensual con InBody',
+        'Fisioterapia y nutrición con cita'
+      ],
+      personal: [
+        { label: '4 sesiones al mes', precio: '₡17.500' },
+        { label: '8 sesiones al mes', precio: '₡15.000' },
+        { label: '12 sesiones al mes', precio: '₡12.500' }
+      ],
+
+      planes: [
+        {
+          nombre: 'Premium', kicker: 'PARA EMPEZAR', precio: '₡60.000',
+          incluye: ['Open gym sin límite', 'Clase funcional todos los días', '4 clases al mes en el salón mova', 'Medición mensual con InBody'],
+          fondo: '#1A2314', borde: '#3C4A30', texto: '#E4EDD6', sub: '#9FB08E', acento: '#B4D780',
+          btnFondo: '#B4D780', btnTexto: '#24301C', destacado: false
+        },
+        {
+          nombre: 'Plus Premium', kicker: 'EL MÁS ESCOGIDO', precio: '₡80.000',
+          incluye: ['Open gym sin límite', 'Clase funcional todos los días', '8 clases al mes en el salón mova', 'Medición mensual con InBody'],
+          fondo: '#2D3A22', borde: '#4C5C3C', texto: '#F2F6E8', sub: '#AEBE9C', acento: '#B4D780',
+          btnFondo: '#B4D780', btnTexto: '#24301C', destacado: false
+        },
+        {
+          nombre: 'Plus +', kicker: 'ENTRENO Y RECUPERACIÓN', precio: '₡100.000',
+          incluye: ['Todo lo de Plus Premium', 'Sesiones de recovery en el salón reset', 'Sauna, cold plunge y luz roja', 'Prioridad para reservar'],
+          fondo: '#B4D780', borde: '#B4D780', texto: '#24301C', sub: '#35472A', acento: '#24301C',
+          btnFondo: '#24301C', btnTexto: '#FFFEE1', destacado: true
+        }
+      ],
+
+      tabla: [
+        { fila: 'Open gym', a: 'Sin límite', b: 'Sin límite', c: 'Sin límite' },
+        { fila: 'Clase funcional diaria', a: 'Sin límite', b: 'Sin límite', c: 'Sin límite' },
+        { fila: 'Clases del salón mova', a: '4 al mes', b: '8 al mes', c: '8 al mes' },
+        { fila: 'Recovery en el salón reset', a: '—', b: '—', c: 'Incluido' },
+        { fila: 'Medición mensual con InBody', a: 'Incluida', b: 'Incluida', c: 'Incluida' },
+        { fila: 'Numa ProteinBar', a: 'Acceso', b: 'Acceso', c: 'Acceso' }
+      ],
+
+      recovery: [
+        { label: '1 sesión', precio: '₡25.000' },
+        { label: '2 sesiones', precio: '₡22.500 c/u' },
+        { label: '3 sesiones', precio: '₡20.000 c/u' },
+        { label: '4 sesiones', precio: '₡17.500 c/u' }
+      ],
+
+      paquetes: [
+        { titulo: '4 CLASES AL MES', precio: '₡20.000', nota: 'Una clase por semana, para probar sin amarrarse.' },
+        { titulo: '8 CLASES AL MES', precio: '₡18.000', nota: 'Dos por semana. El ritmo con el que sí se ven cambios.' },
+        { titulo: '12 CLASES O MÁS', precio: '₡16.000', nota: 'El mejor precio por clase, sin importar cuántas lleve.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

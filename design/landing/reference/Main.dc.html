@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ticofit — Inicio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+    .ph { position: relative; overflow: hidden; }
+    .ph::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(36,48,28,0.07) 1px, transparent 1px); background-size: 6px 6px; }
+  </style>
+</helmet>
+
+<div style="width: 100%">
+
+  <!-- NAV -->
+  <header style="position: relative; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 18px 40px; background: #FFFEE1">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1; color: #24301C; text-decoration: none; letter-spacing: -0.4px">tico<span style="font-style: italic">fit</span><span style="font-size: 12px; vertical-align: super">®</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; margin-left: auto">
+      <div style="position: relative">
+        <button type="button" onClick="{{toggleSedes}}" aria-expanded="{{sedesOpen}}" style="display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 0 4px; background: none; border: 0; cursor: pointer; font-family: Figtree, sans-serif; font-size: 14px; letter-spacing: 0.4px; color: #24301C">
+          Sedes
+          <svg width="10" height="6" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#24301C" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
+        <sc-if value="{{sedesOpen}}" hint-placeholder-val="{{true}}">
+          <div style="position: absolute; top: 46px; left: -12px; width: 300px; padding: 8px; background: #FFFEE1; border: 1px solid #DADCAE; border-radius: 14px; box-shadow: 0 16px 40px rgba(36,48,28,0.14)">
+            <a href="Sedes.dc.html" style="display: block; padding: 13px 15px; border-radius: 10px; text-decoration: none">
+              <div style="font-size: 15px; font-weight: 600">ticofit pavas</div>
+              <div style="margin-top: 2px; font-size: 13px; color: #6B7A5C">Rohrmoser</div>
+            </a>
+            <a href="Sedes.dc.html" style="display: block; padding: 13px 15px; border-radius: 10px; text-decoration: none">
+              <div style="font-size: 15px; font-weight: 600">ticofit parque del café</div>
+              <div style="margin-top: 2px; font-size: 13px; color: #6B7A5C">Abre pronto</div>
+            </a>
+          </div>
+        </sc-if>
+      </div>
+      <a href="Clases.dc.html" style="font-size: 14px; letter-spacing: 0.4px; text-decoration: none; line-height: 44px">Clases</a>
+      <a href="Numa.dc.html" style="font-size: 14px; letter-spacing: 0.4px; text-decoration: none; line-height: 44px">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="font-size: 14px; letter-spacing: 0.4px; text-decoration: none; line-height: 44px">Membresías</a>
+      <a href="Comunidad.dc.html" style="font-size: 14px; letter-spacing: 0.4px; text-decoration: none; line-height: 44px">Comunidad</a>
+      <a href="Clases.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border-radius: 999px; border: 1px solid #24301C; font-size: 13px; letter-spacing: 0.6px; text-decoration: none">Probá una clase</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 13px; font-weight: 600; letter-spacing: 0.6px; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <!-- HERO: imagen con texto encima, estilo Pomona -->
+  <section style="padding: 0 40px 72px">
+    <div style="position: relative; display: flex; align-items: flex-end; min-height: 620px; padding: 56px; border-radius: 20px; overflow: hidden; background: #6E7A5C">
+      <img src="/_blob/a743fd9b67119545dd845223b2f3b275" alt="Salón de ticofit con luz natural de la mañana" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+      <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,28,14,0.82) 0%, rgba(20,28,14,0.38) 52%, rgba(20,28,14,0.12) 100%)"></div>
+      <div style="position: relative; max-width: 700px">
+        <h1 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 76px; line-height: 0.98; font-weight: 400; color: #FFFEE1">
+          Un nuevo comienzo<br><span style="font-style: italic">se siente.</span>
+        </h1>
+        <p style="margin: 20px 0 0; max-width: 460px; font-size: 17px; line-height: 1.55; color: #E8EFDA">Tu club de bienestar en San José. Entrená, comé bien y recuperate en un solo lugar.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px">
+          <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 30px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Reservar</a>
+          <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 30px; border-radius: 999px; border: 1px solid rgba(255,254,225,0.6); color: #FFFEE1; font-size: 15px; text-decoration: none">Conocé el club</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO 2 COLUMNAS -->
+  <section style="display: flex; flex-wrap: wrap; gap: 56px; padding: 0 40px 56px">
+    <div style="flex: 1 1 380px; min-width: 0">
+      <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.06; font-weight: 400">Entrená, comé,<br>recuperate y trabajá.</h2>
+      <a href="Clases.dc.html" style="display: inline-flex; align-items: center; min-height: 46px; margin-top: 26px; padding: 0 26px; border-radius: 999px; border: 1px solid #24301C; font-size: 13px; letter-spacing: 1.4px; text-decoration: none">RESERVÁ SU PRIMERA CLASE</a>
+    </div>
+    <div style="flex: 1 1 420px; min-width: 0">
+      <p style="margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; line-height: 1.5">Bienvenido a ticofit: todo lo que su cuerpo necesita, en un mismo lugar.</p>
+      <p style="margin: 0; font-size: 16px; line-height: 1.65; color: #4A5A3E">Clases que retan de verdad, comida real que alimenta y un espacio para recuperarse de lo que hizo. Dos sedes, grupos pequeños y gente que se aprende su nombre.</p>
+    </div>
+  </section>
+
+  <!-- 4 TILES -->
+  <section style="padding: 0 40px 88px">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
+      <sc-for list="{{tiles}}" as="t" hint-placeholder-count="4">
+        <a href="{{t.href}}" style="position: relative; display: flex; align-items: flex-end; min-height: 360px; padding: 28px; border-radius: 16px; overflow: hidden; background: {{t.fondo}}; text-decoration: none">
+          <img src="{{t.img}}" alt="{{t.alt}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+          <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,28,14,0.72), rgba(20,28,14,0.05))"></div>
+          <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 7px">
+            <sc-for list="{{t.chips}}" as="c" hint-placeholder-count="2">
+              <span style="padding: 5px 12px; border-radius: 999px; background: rgba(255,254,225,0.92); font-size: 10px; letter-spacing: 1.6px; color: #24301C">{{c}}</span>
+            </sc-for>
+          </div>
+          <div style="position: relative">
+            <h3 style="margin: 0; font-size: 22px; font-weight: 600; letter-spacing: 2.6px; color: #FFFEE1">{{t.titulo}}</h3>
+            <p style="margin: 6px 0 0; font-size: 14px; color: #E2EAD4">{{t.pie}}</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- BANDA DE CLASES -->
+  <section style="display: flex; flex-wrap: wrap; gap: 48px; padding: 72px 40px; background: #8FA06F">
+    <div style="flex: 1 1 320px; min-width: 0">
+      <p style="margin: 0 0 24px; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; color: #1E2A16">Nuestras clases</p>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px">
+        <sc-for list="{{listaClases}}" as="n" hint-placeholder-count="7">
+          <li><a href="Clases.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 40px; line-height: 1.22; color: #1E2A16; text-decoration: none; letter-spacing: 0.5px">{{n}}</a></li>
+        </sc-for>
+      </ul>
+      <a href="Clases.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; padding: 0 24px; border-radius: 999px; border: 1px solid #1E2A16; font-size: 13px; letter-spacing: 1.2px; color: #1E2A16; text-decoration: none">VER TODAS</a>
+    </div>
+    <div style="flex: 1 1 260px; min-width: 0">
+      <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #22301A">Grupos pequeños, con un coach que le corrige la técnica y le lleva el progreso. No es una clase donde usted es uno más en el fondo del salón.</p>
+    </div>
+    <div style="flex: 1 1 320px; min-width: 0; min-height: 340px; border-radius: 14px; overflow: hidden">
+      <img src="/_blob/025a5800abbbf250252988c3611a171e" alt="Clase funcional en ticofit" style="width: 100%; height: 100%; min-height: 340px; object-fit: cover; display: block">
+    </div>
+  </section>
+
+  <!-- SEDES -->
+  <section style="padding: 88px 40px">
+    <h2 style="margin: 0 0 10px; text-align: center; font-family: 'Instrument Serif', Georgia, serif; font-size: 46px; line-height: 1.05; font-weight: 400">Nuestras sedes</h2>
+    <p style="margin: 0 auto 40px; max-width: 540px; text-align: center; font-size: 16px; line-height: 1.6; color: #4A5A3E">Dos clubes en <strong>San José</strong> pensados para que entrene, coma y se recupere sin moverse de ahí.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px">
+      <a href="Sedes.dc.html" style="position: relative; display: flex; align-items: flex-end; min-height: 400px; padding: 28px; border-radius: 16px; overflow: hidden; background: #7E8A68; text-decoration: none">
+        <img src="/_blob/a8aaea8edbeb4199bede44eff19d9325" alt="Piso de open gym en ticofit pavas" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,28,14,0.72), rgba(20,28,14,0.05))"></div>
+        <h3 style="position: relative; margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 2.4px; color: #FFFEE1">TICOFIT PAVAS</h3>
+      </a>
+      <a href="Sedes.dc.html" style="position: relative; display: flex; align-items: flex-end; min-height: 400px; padding: 28px; border-radius: 16px; overflow: hidden; background: #7FA3A8; text-decoration: none">
+        <img src="/_blob/b48c16bb76dcb383da265ab9719c08a4" alt="Interior de ticofit parque del café" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,30,34,0.72), rgba(10,30,34,0.05))"></div>
+        <div style="position: relative">
+          <span style="display: inline-block; margin-bottom: 10px; padding: 5px 13px; border-radius: 999px; background: rgba(255,254,225,0.92); font-size: 10px; letter-spacing: 1.6px; color: #10343A">ABRE PRONTO</span>
+          <h3 style="margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 2.4px; color: #FFFEE1">TICOFIT PARQUE DEL CAFÉ</h3>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- POR DÓNDE EMPEZAR -->
+  <section style="display: flex; flex-wrap: wrap; gap: 40px; padding: 0 40px 88px">
+    <div style="flex: 1 1 340px; min-width: 0">
+      <h2 style="margin: 0 0 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: 38px; line-height: 1.08; font-weight: 400">¿No sabe por dónde empezar?</h2>
+      <p style="margin: 0 0 24px; max-width: 420px; font-size: 16px; line-height: 1.6; color: #4A5A3E">Venga a una clase suelta antes de decidirse. Sin membresía y sin compromiso.</p>
+      <a href="Clases.dc.html" style="display: inline-flex; align-items: center; min-height: 46px; padding: 0 26px; border-radius: 999px; border: 1px solid #24301C; font-size: 13px; letter-spacing: 1.2px; text-decoration: none">VER EL CALENDARIO</a>
+    </div>
+
+    <div style="flex: 999 1 460px; min-width: 0; display: flex; flex-wrap: wrap; gap: 18px">
+      <article style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; padding: 28px; border-radius: 16px; background: #EDEFC8">
+        <h3 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 2px">PRIMERA CLASE</h3>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.55; color: #4A5A3E">Una clase a elegir. La forma más fácil de conocer ticofit.</p>
+        <p style="margin: 22px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 32px">₡20.000</p>
+        <a href="Clases.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 20px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 13px; letter-spacing: 1.2px; text-decoration: none">RESERVAR</a>
+      </article>
+      <article style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; padding: 28px; border-radius: 16px; background: #EDEFC8">
+        <h3 style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 2px">CLASE + RECOVERY</h3>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.55; color: #4A5A3E">Una clase y una sesión de sauna y cold plunge. La experiencia completa.</p>
+        <p style="margin: 22px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 32px">₡45.000</p>
+        <a href="Clases.dc.html" style="display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 20px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 13px; letter-spacing: 1.2px; text-decoration: none">RESERVAR</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA ANCHO -->
+  <section style="padding: 0 40px 88px">
+    <div style="position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 440px; padding: 48px; border-radius: 20px; overflow: hidden; background: #6E7A5C; text-align: center">
+      <img src="/_blob/f2ff19ed68ce155aa7f125a85d41a649" alt="Comunidad de ticofit a la entrada del club" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover">
+      <div style="position: absolute; inset: 0; background: rgba(18,26,12,0.58)"></div>
+      <h2 style="position: relative; margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 52px; line-height: 1.04; font-weight: 400; color: #FFFEE1">Reservá su primera sesión</h2>
+      <p style="position: relative; margin: 14px 0 0; font-size: 17px; color: #E2EAD4">Dé el primer paso hacia su mejor versión.</p>
+      <a href="Membresias.dc.html" style="position: relative; display: inline-flex; align-items: center; min-height: 48px; margin-top: 28px; padding: 0 32px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Empezar ahora</a>
+    </div>
+  </section>
+
+  <!-- RESEÑAS -->
+  <section style="padding: 0 40px 88px">
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-bottom: 26px">
+      <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 56px; line-height: 1">4.9</p>
+      <div>
+        <div style="display: flex; gap: 3px">
+          <sc-for list="{{estrellas}}" as="s" hint-placeholder-count="5">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z" fill="#24301C"/></svg>
+          </sc-for>
+        </div>
+        <p style="margin: 6px 0 0; font-size: 14px; color: #4A5A3E">19 reseñas en Google</p>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px">
+      <sc-for list="{{resenas}}" as="r" hint-placeholder-count="3">
+        <article style="padding: 26px; border-radius: 16px; border: 1px solid #DADCAE">
+          <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4A5A3E">[Pendiente — reseña real de Google]</p>
+          <p style="margin: 18px 0 0; font-size: 14px; font-weight: 600">[Nombre]</p>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding: 72px 40px 44px; background: #24301C; color: #FFFEE1">
+    <div style="display: flex; flex-wrap: wrap; gap: 48px; padding-bottom: 52px; border-bottom: 1px solid #3C4A30">
+      <div style="flex: 999 1 400px; min-width: 0">
+        <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 42px; line-height: 1.1">Un nuevo comienzo<br><span style="font-style: italic">se siente.</span></p>
+        <a href="https://wa.me/50688272099" style="display: inline-flex; align-items: center; min-height: 50px; margin-top: 28px; padding: 0 32px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Escribinos por WhatsApp</a>
+      </div>
+      <div style="flex: 1 1 200px; min-width: 0">
+        <h2 style="margin: 0 0 14px; font-size: 11px; letter-spacing: 2.4px; color: #B4D780">SEDES</h2>
+        <p style="margin: 0 0 12px; font-size: 15px; line-height: 1.5; color: #D9E6C6">ticofit pavas<br>Rohrmoser, San José</p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #D9E6C6">ticofit parque del café<br>Abre pronto</p>
+      </div>
+      <div style="flex: 1 1 200px; min-width: 0">
+        <h2 style="margin: 0 0 14px; font-size: 11px; letter-spacing: 2.4px; color: #B4D780">CONTACTO</h2>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="https://wa.me/50688272099" style="color: #D9E6C6; text-decoration: none">+506 8827-2099</a></p>
+        <p style="margin: 0; font-size: 15px"><a href="https://maps.app.goo.gl/DQkPhczxUTHfDDae9" style="color: #D9E6C6; text-decoration: none">Cómo llegar</a></p>
+      </div>
+      <div style="flex: 1 1 180px; min-width: 0">
+        <h2 style="margin: 0 0 14px; font-size: 11px; letter-spacing: 2.4px; color: #B4D780">EL CLUB</h2>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="Clases.dc.html" style="color: #D9E6C6; text-decoration: none">Clases</a></p>
+        <p style="margin: 0 0 10px; font-size: 15px"><a href="Numa.dc.html" style="color: #D9E6C6; text-decoration: none">Numa ProteinBar</a></p>
+        <p style="margin: 0; font-size: 15px"><a href="Membresias.dc.html" style="color: #D9E6C6; text-decoration: none">Membresías</a></p>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; padding-top: 26px">
+      <p style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px">tico<span style="font-style: italic">fit</span><span style="font-size: 10px; vertical-align: super">®</span> <span style="font-family: Figtree, sans-serif; font-size: 10px; letter-spacing: 3px; color: #B4D780">WELLNESS CLUB</span></p>
+      <p style="margin: 0; font-size: 13px; color: #9FB08E">© 2026 ticofit wellness club · San José, Costa Rica</p>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":4200}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sedesOpen: false };
+  }
+  renderVals() {
+    return {
+      sedesOpen: this.state.sedesOpen,
+      toggleSedes: () => this.setState({ sedesOpen: !this.state.sedesOpen }),
+      tiles: [
+        { titulo: 'ENTRENÁ', pie: 'Funcional, pesas y entrenamiento personal', chips: ['PAVAS', 'PARQUE DEL CAFÉ'], href: 'Clases.dc.html', fondo: '#7A8663', img: '/_blob/03c7a698c693c83ecb3eb87281f1fe38', alt: 'Manos en una barra olímpica' },
+        { titulo: 'COMÉ', pie: 'Numa ProteinBar, adentro del club', chips: ['PARQUE DEL CAFÉ'], href: 'Numa.dc.html', fondo: '#C9BE86', img: '/_blob/48b52e29887db629b308e3277a04d634', alt: 'Batido de proteína y bowl de fruta' },
+        { titulo: 'RECUPERATE', pie: 'Sauna, cold plunge y terapia roja', chips: ['PARQUE DEL CAFÉ'], href: 'Clases.dc.html', fondo: '#8A5A4E', img: '/_blob/ef46f33df3ee8a9b82c9b388ead93dc9', alt: 'Sauna con terapia de luz roja' },
+        { titulo: 'TRABAJÁ', pie: 'Coworking para quedarse después', chips: ['PARQUE DEL CAFÉ'], href: 'Sedes.dc.html', fondo: '#7FA3A8', img: '/_blob/b48c16bb76dcb383da265ab9719c08a4', alt: 'Rincón de coworking del club' }
+      ],
+      listaClases: ['FUNCIONAL', 'PILATES REFORMER', 'YOGA', 'BARRE', 'BAILE', 'OPEN GYM', 'ENTRENAMIENTO PERSONAL'],
+      estrellas: [1, 2, 3, 4, 5],
+      resenas: [1, 2, 3]
+    };
+  }
+}
+</script>
+</body>
+</html>

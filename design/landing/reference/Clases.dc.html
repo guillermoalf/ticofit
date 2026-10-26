@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>ticofit — Clases</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+    .ph { position: relative; overflow: hidden; }
+    .ph::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(rgba(36,48,28,0.07) 1px, transparent 1px); background-size: 6px 6px; }
+  </style>
+</helmet>
+
+<div style="width: 100%">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 18px 40px; background: #FFFEE1">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 28px; line-height: 1; text-decoration: none">tico<span style="font-style: italic">fit</span><span style="font-size: 12px; vertical-align: super">®</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px; margin-left: auto">
+      <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; gap: 7px; line-height: 44px; font-size: 14px; letter-spacing: 0.4px; text-decoration: none">Sedes <svg width="10" height="6" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#24301C" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      <a href="Clases.dc.html" style="line-height: 44px; font-size: 14px; letter-spacing: 0.4px; text-decoration: none; border-bottom: 1px solid #24301C">Clases</a>
+      <a href="Numa.dc.html" style="line-height: 44px; font-size: 14px; letter-spacing: 0.4px; text-decoration: none">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="line-height: 44px; font-size: 14px; letter-spacing: 0.4px; text-decoration: none">Membresías</a>
+      <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 14px; letter-spacing: 0.4px; text-decoration: none">Comunidad</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border-radius: 999px; background: #B4D780; font-size: 13px; font-weight: 600; letter-spacing: 0.6px; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <!-- INTRO -->
+  <section style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 48px; padding: 56px 40px 44px">
+    <h1 style="flex: 1 1 420px; min-width: 0; margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 72px; line-height: 0.98; font-weight: 400">Clases que se<br><span style="font-style: italic">sienten distinto.</span></h1>
+    <p style="flex: 1 1 360px; min-width: 0; margin: 0 0 10px; font-size: 17px; line-height: 1.65; color: #4A5A3E">Grupos pequeños, coaches que le corrigen y un salón donde se oye la respiración, no la música a todo volumen. Reservá desde su cuenta.</p>
+  </section>
+
+  <!-- FILTRO -->
+  <section style="padding: 0 40px 32px">
+    <div role="tablist" aria-label="Filtrar por sede" style="display: inline-flex; flex-wrap: wrap; gap: 8px">
+      <button type="button" role="tab" aria-selected="{{todas}}" onClick="{{verTodas}}" style="{{bTodas}}">Todas</button>
+      <button type="button" role="tab" aria-selected="{{soloPavas}}" onClick="{{verPavas}}" style="{{bPavas}}">ticofit pavas</button>
+      <button type="button" role="tab" aria-selected="{{soloCafe}}" onClick="{{verCafe}}" style="{{bCafe}}">ticofit parque del café</button>
+    </div>
+  </section>
+
+  <!-- CLASES: filas editoriales alternadas -->
+  <section style="padding: 0 40px 24px">
+    <sc-for list="{{clases}}" as="c" hint-placeholder-count="6">
+      <article style="display: flex; flex-wrap: wrap; gap: 44px; flex-direction: {{c.dir}}; padding: 36px 0; border-top: 1px solid #DADCAE">
+        <div style="flex: 1 1 420px; min-width: 0; min-height: 440px; border-radius: 16px; overflow: hidden; background: {{c.tono}}">
+          <img src="{{c.img}}" alt="{{c.alt}}" style="width: 100%; height: 100%; min-height: 440px; object-fit: cover; display: block">
+        </div>
+        <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; justify-content: center">
+          <p style="margin: 0 0 14px; font-size: 11px; letter-spacing: 2.6px; color: #6B7A5C">{{c.sedeLabel}}</p>
+          <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 52px; line-height: 1.02; font-weight: 400">{{c.nombre}}</h2>
+          <p style="margin: 18px 0 0; max-width: 460px; font-size: 17px; line-height: 1.65; color: #4A5A3E">{{c.descripcion}}</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px">
+            <sc-for list="{{c.tags}}" as="t" hint-placeholder-count="2">
+              <span style="padding: 7px 16px; border: 1px solid #C3C78F; border-radius: 999px; font-size: 12px; letter-spacing: 1.2px; color: #3B4A2E">{{t}}</span>
+            </sc-for>
+          </div>
+          <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; align-self: flex-start; min-height: 46px; margin-top: 28px; padding: 0 28px; border-radius: 999px; border: 1px solid #24301C; font-size: 13px; letter-spacing: 1.2px; text-decoration: none">RESERVAR</a>
+        </div>
+      </article>
+    </sc-for>
+  </section>
+
+  <!-- CIERRE -->
+  <section style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px; padding: 72px 40px; margin-top: 40px; background: #8FA06F">
+    <div style="flex: 999 1 480px; min-width: 0">
+      <h2 style="margin: 0 0 12px; font-family: 'Instrument Serif', Georgia, serif; font-size: 44px; line-height: 1.04; font-weight: 400; color: #1E2A16">El calendario sale cada semana</h2>
+      <p style="margin: 0; max-width: 560px; font-size: 16px; line-height: 1.65; color: #22301A">Reservá su campo desde la app. Si la clase ya se llenó, entra en lista de espera y le avisamos apenas se libere un espacio.</p>
+    </div>
+    <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 32px; border-radius: 999px; background: #1E2A16; color: #FFFEE1; font-size: 15px; font-weight: 600; text-decoration: none">Ver membresías</a>
+  </section>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":4000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { sede: 'todas' };
+  }
+  renderVals() {
+    const todas = [
+      { nombre: 'Funcional', sede: 'cafe', sedeLabel: 'PARQUE DEL CAFÉ', descripcion: 'Fuerza, potencia y aguante en una sola hora. Hay clase todos los días y con la membresía entra a la que quiera.', tags: ['Todos los días', 'Grupo pequeño'], tono: '#7A8663', img: '/_blob/025a5800abbbf250252988c3611a171e', alt: 'Clase funcional con kettlebells' },
+      { nombre: 'Pilates reformer', sede: 'cafe', sedeLabel: 'SALÓN MOVA · PARQUE DEL CAFÉ', descripcion: 'Control, centro y movilidad sobre el reformer. Cupo muy limitado, así que el coach lo ve a usted toda la clase.', tags: ['Cupo limitado', 'Nivel inicial y avanzado'], tono: '#A8A98B', img: '/_blob/42c43b15976c5e68e93e39e9977f8bd5', alt: 'Mujer en un reformer de pilates' },
+      { nombre: 'Yoga', sede: 'cafe', sedeLabel: 'SALÓN MOVA · PARQUE DEL CAFÉ', descripcion: 'Respirar, estirar y bajar revoluciones. Para abrir el día o para cerrarlo sin llevarse el trabajo a la casa.', tags: ['Grupo pequeño', 'Mañana y tarde'], tono: '#9FB08E', img: '/_blob/77760a5472d4053442ddb087e9d76a35', alt: 'Grupo de yoga en el salón' },
+      { nombre: 'Barre', sede: 'cafe', sedeLabel: 'SALÓN MOVA · PARQUE DEL CAFÉ', descripcion: 'Repeticiones chiquitas en la barra que al rato se sienten enormes. Piernas, glúteo y centro.', tags: ['Grupo pequeño', 'Bajo impacto'], tono: '#C2B49A', img: '/_blob/7934d3edc71cfd77b0b75a361997463e', alt: 'Clase de barre en la barra' },
+      { nombre: 'Baile', sede: 'cafe', sedeLabel: 'SALÓN MOVA · PARQUE DEL CAFÉ', descripcion: 'Cardio que no se siente cardio. Coreografías cortas, buena música y una hora que se pasa volando.', tags: ['Grupo pequeño', 'Sin experiencia'], tono: '#B58E7A', img: '/_blob/7777c7a81fe2433f978acdc69f842a65', alt: 'Clase de baile en el salón con espejos' },
+      { nombre: 'Recovery', sede: 'cafe', sedeLabel: 'SALÓN RESET · PARQUE DEL CAFÉ', descripcion: 'Sauna, cold plunge y terapia de luz roja. Lo que hace que mañana pueda volver a entrenar.', tags: ['Por sesión o paquete', 'Sauna · Cold plunge · Luz roja'], tono: '#8A5A4E', img: '/_blob/dd742d5ced56bd603670da00b5fe1fec', alt: 'Sala de recovery con cold plunge' },
+      { nombre: 'Open gym', sede: 'pavas', sedeLabel: 'TICOFIT PAVAS', descripcion: 'Entrá a la hora que quiera y entrene a su ritmo. Siempre hay un coach en piso por si necesita que le revisen la técnica.', tags: ['Entrada libre', 'Todo el horario'], tono: '#7E8A68', img: '/_blob/a8aaea8edbeb4199bede44eff19d9325', alt: 'Piso de open gym con mancuernas' },
+      { nombre: 'Entrenamiento personal', sede: 'pavas', sedeLabel: 'TICOFIT PAVAS', descripcion: 'Uno a uno, con un plan hecho para usted y mediciones cada mes para ver si está funcionando.', tags: ['Paquetes de 4, 8 y 12', 'Medición mensual'], tono: '#6E7A5C', img: '/_blob/8d6b1dd083086eec92c3a5d25fa10c2c', alt: 'Coach acompañando a un cliente' },
+      { nombre: 'Fisioterapia y nutrición', sede: 'pavas', sedeLabel: 'CONSULTORIO · TICOFIT PAVAS', descripcion: 'Profesionales que atienden dentro del club, para que no ande buscando cita por otro lado.', tags: ['Con cita', 'Profesional externo'], tono: '#7FA3A8', img: '/_blob/a743fd9b67119545dd845223b2f3b275', alt: 'Consultorio del club con luz natural' }
+    ];
+
+    const sede = this.state.sede;
+    const filtradas = sede === 'todas' ? todas : todas.filter((c) => c.sede === sede);
+
+    const base = 'min-height:44px;padding:0 24px;border-radius:999px;cursor:pointer;font-family:Figtree,sans-serif;font-size:14px;font-weight:500;';
+    const on = base + 'background:#24301C;color:#FFFEE1;border:1px solid #24301C';
+    const off = base + 'background:transparent;color:#3B4A2E;border:1px solid #C3C78F';
+
+    return {
+      clases: filtradas.map((c, i) => Object.assign({}, c, { dir: i % 2 === 0 ? 'row' : 'row-reverse' })),
+      todas: sede === 'todas',
+      soloPavas: sede === 'pavas',
+      soloCafe: sede === 'cafe',
+      bTodas: sede === 'todas' ? on : off,
+      bPavas: sede === 'pavas' ? on : off,
+      bCafe: sede === 'cafe' ? on : off,
+      verTodas: () => this.setState({ sede: 'todas' }),
+      verPavas: () => this.setState({ sede: 'pavas' }),
+      verCafe: () => this.setState({ sede: 'cafe' })
+    };
+  }
+}
+</script>
+</body>
+</html>

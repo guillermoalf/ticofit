@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Numa ProteinBar</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+  </style>
+</helmet>
+
+<div style="width: 100%">
+
+  <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px; padding: 20px 48px; background: #24301C">
+    <a href="Main.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; line-height: 1; color: #FFFEE1; text-decoration: none">tico<span style="font-style: italic">fit</span></a>
+    <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 28px; margin-left: auto">
+      <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; gap: 7px; line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Sedes <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true"><path d="M1 1l4.5 4.5L10 1" fill="none" stroke="#B4D780" stroke-width="1.6" stroke-linecap="round"/></svg></a>
+      <a href="Clases.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Clases</a>
+      <a href="Numa.dc.html" style="line-height: 44px; font-size: 15px; color: #B4D780; text-decoration: none">Numa ProteinBar</a>
+      <a href="Membresias.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Membresías</a>
+      <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 15px; color: #FFFEE1; text-decoration: none">Comunidad</a>
+      <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 24px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 15px; font-weight: 600; text-decoration: none">Reservar</a>
+    </nav>
+  </header>
+
+  <section style="display: flex; flex-wrap: wrap; gap: 48px; padding: 88px 48px; background: #E1E289">
+    <div style="flex: 999 1 480px; min-width: 0">
+      <span style="display: inline-block; padding: 7px 18px; border: 1px solid #24301C; border-radius: 999px; font-size: 11px; letter-spacing: 2.4px">SOLO EN PARQUE DEL CAFÉ</span>
+      <h1 style="margin: 24px 0 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 78px; line-height: 0.98; font-weight: 400">Numa<br><span style="font-style: italic">ProteinBar</span></h1>
+      <p style="margin: 26px 0 0; max-width: 540px; font-size: 18px; line-height: 1.6; color: #3B4A2E">El bar del club. Lo que se toma después de entrenar, sin salir del edificio y sin tener que leer una etiqueta para saber qué lleva.</p>
+      <p style="margin: 20px 0 0; max-width: 540px; font-size: 15px; line-height: 1.6; color: #5B6B4E">[Pendiente — Jeremy: descripción oficial de Numa, quién lo atiende y horario.]</p>
+    </div>
+    <div style="flex: 1 1 360px; min-width: 0; min-height: 420px; border-radius: 28px; overflow: hidden; background: #D4D77C"><img src="/_blob/48b52e29887db629b308e3277a04d634" alt="Batido de proteína y bowl de fruta en Numa ProteinBar" style="width: 100%; height: 100%; min-height: 420px; object-fit: cover; display: block"></div>
+  </section>
+
+  <section style="padding: 88px 48px; background: #FFFEE1">
+    <h2 style="margin: 0 0 10px; font-family: 'Instrument Serif', Georgia, serif; font-size: 48px; line-height: 1.04; font-weight: 400">El menú</h2>
+    <p style="margin: 0 0 44px; max-width: 560px; font-size: 16px; line-height: 1.6; color: #4A5A3E">Las categorías están listas; los platos y precios los pone ticofit.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+      <sc-for list="{{categorias}}" as="cat" hint-placeholder-count="3">
+        <article style="display: flex; flex-direction: column; min-height: 280px; padding: 32px; border-radius: 24px; border: 1px solid #D5D8A8; background: #FFFEE1">
+          <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; font-weight: 400">{{cat.nombre}}</h3>
+          <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.6; color: #4A5A3E">{{cat.descripcion}}</p>
+          <div style="margin: 26px 0 0; display: flex; flex-direction: column; gap: 14px">
+            <sc-for list="{{cat.slots}}" as="s" hint-placeholder-count="3">
+              <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid #E6E8C4; font-size: 14px; color: #6B7A5C">
+                <span>[Producto]</span><span>₡—</span>
+              </div>
+            </sc-for>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px; padding: 64px 48px; background: #24301C">
+    <p style="flex: 999 1 460px; min-width: 0; margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 34px; line-height: 1.3; color: #FFFEE1">Numa abre junto con ticofit parque del café.</p>
+    <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 34px; border-radius: 999px; background: #B4D780; color: #24301C; font-size: 16px; font-weight: 600; text-decoration: none">Ver la sede</a>
+  </section>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":2000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const slots = [1, 2, 3, 4];
+    return {
+      categorias: [
+        { nombre: 'Batidos de proteína', descripcion: 'Para después de entrenar, con fruta de temporada.', slots: slots },
+        { nombre: 'Bowls y desayunos', descripcion: 'Comida real para antes o después de la clase.', slots: slots },
+        { nombre: 'Café y bebidas', descripcion: 'Café de Costa Rica, aguas y bebidas frías.', slots: slots }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
