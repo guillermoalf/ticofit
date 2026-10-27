@@ -28,8 +28,9 @@ yarn dev                     # http://localhost:3000
 por instancia y está en `.gitignore` — igual que `.env.local`. El archivo
 versionado es `.mcp.json.example`.
 
-`/` redirige a `/login` (ver `showLanding`); el login y `/portal` requieren
-las variables de entorno de Supabase.
+El sitio público (`/`, `/sedes`, `/clases`, `/numa`, `/membresias`,
+`/comunidad`) no necesita Supabase; el login y `/portal` sí requieren las
+variables de entorno.
 
 ### Variables de entorno
 
@@ -50,28 +51,25 @@ Todo se configura en [`src/config/brand.ts`](src/config/brand.ts):
 | `tagline` / `description` | Título y descripción de metadata |
 | `url` | `metadataBase` (dominio de producción) |
 | `logoSrc` | `null` → wordmark de texto; `"/logo.png"` → imagen |
-| `showLanding` | `false` → `/` redirige a `/login`; `true` → sirve el landing |
 | `accent.color` / `.rgb` / `.ink` | El único color de acento (tokens, glows, focus ring) |
 | `contact.whatsapp` / `.email` | Links de WhatsApp y correo |
-| `location` / `socials` | Datos del landing (ver `showLanding`) |
+| `mapsUrl` / `wordmark` | Link de Google Maps y wordmark tipográfico del sitio |
+| `palette` / `site` | Colores del sitio público (tokens `--tf-*` → clases Tailwind) |
+| `fonts` | Instrument Serif + Figtree (cargadas en `src/app/(site)/layout.tsx`) |
 
 El acento se inyecta como variables CSS inline en `<html>` desde
 `src/app/layout.tsx`; los valores en `globals.css` son solo el fallback. La
 base monocroma oscura no cambia — solo el acento.
 
-### Landing pública
+### Sitio público
 
-La base arranca **portal-only**: con `BRAND.showLanding: false`, `/` responde
-un 307 a `/login` antes de enviar markup, así que nada del landing llega al
-navegador (ni HTML ni chunks JS).
+Las seis páginas viven en el grupo de rutas `src/app/(site)/`, con su propio
+layout (fuentes y colores de la marca). Todo el texto, precios y clases están
+en [`src/content/landing.ts`](src/content/landing.ts); los componentes, en
+`src/components/site/`. El diseño aprobado está en `design/landing/`.
 
-Para servir el landing en `/`, poné `showLanding: true` en
-[`src/config/brand.ts`](src/config/brand.ts) — no hay que tocar código. Antes
-de activarlo, reemplazá el copy PLACEHOLDER de `src/content/site.ts`.
-
-Los componentes viven en `src/components/sections/`, compuestos en
-`landing.tsx`. Aparecen bajo `/` en la tabla de rutas del build aunque el flag
-esté apagado; es solo una estadística de build, el redirect corta antes.
+Ningún botón del sitio lleva a `/login`: solo clientes y empleados ya
+registrados entran al portal, así que "Reservar" y "Comprar" abren WhatsApp.
 
 ### Assets
 
@@ -94,14 +92,15 @@ actualizá su fila en `profiles` desde el dashboard.
 
 ```
 src/
-├─ app/            # / (redirect a login), login, portal, auth/callback
+├─ app/(site)/     # sitio público: /, sedes, clases, numa, membresias, comunidad
+├─ app/            # login, portal, auth/callback
 ├─ config/brand.ts # ⭐ marca: nombre, acento, contacto, logo
 ├─ components/
-│  ├─ sections/    # landing opt-in (landing.tsx compone Navbar, Hero, …)
+│  ├─ site/        # header, footer y secciones del sitio público
 │  ├─ portal/      # sidebar, formularios, listas del portal
 │  ├─ ui/          # Logo, Button (cva), Card, Badge, …
 │  └─ motion/      # Reveal (scroll-in)
-├─ content/site.ts # copy del landing + helpers (deriva de brand.ts)
+├─ content/landing.ts # todo el copy y precios del sitio público
 ├─ lib/supabase/   # clientes browser/server/middleware
 └─ middleware.ts   # refresco de sesión + guard de /portal
 ```
