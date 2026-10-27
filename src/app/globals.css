@@ -75,6 +75,45 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Public site (the `(site)` route group). Values come from BRAND.palette and
+   BRAND.site in src/config/brand.ts, injected as --tf-* variables on the
+   site layout wrapper by siteCssVars(). No fallbacks here on purpose. */
+@theme inline {
+  --color-verde-profundo: var(--tf-verde-profundo);
+  --color-lima-claro: var(--tf-lima-claro);
+  --color-crema-claro: var(--tf-crema-claro);
+  --color-celeste: var(--tf-celeste);
+  --color-amarillo-verde: var(--tf-amarillo-verde);
+  --color-negro-grisaceo: var(--tf-negro-grisaceo);
+
+  --color-musgo: var(--tf-musgo);
+  --color-salvia: var(--tf-salvia);
+  --color-oliva: var(--tf-oliva);
+  --color-teal: var(--tf-teal);
+  --color-lima-sub: var(--tf-lima-sub);
+  --color-crema-card: var(--tf-crema-card);
+  --color-crema-suave: var(--tf-crema-suave);
+  --color-banda-salvia: var(--tf-banda-salvia);
+  --color-banda-tinta: var(--tf-banda-tinta);
+  --color-linea: var(--tf-linea);
+  --color-linea-tag: var(--tf-linea-tag);
+  --color-verde-noche: var(--tf-verde-noche);
+  --color-verde-medio: var(--tf-verde-medio);
+  --color-linea-oscura: var(--tf-linea-oscura);
+  --color-linea-oscura-suave: var(--tf-linea-oscura-suave);
+  --color-linea-plan: var(--tf-linea-plan);
+  --color-niebla-clara: var(--tf-niebla-clara);
+  --color-niebla: var(--tf-niebla);
+  --color-niebla-media: var(--tf-niebla-media);
+  --color-niebla-suave: var(--tf-niebla-suave);
+  --color-texto-foto: var(--tf-texto-foto);
+  --color-overlay-verde: var(--tf-overlay-verde);
+  --color-overlay-teal: var(--tf-overlay-teal);
+
+  --font-tf-serif: var(--font-instrument-serif), Georgia, serif;
+  --font-tf-sans: var(--font-figtree), system-ui, sans-serif;
+}
+
 @layer base {
   * {
     border-color: var(--border);
@@ -115,6 +154,11 @@
   ::selection {
     background: var(--primary);
     color: var(--primary-ink);
+  }
+  /* The public site runs on light and dark fields, so its focus ring follows
+     the text colour instead of the portal accent. */
+  .site-root :focus-visible {
+    outline-color: currentColor;
   }
 }
 
