@@ -4,6 +4,10 @@ This file loads automatically at the start of every session. It holds the busine
 context, the brand and the scope. `AGENTS.md` holds the working rules (git, commands,
 what not to do). If the two disagree, ask.
 
+> **Git, every task:** branch from the latest `staging`, merge back into `staging`.
+> `main` is only updated from `staging` when the user asks. Full rules in `AGENTS.md`
+> → "Branching".
+
 ---
 
 ## 1. What this is
