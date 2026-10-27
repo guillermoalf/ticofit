@@ -30,7 +30,7 @@ agreed scope.
 - NEVER commit with TypeScript or lint errors
 - NEVER hardcode secrets, personal emails or brand values
 - NEVER add a dependency without saying why
-- ALWAYS pull latest main before starting
+- ALWAYS branch from the latest `staging` — never from `main` (see Branching below)
 - ALWAYS run lint and build before finishing
 - ALWAYS write UI copy in Costa Rican Spanish; code and comments in English
 - ALWAYS write schema changes as versioned migrations under `supabase/migrations/` —
@@ -52,19 +52,37 @@ A task is not finished until all of these pass:
 
 "It builds" is not done.
 
+## Branching — `staging` is the base of everything
+
+This is a standing rule from the owner of the repo. Do not ask about it again.
+
+- **`staging` is the working base and must always be the most up-to-date branch.** Every
+  task starts from `staging` and every finished task is merged back into `staging`.
+- **One new branch per task**, created from `staging`.
+- **`main` is the release branch.** It only moves when the user asks to update it, and
+  then it is fast-forwarded to the current `staging`. Never commit, branch from or merge a
+  task into `main` directly.
+- If `main` ever has something `staging` lacks, bring `staging` up to date first — before
+  starting any task.
+
 ## Workflow — every task
 
-1. `git checkout main && git pull origin main`
-2. `git checkout -b feat/task-name`
+1. `git checkout staging && git pull origin staging`
+2. `git checkout -b feat/task-name` (from `staging`)
 3. Make only the changes the task requires
 4. Run the definition-of-done checklist above
 5. `git add -A && git commit -m "feat: description"`
 6. `git push origin feat/task-name`
-7. When no 🔴/🟡 remain and lint + build are green, merge into main and delete the branch
-   yourself, WITHOUT asking. You have standing authorization to self-merge — never request
-   permission for it. Only pause on a REAL blocker (merge conflict, failing build you
-   can't fix, git/permissions error); explain it and stop. "I need confirmation to merge"
-   is NOT a valid reason to stop.
+7. When no 🔴/🟡 remain and lint + build are green, merge into **`staging`**
+   (`git checkout staging && git merge --no-ff feat/task-name && git push origin staging`)
+   and delete the branch locally and on the remote — yourself, WITHOUT asking. You have
+   standing authorization to self-merge into `staging` — never request permission for it.
+   Only pause on a REAL blocker (merge conflict, failing build you can't fix,
+   git/permissions error); explain it and stop. "I need confirmation to merge" is NOT a
+   valid reason to stop.
+
+**Updating `main`** (only when the user asks):
+`git checkout main && git pull origin main && git merge --ff-only origin/staging && git push origin main`
 
 For sensitive tasks (roles, RLS, auth, schema), STOP after presenting the plan and SQL and
 wait for approval before applying. The task will say so.
