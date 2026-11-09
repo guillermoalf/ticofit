@@ -4,31 +4,35 @@ import { Star } from "../icons";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 import { SmartLink } from "../smart-link";
+import { IntroSession } from "./intro-session";
 
 const { home } = landing;
 
 const photoOverlay =
   "pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/72 to-overlay-verde/5";
 
+/**
+ * The photo is its own layer behind the copy so the home intro can bring the
+ * image and each line of copy in separately (`tf-intro-*`, globals.css).
+ */
 export function Hero() {
   const { hero } = home;
   return (
     <section className="px-5 pb-[72px] lg:px-10">
-      <Photo
-        img={hero.img}
-        sizes="100vw"
-        priority
-        className="flex min-h-[520px] items-end rounded-[20px] p-6 md:min-h-[620px] md:p-14"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/82 via-overlay-verde/38 via-52% to-overlay-verde/12" />
+      <div className="relative flex min-h-[520px] items-end p-6 md:min-h-[620px] md:p-14">
+        <Photo img={hero.img} sizes="100vw" priority className="tf-intro-media absolute inset-0 rounded-[20px]">
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/82 via-overlay-verde/38 via-52% to-overlay-verde/12" />
+        </Photo>
         <div className="relative max-w-[700px]">
-          <h1 className="font-tf-serif text-[44px] leading-[0.98] font-normal text-crema-claro md:text-[76px]">
+          <h1 className="tf-intro-h1 font-tf-serif text-[44px] leading-[0.98] font-normal text-crema-claro md:text-[76px]">
             {hero.titulo}
             <br />
             <span className="italic">{hero.tituloItalico}</span>
           </h1>
-          <p className="mt-5 max-w-[460px] text-[17px] leading-[1.55] text-texto-foto">{hero.subtitulo}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <p className="tf-intro-lead mt-5 max-w-[460px] text-[17px] leading-[1.55] text-texto-foto">
+            {hero.subtitulo}
+          </p>
+          <div className="tf-intro-cta mt-8 flex flex-wrap gap-3">
             <PillLink href={hero.ctas[0].href} variant="lima" className="min-h-12 px-[30px] text-[15px]">
               {hero.ctas[0].label}
             </PillLink>
@@ -37,7 +41,8 @@ export function Hero() {
             </PillLink>
           </div>
         </div>
-      </Photo>
+      </div>
+      <IntroSession />
     </section>
   );
 }

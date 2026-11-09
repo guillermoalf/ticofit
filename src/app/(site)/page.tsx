@@ -22,14 +22,17 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Intro />
-      <Tiles />
-      <ClassesBand />
-      <Sedes />
-      <Empezar />
-      <WideCta />
-      <Reviews />
-      <SiteFooter />
+      {/* Kept off the cream canvas while the intro logo writes itself. */}
+      <div className="tf-intro-rest">
+        <Intro />
+        <Tiles />
+        <ClassesBand />
+        <Sedes />
+        <Empezar />
+        <WideCta />
+        <Reviews />
+        <SiteFooter />
+      </div>
     </>
   );
 }

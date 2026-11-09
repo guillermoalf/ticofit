@@ -8,6 +8,7 @@ import { landing } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { Chevron } from "./icons";
 import { PillLink } from "./pill-link";
+import { SiteLogo } from "./site-logo";
 import { Wordmark } from "./wordmark";
 
 const { nav } = landing;
@@ -86,16 +87,13 @@ export function SiteHeader() {
       <Link
         href="/"
         aria-label={nav.inicioLabel}
-        className={cn(
-          "text-[28px] tracking-[-0.4px] no-underline",
-          dark ? "text-crema-claro" : "text-verde-profundo",
-        )}
+        className={cn("tf-logo-slot no-underline", dark ? "text-crema-claro" : "text-verde-profundo")}
       >
-        <Wordmark />
+        <SiteLogo dark={dark} />
       </Link>
 
       {/* Desktop nav */}
-      <nav className="ml-auto hidden items-center gap-[26px] lg:flex">
+      <nav className="tf-intro-nav ml-auto hidden items-center gap-[26px] lg:flex">
         <div ref={dropdownRef} className="relative">
           <button
             type="button"
@@ -159,7 +157,7 @@ export function SiteHeader() {
         aria-label={nav.abrirMenu}
         onClick={() => setMenuOpen(true)}
         className={cn(
-          "ml-auto inline-flex size-11 cursor-pointer items-center justify-center bg-transparent lg:hidden",
+          "tf-intro-nav ml-auto inline-flex size-11 cursor-pointer items-center justify-center bg-transparent lg:hidden",
           dark ? "text-crema-claro" : "text-verde-profundo",
         )}
       >
