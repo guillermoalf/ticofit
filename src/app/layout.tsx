@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import { Toaster } from "sonner";
 import { BRAND, brandCssVars } from "@/config/brand";
+import { introScript } from "@/lib/intro";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -51,7 +52,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" style={brandCssVars()}>
+    // suppressHydrationWarning: introScript may add data-tf-intro to <html>
+    // before React hydrates it.
+    <html lang="es" style={brandCssVars()} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased`}
       >

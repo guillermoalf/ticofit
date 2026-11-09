@@ -249,3 +249,130 @@
     }
   }
 }
+
+/* ————————————————————————————————————————————————
+   Site logo + home intro (design/landing/intro/motion.md).
+
+   The header logo (.tf-logo, SiteLogo) is drawn at full size and scaled DOWN
+   to navbar size on every route — scaling up would blur it mid-travel. On the
+   first home load of a session, <html data-tf-intro> (set pre-paint by
+   introScript, src/lib/intro.ts) adds the animations: the same node writes
+   itself on in the centre and travels into its slot. CSS only, so it starts
+   at first paint. Only opacity, transform and clip-path move: no layout
+   shift. Without the attribute — repeat visits, other routes, JS off,
+   reduced motion — every element rests in its final state.
+   ———————————————————————————————————————————————— */
+@layer components {
+  .tf-logo-slot {
+    /* navbar size (px, unitless so it can divide) and drawn size */
+    --logo-size: 24;
+    --logo-draw: 68;
+    /* header padding — must match px-5 lg:px-10 py-[18px] on SiteHeader */
+    --nav-pad-x: 20px;
+    --nav-pad-y: 18px;
+    /* header row height (44px links / menu button) and lockup height in em:
+       1.05 wordmark + 0.268 × (0.107 margin + 1.2 line-height) sub */
+    --nav-row: 44px;
+    --logo-h: 1.4003;
+
+    --end-scale: calc(var(--logo-size) / var(--logo-draw));
+    --logo-top: calc((var(--nav-row) - var(--logo-h) * var(--logo-size) * 1px) / 2);
+    /* the slot's page offset, which the travel starts from */
+    --nav-x: var(--nav-pad-x);
+    --nav-y: calc(var(--nav-pad-y) + var(--logo-top));
+
+    position: relative;
+    display: block;
+    flex: none;
+    /* top-aligned, not centred: an active link's 1px underline makes the row
+       45px on some routes, which would shift a centred logo by half a pixel */
+    align-self: flex-start;
+    height: var(--nav-row);
+  }
+  @media (min-width: 760px) {
+    .tf-logo-slot {
+      --logo-size: 28;
+      --logo-draw: 157;
+    }
+  }
+  @media (min-width: 1024px) {
+    .tf-logo-slot {
+      --nav-pad-x: 40px;
+    }
+  }
+
+  .tf-logo-sizer,
+  .tf-logo {
+    display: block;
+    white-space: nowrap;
+  }
+  .tf-logo-sizer {
+    visibility: hidden;
+    font-size: calc(var(--logo-size) * 1px);
+    height: 0;
+  }
+  .tf-logo {
+    position: absolute;
+    left: 0;
+    top: var(--logo-top);
+    font-size: calc(var(--logo-draw) * 1px);
+    transform-origin: left top;
+    transform: scale(var(--end-scale));
+  }
+}
+
+@keyframes tf-write {
+  0% {
+    clip-path: inset(0 100% -20% 0);
+  }
+  100% {
+    clip-path: inset(0 -6% -20% 0);
+  }
+}
+@keyframes tf-travel {
+  0%,
+  46% {
+    transform: translate(calc(50vw - var(--nav-x) - 50%), calc(45vh - var(--nav-y) - 50%)) scale(1);
+  }
+  100% {
+    transform: translate(0, 0) scale(var(--end-scale));
+  }
+}
+@keyframes tf-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-tf-intro] .tf-logo {
+    animation: tf-travel 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  [data-tf-intro] .tf-logo .tf-logo-wordmark {
+    animation: tf-write 760ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
+  [data-tf-intro] .tf-logo .tf-logo-sub {
+    animation: tf-write 520ms cubic-bezier(0.76, 0, 0.24, 1) 340ms both;
+  }
+  [data-tf-intro] .tf-intro-nav {
+    animation: tf-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) 1180ms both;
+  }
+  [data-tf-intro] .tf-intro-h1 {
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1240ms both;
+  }
+  [data-tf-intro] .tf-intro-lead {
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1330ms both;
+  }
+  [data-tf-intro] .tf-intro-cta {
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1410ms both;
+  }
+  [data-tf-intro] .tf-intro-media,
+  [data-tf-intro] .tf-intro-rest {
+    animation: tf-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 1300ms both;
+  }
+}

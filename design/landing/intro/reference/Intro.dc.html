@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Intro — el logo se escribe</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+  <style>
+    body { margin: 0; font-family: Figtree, system-ui, sans-serif; background: #FFFEE1; color: #24301C; }
+    a { color: #24301C; } a:hover { color: #242424; }
+    * { box-sizing: border-box; }
+
+    /* 1 — el logo se dibuja GRANDE (157px) y se encoge hasta el navbar.
+           Encoger mantiene el texto nítido; agrandar lo deja borroso. */
+    @keyframes tf-viaje {
+      0%, 46%   { transform: translate(calc(700px - 48px - 50%), calc(372px - 26px - 50%)) scale(1); }
+      100%      { transform: translate(0, 0) scale(0.178); }
+    }
+    /* 2 — barrido: la máscara descubre el wordmark de izquierda a derecha */
+    @keyframes tf-barrido {
+      0%   { clip-path: inset(0 100% -20% 0); }
+      100% { clip-path: inset(0 -6% -20% 0); }
+    }
+    /* 3 — letra por letra */
+    @keyframes tf-letra {
+      0%   { opacity: 0; transform: translateY(0.32em); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    /* 4 — el resto del hero entra cuando el logo ya aterrizó */
+    @keyframes tf-entra {
+      0%   { opacity: 0; transform: translateY(18px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .tf-logo {
+      position: absolute; left: 48px; top: 26px;
+      font-size: 157px;              /* tamaño real de dibujo; 157 × 0.178 = 28px en el navbar */
+      transform-origin: left top;
+      animation: tf-viaje 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+      white-space: nowrap;
+    }
+    .tf-wordmark {
+      display: block;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-size: 1em; line-height: 1.05; letter-spacing: -0.014em;
+    }
+    .tf-sub {
+      display: block; margin-top: 0.107em;
+      font-size: 0.268em; letter-spacing: 0.111em; color: #5B6B4E;
+    }
+    .barrido .tf-wordmark { animation: tf-barrido 760ms cubic-bezier(0.76, 0, 0.24, 1) both; }
+    .barrido .tf-sub      { animation: tf-barrido 520ms cubic-bezier(0.76, 0, 0.24, 1) 340ms both; }
+    .letras .tf-sub       { animation: tf-letra 420ms ease-out 560ms both; }
+    .tf-ltr { display: inline-block; animation: tf-letra 300ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+    .tf-nav   { animation: tf-entra 620ms cubic-bezier(0.16, 1, 0.3, 1) 1180ms both; }
+    .tf-h1    { animation: tf-entra 760ms cubic-bezier(0.16, 1, 0.3, 1) 1240ms both; }
+    .tf-lead  { animation: tf-entra 760ms cubic-bezier(0.16, 1, 0.3, 1) 1330ms both; }
+    .tf-cta   { animation: tf-entra 760ms cubic-bezier(0.16, 1, 0.3, 1) 1410ms both; }
+    .tf-media { animation: tf-entra 900ms cubic-bezier(0.16, 1, 0.3, 1) 1300ms both; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tf-logo, .tf-wordmark, .tf-sub, .tf-ltr,
+      .tf-nav, .tf-h1, .tf-lead, .tf-cta, .tf-media { animation: none !important; }
+    }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 1400px; height: 820px; overflow: hidden; background: #FFFEE1">
+
+  <sc-if value="{{mostrando}}" hint-placeholder-val="{{true}}">
+    <div style="position: absolute; inset: 0">
+
+      <!-- NAV (sin el logo: el logo es la pieza que viaja) -->
+      <nav class="tf-nav" style="position: absolute; top: 22px; right: 48px; display: flex; align-items: center; gap: 26px">
+        <a href="Sedes.dc.html" style="line-height: 44px; font-size: 14px; text-decoration: none">Sedes ⌄</a>
+        <a href="Clases.dc.html" style="line-height: 44px; font-size: 14px; text-decoration: none">Clases</a>
+        <a href="Numa.dc.html" style="line-height: 44px; font-size: 14px; text-decoration: none">Numa ProteinBar</a>
+        <a href="Membresias.dc.html" style="line-height: 44px; font-size: 14px; text-decoration: none">Membresías</a>
+        <a href="Comunidad.dc.html" style="line-height: 44px; font-size: 14px; text-decoration: none">Comunidad</a>
+        <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border-radius: 999px; background: #B4D780; font-size: 13px; font-weight: 600; text-decoration: none">Reservar</a>
+      </nav>
+
+      <!-- EL LOGO -->
+      <div class="tf-logo {{modo}}">
+        <sc-if value="{{esBarrido}}" hint-placeholder-val="{{true}}">
+          <span class="tf-wordmark">tico<span style="font-style: italic">fit</span><span style="font-size: 0.4em; vertical-align: super">®</span></span>
+        </sc-if>
+        <sc-if value="{{esLetras}}" hint-placeholder-val="{{true}}">
+          <span class="tf-wordmark">
+            <sc-for list="{{letras}}" as="l" hint-placeholder-count="8">
+              <span class="tf-ltr" style="{{l.estilo}}">{{l.ch}}</span>
+            </sc-for>
+          </span>
+        </sc-if>
+        <span class="tf-sub">WELLNESS CLUB</span>
+      </div>
+
+      <!-- EL HERO QUE APARECE DETRÁS -->
+      <div style="position: absolute; left: 48px; right: 48px; top: 190px">
+        <h1 class="tf-h1" style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 76px; line-height: 0.97; font-weight: 400">
+          Un nuevo comienzo<br><span style="font-style: italic">se siente.</span>
+        </h1>
+        <p class="tf-lead" style="margin: 22px 0 0; max-width: 420px; font-size: 17px; line-height: 1.6; color: #4A5A3E">
+          Wellness club en Rohrmoser y Parque del Café. Entrená, comé bien y recuperate en un solo lugar.
+        </p>
+        <div class="tf-cta" style="display: flex; gap: 12px; margin-top: 30px">
+          <a href="Membresias.dc.html" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 30px; border-radius: 999px; background: #24301C; color: #FFFEE1; font-size: 15px; font-weight: 600; text-decoration: none">Reservar</a>
+          <a href="Sedes.dc.html" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0 30px; border-radius: 999px; border: 1px solid #24301C; font-size: 15px; text-decoration: none">Conocé el club</a>
+        </div>
+      </div>
+
+      <div class="tf-media" style="position: absolute; left: 48px; right: 48px; bottom: 36px; height: 230px; border-radius: 16px; overflow: hidden">
+        <img src="/_blob/a743fd9b67119545dd845223b2f3b275" alt="Salón de ticofit con luz natural" style="width: 100%; height: 100%; object-fit: cover; object-position: center 62%; display: block">
+      </div>
+
+    </div>
+  </sc-if>
+
+  <!-- CONTROLES (solo del prototipo, no van en la web) -->
+  <div style="position: absolute; right: 20px; bottom: 20px; display: flex; gap: 8px; padding: 8px; border-radius: 999px; background: rgba(36,48,28,0.9)">
+    <button type="button" onClick="{{verBarrido}}" aria-pressed="{{esBarrido}}" style="{{btnBarrido}}">Barrido</button>
+    <button type="button" onClick="{{verLetras}}" aria-pressed="{{esLetras}}" style="{{btnLetras}}">Letra por letra</button>
+    <button type="button" onClick="{{repetir}}" style="min-height: 36px; padding: 0 18px; border: 0; border-radius: 999px; background: #B4D780; color: #24301C; font-family: Figtree, sans-serif; font-size: 13px; font-weight: 600; cursor: pointer">Repetir</button>
+  </div>
+
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":820}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { modo: 'barrido', mostrando: true };
+  }
+
+  reiniciar(modo) {
+    this.setState({ mostrando: false, modo: modo || this.state.modo });
+    setTimeout(() => this.setState({ mostrando: true }), 60);
+  }
+
+  renderVals() {
+    const esBarrido = this.state.modo === 'barrido';
+
+    // "ticofit®" letra por letra: tico en sans, fit en itálica serif.
+    const partes = [
+      { ch: 't', serif: false }, { ch: 'i', serif: false }, { ch: 'c', serif: false }, { ch: 'o', serif: false },
+      { ch: 'f', serif: true }, { ch: 'i', serif: true }, { ch: 't', serif: true }
+    ];
+    const letras = partes.map((p, i) => ({
+      ch: p.ch,
+      estilo: (p.serif ? 'font-style: italic;' : 'font-family: Figtree, sans-serif; font-weight: 500;') +
+              ' animation-delay: ' + (90 + i * 85) + 'ms'
+    }));
+    letras.push({ ch: '®', estilo: 'font-size: 0.4em; vertical-align: super; animation-delay: ' + (90 + partes.length * 85) + 'ms' });
+
+    const base = 'min-height:36px;padding:0 16px;border-radius:999px;cursor:pointer;font-family:Figtree,sans-serif;font-size:13px;';
+    const on = base + 'background:#FFFEE1;color:#24301C;border:0;font-weight:600';
+    const off = base + 'background:transparent;color:#C8D6B6;border:1px solid rgba(255,254,225,0.35)';
+
+    return {
+      mostrando: this.state.mostrando,
+      modo: this.state.modo,
+      esBarrido: esBarrido,
+      esLetras: !esBarrido,
+      letras: letras,
+      btnBarrido: esBarrido ? on : off,
+      btnLetras: esBarrido ? off : on,
+      verBarrido: () => this.reiniciar('barrido'),
+      verLetras: () => this.reiniciar('letras'),
+      repetir: () => this.reiniciar()
+    };
+  }
+}
+</script>
+</body>
+</html>
