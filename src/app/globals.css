@@ -24,7 +24,7 @@
   --muted: #a1a1aa; /* secondary (zinc-400) */
   --muted-2: #71717a; /* hint (zinc-500) */
 
-  /* ACCENT — ONE hue, used sparingly: wordmark glow, thin dividers, status
+  /* ACCENT — ONE hue, used sparingly: thin dividers, status
      dot, hover/focus, ≤1 per section. Overridden at runtime by BRAND.accent.
      --primary-2 / --accent are legacy aliases kept so every section builds. */
   --accent-rgb: 228 228 231; /* accent channels, for the glow alphas */
@@ -41,7 +41,6 @@
   --glow-accent: 0 0 22px -2px rgb(var(--accent-rgb) / 0.5); /* alias */
   --glow-soft: 0 0 16px -4px rgb(var(--accent-rgb) / 0.4);
   --glow-line: 0 0 8px rgb(var(--accent-rgb) / 0.65);
-  --glow-wordmark: 0 0 18px rgb(var(--accent-rgb) / 0.55), 0 0 5px rgb(var(--accent-rgb) / 0.5);
 }
 
 /* Register tokens with Tailwind so utilities resolve:
@@ -172,13 +171,6 @@
 }
 
 @layer components {
-  /* Wordmark: white text with a soft accent glow.
-     Reserved for the brand wordmark only (sidebar, navbar, footer, hero). */
-  .text-neon {
-    color: #fff;
-    text-shadow: var(--glow-wordmark);
-  }
-
   /* Thin glowing accent line — for dividers / underlines, used sparingly. */
   .divider-neon {
     height: 1px;
@@ -229,12 +221,6 @@
   }
 }
 
-/* Soft accent glow around a white logo PNG. */
-@utility logo-glow {
-  filter: drop-shadow(0 0 10px rgb(var(--accent-rgb) / 0.5))
-    drop-shadow(0 0 2px rgb(var(--accent-rgb) / 0.45));
-}
-
 /* Soft neon glow + subtle lift on hover for interactive cards. */
 @utility glow-hover {
   transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
@@ -264,20 +250,19 @@
    ———————————————————————————————————————————————— */
 @layer components {
   .tf-logo-slot {
-    /* navbar size (px, unitless so it can divide) and drawn size */
-    --logo-size: 34;
-    --logo-draw: 68;
+    /* drawn width (px, unitless) and the scale that lands it in the navbar */
+    --logo-w: 300;
+    --end-scale: 0.28;
+    /* intrinsic ratio of public/branding/ticofit-logo-*.png (1379 × 585) */
+    --logo-ratio: calc(585 / 1379);
     /* header padding — must match px-5 lg:px-10 py-[18px] on SiteHeader */
     --nav-pad-x: 20px;
     --nav-pad-y: 18px;
-    /* lockup height in em: 1.05 wordmark + 0.268 × (0.107 margin + 1.2
-       line-height) sub. The slot is at least the 44px row of links / menu
+    /* landed size. The slot is at least the 44px row of links / menu
        button; a taller logo makes the header row grow with it. */
-    --logo-h: 1.4003;
-    --logo-px: calc(var(--logo-h) * var(--logo-size) * 1px);
+    --logo-px: calc(var(--logo-w) * var(--logo-ratio) * var(--end-scale) * 1px);
     --slot-h: max(44px, var(--logo-px));
 
-    --end-scale: calc(var(--logo-size) / var(--logo-draw));
     --logo-top: calc((var(--slot-h) - var(--logo-px)) / 2);
     /* the slot's page offset, which the travel starts from */
     --nav-x: var(--nav-pad-x);
@@ -289,12 +274,14 @@
     /* top-aligned, not centred: an active link's 1px underline makes the row
        45px on some routes, which would shift a centred logo by half a pixel */
     align-self: flex-start;
+    /* transforms take no layout space, so the slot sizes itself */
+    width: calc(var(--logo-w) * var(--end-scale) * 1px);
     height: var(--slot-h);
   }
   @media (min-width: 760px) {
     .tf-logo-slot {
-      --logo-size: 48;
-      --logo-draw: 157;
+      --logo-w: 560;
+      --end-scale: 0.152;
     }
   }
   @media (min-width: 1024px) {
@@ -303,23 +290,19 @@
     }
   }
 
-  .tf-logo-sizer,
-  .tf-logo {
-    display: block;
-    white-space: nowrap;
-  }
-  .tf-logo-sizer {
-    visibility: hidden;
-    font-size: calc(var(--logo-size) * 1px);
-    height: 0;
-  }
   .tf-logo {
     position: absolute;
     left: 0;
     top: var(--logo-top);
-    font-size: calc(var(--logo-draw) * 1px);
+    display: block;
+    width: calc(var(--logo-w) * 1px);
     transform-origin: left top;
     transform: scale(var(--end-scale));
+  }
+  .tf-logo-img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 }
 
@@ -355,11 +338,8 @@
   [data-tf-intro] .tf-logo {
     animation: tf-travel 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  [data-tf-intro] .tf-logo .tf-logo-wordmark {
-    animation: tf-write 760ms cubic-bezier(0.76, 0, 0.24, 1) both;
-  }
-  [data-tf-intro] .tf-logo .tf-logo-sub {
-    animation: tf-write 520ms cubic-bezier(0.76, 0, 0.24, 1) 340ms both;
+  [data-tf-intro] .tf-logo .tf-logo-img {
+    animation: tf-write 860ms cubic-bezier(0.76, 0, 0.24, 1) both;
   }
   [data-tf-intro] .tf-intro-nav {
     animation: tf-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) 1180ms both;

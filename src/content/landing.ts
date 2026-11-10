@@ -110,7 +110,6 @@ export const landing = {
         { label: "Membresías", href: "/membresias" },
       ],
     },
-    sufijoWordmark: "WELLNESS CLUB",
     copyright: "© 2026 ticofit wellness club · San José, Costa Rica",
   },
 

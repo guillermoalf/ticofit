@@ -3,47 +3,30 @@ import { cn } from "@/lib/utils";
 import { BRAND } from "@/config/brand";
 
 /**
- * Brand wordmark.
+ * The ticofit lockup, from the brand files in /public/branding.
  *
- * With no logo file configured (`BRAND.logoSrc === null`) it renders the
- * brand name as text, so the white-label base ships without any branded
- * binary. Drop a transparent PNG/SVG in /public, point `BRAND.logoSrc` at
- * it, and the same component renders the image instead.
- *
- * `glow` adds the soft accent halo. Size with a height utility (e.g. `h-7`);
- * width stays auto.
+ * `on` is the background it sits on: "dark" (verde profundo, negro grisáceo,
+ * the portal's near-black) picks the crema file, "light" (crema) the verde
+ * profundo one. Renders flat — no glow, shadow or filter. Size it with a
+ * height utility (e.g. `h-7`); width follows the file's ratio.
  */
 export function Logo({
   className,
-  glow = true,
+  on = "dark",
   priority,
 }: {
   className?: string;
-  glow?: boolean;
+  on?: "light" | "dark";
   priority?: boolean;
 }) {
-  if (!BRAND.logoSrc) {
-    return (
-      <span
-        className={cn(
-          "inline-flex items-center font-display text-lg font-bold uppercase tracking-[0.2em] leading-none text-ink",
-          glow && "text-neon",
-          className,
-        )}
-      >
-        {BRAND.name}
-      </span>
-    );
-  }
-
   return (
     <Image
-      src={BRAND.logoSrc}
+      src={on === "dark" ? BRAND.logo.onDark : BRAND.logo.onLight}
       alt={BRAND.name}
-      width={2185}
-      height={302}
+      width={BRAND.logo.width}
+      height={BRAND.logo.height}
       priority={priority}
-      className={cn("h-7 w-auto", glow && "logo-glow", className)}
+      className={cn("h-9 w-auto", className)}
     />
   );
 }
