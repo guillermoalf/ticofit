@@ -6,8 +6,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Run on all routes except static assets and image optimization.
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
+  // Only /portal reads the session on the server (and ":path*" also matches
+  // "/portal" itself). Every other route — the public site, the client-side
+  // /login, /sin-acceso and /auth/callback, which builds its own client —
+  // would only pay getUser()'s network round-trip per request: up to ~30s
+  // when a stale cookie's token refresh can't reach Supabase, since auth-js
+  // retries with backoff for a full refresh tick.
+  matcher: ["/portal/:path*"],
 };
