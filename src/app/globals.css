@@ -252,7 +252,7 @@
   .tf-logo-slot {
     /* drawn width (px, unitless) and the scale that lands it in the navbar */
     --logo-w: 300;
-    --end-scale: 0.28;
+    --end-scale: 0.433;
     /* intrinsic ratio of public/branding/ticofit-logo-*.png (1379 × 585) */
     --logo-ratio: calc(585 / 1379);
     /* header padding — must match px-5 lg:px-10 py-[18px] on SiteHeader */
@@ -281,7 +281,7 @@
   @media (min-width: 760px) {
     .tf-logo-slot {
       --logo-w: 560;
-      --end-scale: 0.152;
+      --end-scale: 0.34;
     }
   }
   @media (min-width: 1024px) {
