@@ -357,4 +357,9 @@
   [data-tf-intro] .tf-intro-cta {
     animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1980ms both;
   }
+  /* Frozen on frame 0 until introScript sees the first paint and sets
+     data-tf-intro="play" — otherwise the clock runs on a blank screen. */
+  [data-tf-intro]:not([data-tf-intro="play"]) :is(.tf-logo, .tf-logo-svg, .tf-intro-nav, .tf-intro-h1, .tf-intro-media, .tf-intro-rest, .tf-intro-lead, .tf-intro-cta) {
+    animation-play-state: paused;
+  }
 }
