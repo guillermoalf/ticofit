@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils";
 import { Chevron } from "./icons";
 import { PillLink } from "./pill-link";
 import { SiteLogo } from "./site-logo";
-import { Wordmark } from "./wordmark";
 
 const { nav } = landing;
 
@@ -178,8 +177,8 @@ export function SiteHeader() {
           )}
         >
           <div className="flex items-center">
-            <Link href="/" aria-label={nav.inicioLabel} className="text-[28px] text-inherit no-underline">
-              <Wordmark />
+            <Link href="/" aria-label={nav.inicioLabel} className="tf-logo-slot text-inherit no-underline">
+              <SiteLogo dark={dark} />
             </Link>
             <button
               type="button"
