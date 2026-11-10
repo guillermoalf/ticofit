@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { landing } from "@/content/landing";
@@ -21,7 +22,8 @@ const FONDOS: Record<Fondo, string> = {
   niebla: "bg-niebla",
 };
 
-const AUTOPLAY_MS = 6000;
+/** Also the length of the figure drift (passed to CSS as --tf-slide-ms). */
+const AUTOPLAY_MS = 7000;
 
 /**
  * Full-bleed service slider. Each slide is a flat palette field with its
@@ -95,7 +97,10 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
       className="relative"
     >
       {/* Slides share one grid cell, so the stack is as tall as the tallest. */}
-      <div className="tf-intro-media grid" aria-live={paused ? "polite" : "off"}>
+      <div
+        className="tf-intro-media grid"
+        style={{ "--tf-slide-ms": `${AUTOPLAY_MS}ms` } as React.CSSProperties}
+        aria-live={paused ? "polite" : "off"}>
         {slides.map((slide, i) => {
           const isActive = i === active;
           const isPrev = i === prev;
@@ -109,21 +114,23 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
               aria-hidden={!isActive}
               inert={!isActive}
               className={cn(
-                "tf-slide col-start-1 row-start-1",
+                "tf-slide col-start-1 row-start-1 overflow-hidden",
                 FONDOS[slide.fondo],
-                isActive ? "z-[2]" : isPrev ? "z-[1]" : "invisible z-0",
+                // active/prev keep the same drift animation: prev pauses it, so
+                // the outgoing figure stays exactly where it is under the wipe.
+                isActive ? "tf-slide-active z-[2]" : isPrev ? "tf-slide-prev z-[1]" : "invisible z-0",
                 // Only animate once something has changed — not on first paint.
                 isActive && prev !== null && "tf-slide-in",
               )}
             >
-              <SlideBody slide={slide} index={i} hasFigura={figuras[slide.id] ?? false} priority={i === 0} />
+              <SlideBody slide={slide} hasFigura={figuras[slide.id] ?? false} priority={i === 0} />
             </div>
           );
         })}
       </div>
 
       {/* Fixed chrome, above every slide */}
-      <p className="tf-intro-lead pointer-events-none absolute top-[92px] left-5 z-10 text-[12px] md:top-[128px] font-semibold tracking-[2.2px] text-verde-profundo uppercase lg:left-10">
+      <p className="tf-intro-lead pointer-events-none absolute top-[92px] left-5 z-10 text-[11px] font-semibold tracking-[1.4px] md:top-[128px] md:text-[12px] md:tracking-[2.2px] text-verde-profundo uppercase lg:left-10">
         {hero.eyebrow}
       </p>
 
@@ -174,49 +181,55 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
 
 function SlideBody({
   slide,
-  index,
   hasFigura,
   priority,
 }: {
   slide: Slide;
-  index: number;
   hasFigura: boolean;
   priority: boolean;
 }) {
   return (
-    <div className="relative flex min-h-[640px] flex-col px-5 pt-[124px] pb-[168px] text-verde-profundo md:pt-[160px] lg:h-[clamp(680px,calc(100svh-24px),900px)] lg:px-10 lg:pb-[200px]">
-      <p aria-hidden="true" className="font-tf-serif text-[64px] leading-none md:text-[96px]">
-        {String(index + 1).padStart(2, "0")}
-      </p>
-
+    <div className="relative flex min-h-[640px] flex-col px-5 pt-[132px] pb-[168px] text-verde-profundo md:pt-[176px] lg:h-[clamp(680px,calc(100svh-24px),900px)] lg:px-10 lg:pt-[168px] lg:pb-[200px]">
       {/* Word behind, figure in front: the figure covers part of the word. */}
       <div className="relative flex flex-1 flex-col items-center justify-center lg:block">
         <h2 className="relative z-0 w-full text-center font-tf-serif text-[clamp(52px,13vw,224px)] leading-[0.88] font-normal tracking-[-0.01em] text-balance break-words lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2">
           {slide.nombre}
         </h2>
-        <div className="tf-figure relative z-[1] -mt-6 h-[300px] w-full max-w-[350px] md:h-[380px] md:max-w-[460px] lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:h-[88%] lg:w-[min(36vw,520px)] lg:-translate-x-1/2">
-          {hasFigura ? (
-            <Image
-              src={slide.figura.src}
-              alt={slide.figura.alt}
-              fill
-              priority={priority}
-              sizes="(min-width: 1024px) 36vw, 460px"
-              className="object-contain object-bottom"
-            />
-          ) : (
-            <div
-              role="img"
-              aria-label={slide.figura.alt}
-              className="absolute inset-x-[12%] top-[6%] bottom-0 rounded-t-full bg-verde-profundo/12"
-            />
-          )}
+        {/* Outer box: size and centring (static). Inner box: the drift
+            (globals.css `tf-drift`). Kept on separate elements so the drift
+            never overrides the centring translate. */}
+        <div className="relative z-[1] -mt-6 h-[300px] w-full max-w-[350px] md:h-[380px] md:max-w-[460px] lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:h-[88%] lg:w-[min(36vw,520px)] lg:-translate-x-1/2">
+          <div className="tf-drift absolute inset-0">
+            {hasFigura ? (
+              <Image
+                src={slide.figura.src}
+                alt={slide.figura.alt}
+                fill
+                priority={priority}
+                sizes="(min-width: 1024px) 36vw, 460px"
+                className="object-contain object-bottom"
+              />
+            ) : (
+              <div
+                role="img"
+                aria-label={slide.figura.alt}
+                className="absolute inset-x-[12%] top-[6%] bottom-0 rounded-t-full bg-verde-profundo/12"
+              />
+            )}
+          </div>
         </div>
       </div>
 
-      <p className="relative z-[2] mt-6 max-w-[340px] text-[16px] leading-[1.5] md:text-[17px] lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[300px]">
-        {slide.descripcion}
-      </p>
+      <div className="tf-desc relative z-[2] mt-6 max-w-[420px] lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[min(420px,calc(32vw-56px))]">
+        <p className="text-[17px] leading-[1.55] md:text-[18px]">{slide.descripcion}</p>
+        <Link
+          href={slide.horarios}
+          className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo underline decoration-1 underline-offset-4 hover:decoration-2 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
+        >
+          {hero.verHorarios}
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
     </div>
   );
 }

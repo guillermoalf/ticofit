@@ -115,7 +115,8 @@ export const landing = {
 
   home: {
     hero: {
-      eyebrow: "Club de bienestar en San José",
+      eyebrow: "Club de bienestar en San José, Rohrmoser",
+      verHorarios: "Ver horarios",
       sliderLabel: "Servicios de ticofit",
       tabsLabel: "Elegí un servicio",
       /**
@@ -128,42 +129,54 @@ export const landing = {
         {
           id: "reformer",
           nombre: "Pilates Reformer",
-          descripcion: "Control, centro y movilidad sobre el reformer.",
+          descripcion:
+            "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel, desde tu primera clase hasta la más retadora. Grupos pequeños, con guía en cada movimiento.",
+          horarios: "/clases#pilates-reformer",
           fondo: "limaClaro",
           figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates" },
         },
         {
           id: "yoga",
           nombre: "Yoga",
-          descripcion: "Respirar, estirar y bajar revoluciones.",
+          descripcion:
+            "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
+          horarios: "/clases#yoga",
           fondo: "celeste",
           figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga" },
         },
         {
           id: "barre",
           nombre: "Barre",
-          descripcion: "Repeticiones chiquitas en la barra que al rato se sienten enormes.",
+          descripcion:
+            "Movimientos pequeños, resultados que se notan. Barre combina técnica de ballet, pilates y fuerza para tonificar piernas, glúteos y centro, cuidando tus articulaciones.",
+          horarios: "/clases#barre",
           fondo: "amarilloVerde",
           figura: { src: "/hero/barre.png", alt: "Persona haciendo barre" },
         },
         {
           id: "functional",
           nombre: "Functional System",
-          descripcion: "Fuerza, potencia y aguante en una sola hora.",
+          descripcion:
+            "Entrená para moverte mejor fuera del gym. Circuitos guiados de fuerza, cardio y coordinación que cambian cada clase, con un coach que adapta todo a tu nivel.",
+          horarios: "/clases#funcional",
           fondo: "bandaSalvia",
           figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional" },
         },
         {
           id: "open-gym",
           nombre: "Open Gym",
-          descripcion: "Entrá a la hora que quieras y entrená a tu ritmo.",
+          descripcion:
+            "Tu rutina, a tu ritmo. Pesas libres y espacio para entrenar cuando te quede bien, en un gym tranquilo, sin filas en un espacio grande.",
+          horarios: "/clases#open-gym",
           fondo: "lineaTag",
           figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym" },
         },
         {
           id: "recovery",
           nombre: "Recovery",
-          descripcion: "Infrarrojo, sauna y cold plunge para volver a entrenar mañana.",
+          descripcion:
+            "La otra mitad del entrenamiento. Sauna, terapia infrarroja y cold plunge para que tu cuerpo se recupere y llegues con ganas a la siguiente clase.",
+          horarios: "/clases#recovery",
           fondo: "niebla",
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar" },
         },
@@ -373,6 +386,7 @@ export const landing = {
     cta: { label: "RESERVAR", href: whatsappUrl },
     items: [
       {
+        id: "funcional",
         nombre: "Funcional",
         sede: "cafe" as SedeId,
         sedeLabel: "PARQUE DEL CAFÉ",
@@ -382,6 +396,7 @@ export const landing = {
         img: img("funcional.jpg", "Clase funcional con kettlebells"),
       },
       {
+        id: "pilates-reformer",
         nombre: "Pilates reformer",
         sede: "cafe" as SedeId,
         sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
@@ -391,6 +406,7 @@ export const landing = {
         img: img("pilates.jpg", "Mujer en un reformer de pilates"),
       },
       {
+        id: "yoga",
         nombre: "Yoga",
         sede: "cafe" as SedeId,
         sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
@@ -400,6 +416,7 @@ export const landing = {
         img: img("yoga.jpg", "Grupo de yoga en el salón"),
       },
       {
+        id: "barre",
         nombre: "Barre",
         sede: "cafe" as SedeId,
         sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
@@ -409,6 +426,7 @@ export const landing = {
         img: img("barre.jpg", "Clase de barre en la barra"),
       },
       {
+        id: "baile",
         nombre: "Baile",
         sede: "cafe" as SedeId,
         sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
@@ -418,6 +436,7 @@ export const landing = {
         img: img("baile.jpg", "Clase de baile en el salón con espejos"),
       },
       {
+        id: "recovery",
         nombre: "Recovery",
         sede: "cafe" as SedeId,
         sedeLabel: "SALÓN RESET · PARQUE DEL CAFÉ",
@@ -427,6 +446,7 @@ export const landing = {
         img: img("recovery.jpg", "Sala de recovery con cold plunge"),
       },
       {
+        id: "open-gym",
         nombre: "Open gym",
         sede: "pavas" as SedeId,
         sedeLabel: "TICOFIT PAVAS",
@@ -436,6 +456,7 @@ export const landing = {
         img: img("opengym.jpg", "Piso de open gym con mancuernas"),
       },
       {
+        id: "entrenamiento-personal",
         nombre: "Entrenamiento personal",
         sede: "pavas" as SedeId,
         sedeLabel: "TICOFIT PAVAS",
@@ -445,6 +466,7 @@ export const landing = {
         img: img("personal.jpg", "Coach acompañando a un cliente"),
       },
       {
+        id: "fisioterapia-y-nutricion",
         nombre: "Fisioterapia y nutrición",
         sede: "pavas" as SedeId,
         sedeLabel: "CONSULTORIO · TICOFIT PAVAS",
