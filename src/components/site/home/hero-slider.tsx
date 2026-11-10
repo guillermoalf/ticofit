@@ -194,14 +194,14 @@ function SlideBody({
         <h2 className="relative z-0 w-full text-center font-tf-serif text-[clamp(52px,13vw,224px)] leading-[0.88] font-normal tracking-[-0.01em] text-balance break-words lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2">
           {slide.nombre}
         </h2>
-        <div className="tf-figure relative z-[1] -mt-8 h-[300px] w-[240px] md:h-[380px] md:w-[300px] lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:h-[88%] lg:w-[min(36vw,520px)] lg:-translate-x-1/2">
+        <div className="tf-figure relative z-[1] -mt-6 h-[300px] w-full max-w-[350px] md:h-[380px] md:max-w-[460px] lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:h-[88%] lg:w-[min(36vw,520px)] lg:-translate-x-1/2">
           {hasFigura ? (
             <Image
               src={slide.figura.src}
               alt={slide.figura.alt}
               fill
               priority={priority}
-              sizes="(min-width: 1024px) 36vw, 300px"
+              sizes="(min-width: 1024px) 36vw, 460px"
               className="object-contain object-bottom"
             />
           ) : (
