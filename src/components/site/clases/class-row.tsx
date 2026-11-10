@@ -9,8 +9,9 @@ type Clase = Landing["clases"]["items"][number];
 export function ClassRow({ clase, reverse }: { clase: Clase; reverse: boolean }) {
   return (
     <article
+      id={clase.id}
       className={cn(
-        "flex flex-wrap gap-11 border-t border-linea py-9",
+        "scroll-mt-6 flex flex-wrap gap-11 border-t border-linea py-9",
         reverse ? "flex-row-reverse" : "flex-row",
       )}
     >

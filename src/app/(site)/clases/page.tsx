@@ -1,17 +1,27 @@
 import type { Metadata } from "next";
 
 import { landing } from "@/content/landing";
-import { ClassFilter } from "@/components/site/clases/class-filter";
+import { ClassFilter, type FiltroId } from "@/components/site/clases/class-filter";
 import { PillLink } from "@/components/site/pill-link";
 
 const { clases } = landing;
+
+const isFiltroId = (value: unknown): value is FiltroId =>
+  clases.filtro.opciones.some((opcion) => opcion.id === value);
 
 export const metadata: Metadata = {
   title: landing.meta.clases.title,
   description: landing.meta.clases.description,
 };
 
-export default function ClasesPage() {
+export default async function ClasesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sede?: string | string[] }>;
+}) {
+  const { sede } = await searchParams;
+  const inicial = isFiltroId(sede) ? sede : "todas";
+
   return (
     <>
       <section className="flex flex-wrap items-end gap-12 px-5 pt-14 pb-11 lg:px-10">
@@ -23,7 +33,7 @@ export default function ClasesPage() {
         <p className="mb-2.5 min-w-0 flex-[1_1_360px] text-[17px] leading-[1.65] text-musgo">{clases.texto}</p>
       </section>
 
-      <ClassFilter />
+      <ClassFilter key={inicial} inicial={inicial} />
 
       <section className="mt-10 flex flex-wrap items-center gap-10 bg-banda-salvia px-5 py-[72px] lg:px-10">
         <div className="min-w-0 flex-[999_1_480px]">

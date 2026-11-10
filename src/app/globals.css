@@ -363,3 +363,57 @@
     animation-play-state: paused;
   }
 }
+
+/* ————————————————————————————————————————————————
+   Home hero slider (src/components/site/home/hero-slider.tsx).
+   The incoming slide's colour field wipes in right-to-left; its figure
+   drifts in over the slide's full duration and its description rises in.
+   Reduced motion: a plain crossfade, figure static in its final spot.
+   ———————————————————————————————————————————————— */
+@keyframes tf-curtain {
+  0% {
+    clip-path: inset(0 0 0 100%);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* The figure starts shifted right (title almost clear) and slides slowly
+   over the whole slide to its resting spot over the word. */
+@keyframes tf-drift {
+  0% {
+    translate: 7vw 0;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+@keyframes tf-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tf-slide-in {
+    animation: tf-curtain 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+  .tf-slide-active .tf-drift,
+  .tf-slide-prev .tf-drift {
+    animation: tf-drift var(--tf-slide-ms, 7000ms) cubic-bezier(0.33, 1, 0.68, 1) both;
+  }
+  /* Same animation name, so it isn't restarted — just frozen in place. */
+  .tf-slide-prev .tf-drift {
+    animation-play-state: paused;
+  }
+  .tf-slide-in .tf-desc {
+    animation: tf-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tf-slide-in {
+    animation: tf-fade 400ms ease both;
+  }
+}
