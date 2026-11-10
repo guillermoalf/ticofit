@@ -115,12 +115,70 @@ export const landing = {
 
   home: {
     hero: {
-      titulo: "Un nuevo comienzo",
-      tituloItalico: "se siente.",
-      subtitulo:
-        "Tu club de bienestar en San José. Entrená, comé bien y recuperate en un solo lugar.",
-      img: img("hero.jpg", "Salón de ticofit con luz natural de la mañana"),
-      ctas: [reservar, { label: "Conocé el club", href: "/sedes" }],
+      eyebrow: "Club de bienestar en San José",
+      sliderLabel: "Servicios de ticofit",
+      tabsLabel: "Elegí un servicio",
+      /**
+       * One slide per service, in this order. `figura` is a cut-out PNG with a
+       * transparent background in public/hero/ — replace the file to change it;
+       * a neutral placeholder renders while the file is missing. `fondo` is a
+       * palette token from BRAND (all pass AA against verde profundo text).
+       */
+      slides: [
+        {
+          id: "reformer",
+          nombre: "Pilates Reformer",
+          descripcion: "Control, centro y movilidad sobre el reformer.",
+          fondo: "limaClaro",
+          figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates" },
+        },
+        {
+          id: "yoga",
+          nombre: "Yoga",
+          descripcion: "Respirar, estirar y bajar revoluciones.",
+          fondo: "celeste",
+          figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga" },
+        },
+        {
+          id: "barre",
+          nombre: "Barre",
+          descripcion: "Repeticiones chiquitas en la barra que al rato se sienten enormes.",
+          fondo: "amarilloVerde",
+          figura: { src: "/hero/barre.png", alt: "Persona haciendo barre" },
+        },
+        {
+          id: "functional",
+          nombre: "Functional System",
+          descripcion: "Fuerza, potencia y aguante en una sola hora.",
+          fondo: "bandaSalvia",
+          figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional" },
+        },
+        {
+          id: "open-gym",
+          nombre: "Open Gym",
+          descripcion: "Entrá a la hora que quieras y entrená a tu ritmo.",
+          fondo: "lineaTag",
+          figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym" },
+        },
+        {
+          id: "recovery",
+          nombre: "Recovery",
+          descripcion: "Infrarrojo, sauna y cold plunge para volver a entrenar mañana.",
+          fondo: "niebla",
+          figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar" },
+        },
+      ],
+      tarjeta: {
+        sedeLabel: "Elegí tu sede",
+        sedes: [
+          { id: "pavas" as SedeId, nombre: "ticofit pavas", detalle: "Rohrmoser" },
+          { id: "cafe" as SedeId, nombre: "ticofit parque del café", detalle: "Abre pronto" },
+        ],
+        rating: "4.9",
+        ratingLabel: "4.9 de 5 estrellas en Google",
+        ratingDetalle: "19 reseñas en Google",
+        reservar: { label: "Reservar", href: "/clases" },
+      },
     },
     intro: {
       titulo: ["Entrená, comé,", "recuperate y trabajá."],

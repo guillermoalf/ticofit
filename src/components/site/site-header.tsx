@@ -14,6 +14,8 @@ const { nav } = landing;
 
 /** Routes whose page sits on the dark field; the header flips to cream text. */
 const DARK_ROUTES = ["/membresias"];
+/** Routes whose full-bleed hero runs under the header; it goes transparent. */
+const OVERLAY_ROUTES = ["/"];
 
 /**
  * Shared site header. Owns the Sedes dropdown (closes on outside click and
@@ -22,6 +24,7 @@ const DARK_ROUTES = ["/membresias"];
 export function SiteHeader() {
   const pathname = usePathname();
   const dark = DARK_ROUTES.includes(pathname);
+  const overlay = OVERLAY_ROUTES.includes(pathname);
 
   const [sedesOpen, setSedesOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -79,8 +82,9 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "relative z-20 flex items-center gap-6 px-5 py-[18px] lg:px-10",
-        dark ? "bg-verde-profundo" : "bg-crema-claro",
+        "z-20 flex items-center gap-6 px-5 py-[18px] lg:px-10",
+        overlay ? "absolute inset-x-0 top-0 bg-transparent" : "relative",
+        !overlay && (dark ? "bg-verde-profundo" : "bg-crema-claro"),
       )}
     >
       <Link
@@ -141,7 +145,7 @@ export function SiteHeader() {
 
         <PillLink
           href={nav.reservar.href}
-          variant="lima"
+          variant={overlay ? "verde" : "lima"}
           className="min-h-10 px-[22px] text-[13px] tracking-[0.6px]"
         >
           {nav.reservar.label}

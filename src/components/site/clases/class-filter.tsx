@@ -7,11 +7,14 @@ import { cn } from "@/lib/utils";
 import { ClassRow } from "./class-row";
 
 const { filtro, items } = landing.clases;
-type FiltroId = (typeof filtro.opciones)[number]["id"];
+export type FiltroId = (typeof filtro.opciones)[number]["id"];
 
-/** Sede filter + the alternating class rows it controls. */
-export function ClassFilter() {
-  const [sede, setSede] = useState<FiltroId>("todas");
+/**
+ * Sede filter + the alternating class rows it controls. `inicial` comes from
+ * `?sede=` so the home hero's "Reservar" opens on the chosen sede.
+ */
+export function ClassFilter({ inicial = "todas" }: { inicial?: FiltroId }) {
+  const [sede, setSede] = useState<FiltroId>(inicial);
   const visibles = sede === "todas" ? items : items.filter((c) => c.sede === sede);
 
   return (

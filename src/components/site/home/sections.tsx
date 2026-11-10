@@ -1,9 +1,15 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
+
+import { BRAND } from "@/config/brand";
 import { landing } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { Star } from "../icons";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 import { SmartLink } from "../smart-link";
+import { HeroCard } from "./hero-card";
+import { HeroSlider } from "./hero-slider";
 import { IntroSession } from "./intro-session";
 
 const { home } = landing;
@@ -12,36 +18,22 @@ const photoOverlay =
   "pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/72 to-overlay-verde/5";
 
 /**
- * The photo is its own layer behind the copy so the home intro can bring the
- * image and each line of copy in separately (`tf-intro-*`, globals.css).
+ * Full-bleed service slider under a transparent header, with the cream sede
+ * card riding up over its bottom edge. Figure PNGs are optional: the server
+ * checks public/hero so a missing file renders a placeholder, not a 404.
  */
 export function Hero() {
-  const { hero } = home;
+  const figuras = Object.fromEntries(
+    home.hero.slides.map((slide) => [
+      slide.id,
+      existsSync(path.join(process.cwd(), "public", slide.figura.src)),
+    ]),
+  );
   return (
-    <section className="px-5 pb-[72px] lg:px-10">
-      <div className="relative flex min-h-[520px] items-end p-6 md:min-h-[620px] md:p-14">
-        <Photo img={hero.img} sizes="100vw" priority className="tf-intro-media absolute inset-0 rounded-[20px]">
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/82 via-overlay-verde/38 via-52% to-overlay-verde/12" />
-        </Photo>
-        <div className="relative max-w-[700px]">
-          <h1 className="tf-intro-h1 font-tf-serif text-[44px] leading-[0.98] font-normal text-crema-claro md:text-[76px]">
-            {hero.titulo}
-            <br />
-            <span className="italic">{hero.tituloItalico}</span>
-          </h1>
-          <p className="tf-intro-lead mt-5 max-w-[460px] text-[17px] leading-[1.55] text-texto-foto">
-            {hero.subtitulo}
-          </p>
-          <div className="tf-intro-cta mt-8 flex flex-wrap gap-3">
-            <PillLink href={hero.ctas[0].href} variant="lima" className="min-h-12 px-[30px] text-[15px]">
-              {hero.ctas[0].label}
-            </PillLink>
-            <PillLink href={hero.ctas[1].href} variant="outlineCrema" className="min-h-12 px-[30px] text-[15px]">
-              {hero.ctas[1].label}
-            </PillLink>
-          </div>
-        </div>
-      </div>
+    <section className="pb-[72px]">
+      <h1 className="sr-only">{BRAND.name}</h1>
+      <HeroSlider figuras={figuras} />
+      <HeroCard />
       <IntroSession />
     </section>
   );
