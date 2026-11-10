@@ -1,5 +1,23 @@
 # ticofit — Project Context
 
+# ⚠️ HOW TO REPLY — READ FIRST, NO EXCEPTIONS
+
+The user does not read long replies. Every token spent on text they won't read is wasted.
+Your final message after any task is AT MOST 3 short lines and contains ONLY:
+
+1. **Did it work?** One line: "Listo — <what changed>." or "Falló — <why>."
+2. **Problems:** only if something is broken, plus the exact fix.
+3. **What I need from you:** only if you are blocked or need a decision/asset/approval.
+   Say exactly what you need.
+
+NEVER include: file lists, diffs, tables, explanations of how it works, contrast ratios,
+screenshot paths, build/lint output, "things you should know", or summaries of the
+process. If a check passed, it gets zero words beyond "Listo". No exceptions, even for
+big tasks. The user will ask if they want details.
+
+---
+
+
 This file loads automatically at the start of every session. It holds the business
 context, the brand and the scope. `AGENTS.md` holds the working rules (git, commands,
 what not to do). If the two disagree, ask.
