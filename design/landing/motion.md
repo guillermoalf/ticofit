@@ -19,7 +19,7 @@ Inline matters for three reasons:
 - **No load race.** An external image can arrive 200–400ms late, by which point the
   write-on has already run against a zero-height box and the logo simply pops in
   finished. That is the bug you are looking at right now.
-- **Sharp at every size.** It is drawn at 560px wide and shrinks to 85px.
+- **Sharp at every size.** It is drawn at 560px wide and shrinks to 190px.
 - **Recolourable.** `fill: currentColor` on the path lets the same component serve the
   cream header and the deep-green footer. Do not ship one file per colour.
 
@@ -83,8 +83,8 @@ Give the travel its own `animation-delay`. Do not fake the hold with a `0%, 54%`
 keyframe pair — the easing then applies across the hold too and the motion starts
 drifting early.
 
-**Drawn at full size, scaled DOWN.** Drawing at 85px and scaling up 6.6× renders a
-blurry wordmark for the whole shot. Draw at 560px, scale to 0.152.
+**Drawn at full size, scaled DOWN.** Drawing at 190px and scaling up 3× renders a
+blurry wordmark for the whole shot. Draw at 560px, scale to 0.34.
 
 Animate `transform` only — never `top`/`left`/`width`.
 
@@ -93,8 +93,8 @@ Animate `transform` only — never `top`/`left`/`width`.
 | | Desktop (≥760px) | Mobile (<760px) |
 |---|---|---|
 | Drawn width | `560px` | `300px` |
-| `--end-scale` | `0.152` | `0.28` |
-| Navbar width | 85px | 84px |
+| `--end-scale` | `0.34` | `0.433` |
+| Navbar width | 190px (owner decision) | 130px |
 | Share of viewport while centred | ~41% | ~77% |
 
 ### The hero behind
