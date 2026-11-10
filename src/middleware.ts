@@ -6,9 +6,11 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Only the routes that use the Supabase session. The public site never
-  // reads it, and running getUser() there costs a network round-trip per
-  // request — up to ~30s when a stale cookie's token refresh can't reach
-  // Supabase, since auth-js retries with backoff for a full refresh tick.
-  matcher: ["/portal/:path*", "/login", "/auth/:path*", "/sin-acceso"],
+  // Only /portal reads the session on the server (and ":path*" also matches
+  // "/portal" itself). Every other route — the public site, the client-side
+  // /login, /sin-acceso and /auth/callback, which builds its own client —
+  // would only pay getUser()'s network round-trip per request: up to ~30s
+  // when a stale cookie's token refresh can't reach Supabase, since auth-js
+  // retries with backoff for a full refresh tick.
+  matcher: ["/portal/:path*"],
 };

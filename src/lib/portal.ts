@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -14,12 +15,16 @@ import type { Profile } from "@/types/profile";
  *   - a session with no profile row (their signup was refused by 0010's
  *     trigger, or their profile was deleted), and
  *   - a profile with authorized = false (0010's revocation switch).
+ *
+ * Memoized per request with React's cache(): the portal layout and its page
+ * both call it, so one render costs one getUser() round-trip and one profile
+ * query instead of two of each.
  */
-export async function requireProfile(): Promise<{
+export const requireProfile = cache(async (): Promise<{
   userId: string;
   email: string | null;
   profile: Profile;
-}> {
+}> => {
   if (!isSupabaseConfigured) redirect("/login");
 
   const supabase = await createClient();
@@ -39,7 +44,7 @@ export async function requireProfile(): Promise<{
   if (!profile.authorized) redirect("/sin-acceso?motivo=suspendido");
 
   return { userId: user.id, email: user.email ?? null, profile };
-}
+});
 
 /** Does the signed-in user already have a password (vs. Google only)? */
 export async function hasPassword(): Promise<boolean> {
