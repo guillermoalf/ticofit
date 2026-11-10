@@ -124,6 +124,8 @@ export const landing = {
        * transparent background in public/hero/ — replace the file to change it;
        * a neutral placeholder renders while the file is missing. `fondo` is a
        * palette token from BRAND (all pass AA against verde profundo text).
+       * `figuraCompacta` draws a bulky figure smaller so it covers less of
+       * the word.
        */
       slides: [
         {
@@ -179,6 +181,8 @@ export const landing = {
           horarios: "/clases#recovery",
           fondo: "niebla",
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar" },
+          /** Wide, tall cut-out: drawn smaller so the word stays legible. */
+          figuraCompacta: true,
         },
       ],
       tarjeta: {

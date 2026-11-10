@@ -198,7 +198,14 @@ function SlideBody({
         {/* Outer box: size and centring (static). Inner box: the drift
             (globals.css `tf-drift`). Kept on separate elements so the drift
             never overrides the centring translate. */}
-        <div className="relative z-[1] -mt-6 h-[300px] w-full max-w-[350px] md:h-[380px] md:max-w-[460px] lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:h-[88%] lg:w-[min(36vw,520px)] lg:-translate-x-1/2">
+        <div
+          className={cn(
+            "relative z-[1] -mt-6 w-full lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2",
+            "figuraCompacta" in slide && slide.figuraCompacta
+              ? "h-[240px] max-w-[300px] md:h-[300px] md:max-w-[360px] lg:h-[58%] lg:w-[min(28vw,400px)]"
+              : "h-[300px] max-w-[350px] md:h-[380px] md:max-w-[460px] lg:h-[88%] lg:w-[min(36vw,520px)]",
+          )}
+        >
           <div className="tf-drift absolute inset-0">
             {hasFigura ? (
               <Image
@@ -224,9 +231,9 @@ function SlideBody({
         <p className="text-[17px] leading-[1.55] md:text-[18px]">{slide.descripcion}</p>
         <Link
           href={slide.horarios}
-          className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo underline decoration-1 underline-offset-4 hover:decoration-2 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
+          className="group mt-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo no-underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
         >
-          {hero.verHorarios}
+          <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{hero.verHorarios}</span>
           <span aria-hidden="true">→</span>
         </Link>
       </div>
