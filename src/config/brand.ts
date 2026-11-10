@@ -21,18 +21,6 @@ export const BRAND = {
   /** PLACEHOLDER — production domain (used as metadataBase). */
   url: "https://example.com",
 
-  /**
-   * The ticofit lockup (wordmark + "WELLNESS CLUB") as image files in
-   * /public/branding. It is a custom drawing — never typeset it as text.
-   * `onLight` for crema backgrounds, `onDark` for verde profundo / negro
-   * grisáceo. `width`/`height` are the files' intrinsic size.
-   */
-  logo: {
-    onLight: "/branding/ticofit-logo-green.png",
-    onDark: "/branding/ticofit-logo-cream.png",
-    width: 1379,
-    height: 585,
-  },
 
   /**
    * Accent color — the ONE hue on an otherwise monochrome dark base.

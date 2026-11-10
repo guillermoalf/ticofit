@@ -237,7 +237,7 @@
 }
 
 /* ————————————————————————————————————————————————
-   Site logo + home intro (design/landing/intro/motion.md).
+   Site logo + home intro (design/landing/motion.md).
 
    The header logo (.tf-logo, SiteLogo) is drawn at full size and scaled DOWN
    to navbar size on every route — scaling up would blur it mid-travel. On the
@@ -253,7 +253,7 @@
     /* drawn width (px, unitless) and the scale that lands it in the navbar */
     --logo-w: 300;
     --end-scale: 0.433;
-    /* intrinsic ratio of public/branding/ticofit-logo-*.png (1379 × 585) */
+    /* viewBox ratio of src/components/brand/ticofit-logo.svg (1379 × 585) */
     --logo-ratio: calc(585 / 1379);
     /* header padding — must match px-5 lg:px-10 py-[18px] on SiteHeader */
     --nav-pad-x: 20px;
@@ -299,7 +299,7 @@
     transform-origin: left top;
     transform: scale(var(--end-scale));
   }
-  .tf-logo-img {
+  .tf-logo-svg {
     display: block;
     width: 100%;
     height: auto;
@@ -308,15 +308,14 @@
 
 @keyframes tf-write {
   0% {
-    clip-path: inset(0 100% -20% 0);
+    clip-path: inset(0 100% -8% 0);
   }
   100% {
-    clip-path: inset(0 -6% -20% 0);
+    clip-path: inset(0 -2% -8% 0);
   }
 }
 @keyframes tf-travel {
-  0%,
-  46% {
+  0% {
     transform: translate(calc(50vw - var(--nav-x) - 50%), calc(45vh - var(--nav-y) - 50%)) scale(1);
   }
   100% {
@@ -335,26 +334,27 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* 0–1100 write-on · 1100–1400 hold · 1400–2220 travel · hero 1750–2760 */
   [data-tf-intro] .tf-logo {
-    animation: tf-travel 1680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: tf-travel 820ms cubic-bezier(0.65, 0, 0.35, 1) 1400ms both;
   }
-  [data-tf-intro] .tf-logo .tf-logo-img {
-    animation: tf-write 860ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  [data-tf-intro] .tf-logo .tf-logo-svg {
+    animation: tf-write 1100ms cubic-bezier(0.22, 0.62, 0.28, 1) both;
   }
   [data-tf-intro] .tf-intro-nav {
-    animation: tf-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) 1180ms both;
+    animation: tf-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) 1750ms both;
   }
   [data-tf-intro] .tf-intro-h1 {
-    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1240ms both;
-  }
-  [data-tf-intro] .tf-intro-lead {
-    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1330ms both;
-  }
-  [data-tf-intro] .tf-intro-cta {
-    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1410ms both;
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1820ms both;
   }
   [data-tf-intro] .tf-intro-media,
   [data-tf-intro] .tf-intro-rest {
-    animation: tf-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 1300ms both;
+    animation: tf-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 1860ms both;
+  }
+  [data-tf-intro] .tf-intro-lead {
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1900ms both;
+  }
+  [data-tf-intro] .tf-intro-cta {
+    animation: tf-rise 760ms cubic-bezier(0.16, 1, 0.3, 1) 1980ms both;
   }
 }

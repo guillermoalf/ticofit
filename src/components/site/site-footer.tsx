@@ -1,4 +1,4 @@
-import { Logo } from "@/components/ui/logo";
+import { TicofitLogo } from "@/components/brand/ticofit-logo";
 import { landing } from "@/content/landing";
 import { PillLink } from "./pill-link";
 import { SmartLink } from "./smart-link";
@@ -70,7 +70,7 @@ export function SiteFooter() {
       </div>
 
       <div className="flex flex-wrap justify-between gap-4 pt-[26px]">
-        <Logo on="dark" className="h-10" />
+        <TicofitLogo className="h-10 w-auto text-crema-claro" />
         <p className="text-[13px] text-niebla-suave">{footer.copyright}</p>
       </div>
     </footer>

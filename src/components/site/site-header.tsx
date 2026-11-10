@@ -88,7 +88,7 @@ export function SiteHeader() {
         aria-label={nav.inicioLabel}
         className={cn("tf-logo-slot no-underline", dark ? "text-crema-claro" : "text-verde-profundo")}
       >
-        <SiteLogo dark={dark} />
+        <SiteLogo />
       </Link>
 
       {/* Desktop nav */}
@@ -178,7 +178,7 @@ export function SiteHeader() {
         >
           <div className="flex items-center">
             <Link href="/" aria-label={nav.inicioLabel} className="tf-logo-slot text-inherit no-underline">
-              <SiteLogo dark={dark} />
+              <SiteLogo />
             </Link>
             <button
               type="button"
