@@ -23,6 +23,13 @@ const FONDOS: Record<Fondo, string> = {
 };
 
 /** Also the length of the figure drift (passed to CSS as --tf-slide-ms). */
+/** Figure box per cut-out shape (see `tamano` in landing.ts). */
+const FIGURA_TAMANOS: Record<Slide["figura"]["tamano"], string> = {
+  ancha: "h-[300px] max-w-[370px] md:h-[380px] md:max-w-[500px] lg:h-[88%] lg:w-[min(44vw,720px)] lg:max-w-none",
+  media: "h-[270px] max-w-[320px] md:h-[340px] md:max-w-[420px] lg:h-[74%] lg:w-[min(32vw,460px)]",
+  alta: "h-[300px] max-w-[350px] md:h-[380px] md:max-w-[460px] lg:h-[88%] lg:w-[min(36vw,520px)]",
+};
+
 const AUTOPLAY_MS = 7000;
 
 /**
@@ -201,9 +208,7 @@ function SlideBody({
         <div
           className={cn(
             "relative z-[1] -mt-6 w-full lg:absolute lg:bottom-[-104px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2",
-            "figuraCompacta" in slide && slide.figuraCompacta
-              ? "h-[240px] max-w-[300px] md:h-[300px] md:max-w-[360px] lg:h-[58%] lg:w-[min(28vw,400px)]"
-              : "h-[300px] max-w-[350px] md:h-[380px] md:max-w-[460px] lg:h-[88%] lg:w-[min(36vw,520px)]",
+            FIGURA_TAMANOS[slide.figura.tamano],
           )}
         >
           <div className="tf-drift absolute inset-0">

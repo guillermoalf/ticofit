@@ -124,8 +124,9 @@ export const landing = {
        * transparent background in public/hero/ — replace the file to change it;
        * a neutral placeholder renders while the file is missing. `fondo` is a
        * palette token from BRAND (all pass AA against verde profundo text).
-       * `figuraCompacta` draws a bulky figure smaller so it covers less of
-       * the word.
+       * `tamano` sizes the figure box so each cut-out covers about the same
+       * share of the word: "ancha" for landscape cut-outs, "media" for bulky
+       * ones, "alta" for tall, narrow ones.
        */
       slides: [
         {
@@ -135,7 +136,7 @@ export const landing = {
             "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel, desde tu primera clase hasta la más retadora. Grupos pequeños, con guía en cada movimiento.",
           horarios: "/clases#pilates-reformer",
           fondo: "limaClaro",
-          figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates" },
+          figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates", tamano: "ancha" as const },
         },
         {
           id: "yoga",
@@ -144,7 +145,7 @@ export const landing = {
             "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
           horarios: "/clases#yoga",
           fondo: "celeste",
-          figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga" },
+          figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "ancha" as const },
         },
         {
           id: "barre",
@@ -153,7 +154,7 @@ export const landing = {
             "Movimientos pequeños, resultados que se notan. Barre combina técnica de ballet, pilates y fuerza para tonificar piernas, glúteos y centro, cuidando tus articulaciones.",
           horarios: "/clases#barre",
           fondo: "amarilloVerde",
-          figura: { src: "/hero/barre.png", alt: "Persona haciendo barre" },
+          figura: { src: "/hero/barre.png", alt: "Persona haciendo barre", tamano: "media" as const },
         },
         {
           id: "functional",
@@ -162,7 +163,7 @@ export const landing = {
             "Entrená para moverte mejor fuera del gym. Circuitos guiados de fuerza, cardio y coordinación que cambian cada clase, con un coach que adapta todo a tu nivel.",
           horarios: "/clases#funcional",
           fondo: "bandaSalvia",
-          figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional" },
+          figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional", tamano: "alta" as const },
         },
         {
           id: "open-gym",
@@ -171,7 +172,7 @@ export const landing = {
             "Tu rutina, a tu ritmo. Pesas libres y espacio para entrenar cuando te quede bien, en un gym tranquilo, sin filas en un espacio grande.",
           horarios: "/clases#open-gym",
           fondo: "lineaTag",
-          figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym" },
+          figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym", tamano: "alta" as const },
         },
         {
           id: "recovery",
@@ -180,9 +181,7 @@ export const landing = {
             "La otra mitad del entrenamiento. Sauna, terapia infrarroja y cold plunge para que tu cuerpo se recupere y llegues con ganas a la siguiente clase.",
           horarios: "/clases#recovery",
           fondo: "niebla",
-          figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar" },
-          /** Wide, tall cut-out: drawn smaller so the word stays legible. */
-          figuraCompacta: true,
+          figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar", tamano: "media" as const },
         },
       ],
       tarjeta: {
