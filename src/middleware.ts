@@ -6,8 +6,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Run on all routes except static assets and image optimization.
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
-  ],
+  // Only the routes that use the Supabase session. The public site never
+  // reads it, and running getUser() there costs a network round-trip per
+  // request — up to ~30s when a stale cookie's token refresh can't reach
+  // Supabase, since auth-js retries with backoff for a full refresh tick.
+  matcher: ["/portal/:path*", "/login", "/auth/:path*", "/sin-acceso"],
 };
