@@ -97,8 +97,8 @@ frame and will judder on mobile.
 | | Desktop (≥760px) | Mobile (<760px) |
 |---|---|---|
 | Drawn size (`font-size` on the logo) | `157px` | `68px` |
-| `--end-scale` | `0.178` | `0.353` |
-| Resulting navbar size | 28px | 24px |
+| `--end-scale` | `48/157` (0.306) | `34/68` (0.5) |
+| Resulting navbar size | 48px | 34px |
 | Width on screen while centred | ~41% of viewport | ~78% of viewport |
 
 Everything inside the logo is sized in `em` so it scales with the parent:
@@ -107,6 +107,9 @@ Everything inside the logo is sized in `em` so it scales with the parent:
 .wordmark { font-size: 1em;     line-height: 1.05; letter-spacing: -0.014em; }
 .sub      { font-size: 0.268em; letter-spacing: 0.111em; margin-top: 0.107em; }
 ```
+
+Navbar size was raised from 28/24px to 48/34px on 2026-11-09 (owner feedback: the
+logo read too small next to reference sites); the header row grows to fit it.
 
 41% of the viewport is the number we settled on. 19% looked like a postage stamp and
 52% crowded the margins and blew the `®` out of proportion.

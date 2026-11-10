@@ -265,18 +265,20 @@
 @layer components {
   .tf-logo-slot {
     /* navbar size (px, unitless so it can divide) and drawn size */
-    --logo-size: 24;
+    --logo-size: 34;
     --logo-draw: 68;
     /* header padding — must match px-5 lg:px-10 py-[18px] on SiteHeader */
     --nav-pad-x: 20px;
     --nav-pad-y: 18px;
-    /* header row height (44px links / menu button) and lockup height in em:
-       1.05 wordmark + 0.268 × (0.107 margin + 1.2 line-height) sub */
-    --nav-row: 44px;
+    /* lockup height in em: 1.05 wordmark + 0.268 × (0.107 margin + 1.2
+       line-height) sub. The slot is at least the 44px row of links / menu
+       button; a taller logo makes the header row grow with it. */
     --logo-h: 1.4003;
+    --logo-px: calc(var(--logo-h) * var(--logo-size) * 1px);
+    --slot-h: max(44px, var(--logo-px));
 
     --end-scale: calc(var(--logo-size) / var(--logo-draw));
-    --logo-top: calc((var(--nav-row) - var(--logo-h) * var(--logo-size) * 1px) / 2);
+    --logo-top: calc((var(--slot-h) - var(--logo-px)) / 2);
     /* the slot's page offset, which the travel starts from */
     --nav-x: var(--nav-pad-x);
     --nav-y: calc(var(--nav-pad-y) + var(--logo-top));
@@ -287,11 +289,11 @@
     /* top-aligned, not centred: an active link's 1px underline makes the row
        45px on some routes, which would shift a centred logo by half a pixel */
     align-self: flex-start;
-    height: var(--nav-row);
+    height: var(--slot-h);
   }
   @media (min-width: 760px) {
     .tf-logo-slot {
-      --logo-size: 28;
+      --logo-size: 48;
       --logo-draw: 157;
     }
   }
