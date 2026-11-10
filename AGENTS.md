@@ -58,7 +58,8 @@ This is a standing rule from the owner of the repo. Do not ask about it again.
 
 - **`staging` is the working base and must always be the most up-to-date branch.** Every
   task starts from `staging` and every finished task is merged back into `staging`.
-- **One new branch per task**, created from `staging`.
+- **One new branch per task**, created from `staging`. **Never commit directly on
+  `staging` or `main`** — not even docs or one-line fixes.
 - **`main` is the release branch.** It only moves when the user asks to update it, and
   then it is fast-forwarded to the current `staging`. Never commit, branch from or merge a
   task into `main` directly.

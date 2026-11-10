@@ -1,5 +1,17 @@
 # ticofit — Project Context
 
+# ⚠️ GIT FLOW — EVERY TASK, NO EXCEPTIONS, NEVER ASK
+
+1. **Never commit directly on `staging` or `main`.** Not even a one-line or docs change.
+2. **Every task gets its own new branch**, created from the latest `staging`
+   (`git checkout staging && git pull` → `git checkout -b feat|fix|docs/<task>`).
+3. **When done, merge that branch into `staging`**, push, and delete the branch.
+   `staging` always holds the freshest work — it is the reference point.
+4. **`main` stays behind.** It is only updated (fast-forwarded to `staging`) when the
+   user explicitly says so. Never on your own initiative.
+
+---
+
 # ⚠️ HOW TO REPLY — READ FIRST, NO EXCEPTIONS
 
 The user does not read long replies. Every token spent on text they won't read is wasted.
@@ -22,9 +34,8 @@ This file loads automatically at the start of every session. It holds the busine
 context, the brand and the scope. `AGENTS.md` holds the working rules (git, commands,
 what not to do). If the two disagree, ask.
 
-> **Git, every task:** branch from the latest `staging`, merge back into `staging`.
-> `main` is only updated from `staging` when the user asks. Full rules in `AGENTS.md`
-> → "Branching".
+> **Git, every task:** see "GIT FLOW" at the top of this file. Full rules in
+> `AGENTS.md` → "Branching".
 
 ---
 
