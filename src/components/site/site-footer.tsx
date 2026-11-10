@@ -1,7 +1,7 @@
+import { Logo } from "@/components/ui/logo";
 import { landing } from "@/content/landing";
 import { PillLink } from "./pill-link";
 import { SmartLink } from "./smart-link";
-import { Wordmark } from "./wordmark";
 
 const { footer, contacto } = landing;
 
@@ -70,12 +70,7 @@ export function SiteFooter() {
       </div>
 
       <div className="flex flex-wrap justify-between gap-4 pt-[26px]">
-        <p className="text-[22px]">
-          <Wordmark markClassName="text-[10px]" />{" "}
-          <span className="font-tf-sans text-[10px] tracking-[3px] text-lima-claro">
-            {footer.sufijoWordmark}
-          </span>
-        </p>
+        <Logo on="dark" className="h-10" />
         <p className="text-[13px] text-niebla-suave">{footer.copyright}</p>
       </div>
     </footer>

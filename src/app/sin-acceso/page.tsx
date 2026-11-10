@@ -32,7 +32,7 @@ export default async function SinAccesoPage({
     <main className="flex min-h-screen items-center justify-center px-5 py-16">
       <div className="w-full max-w-md">
         <div className="mb-8 flex justify-center">
-          <Logo className="h-7" />
+          <Logo className="h-12" />
         </div>
 
         <div className="rounded-3xl border border-border-strong bg-surface/70 p-7 text-center shadow-glow">

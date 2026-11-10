@@ -3,7 +3,7 @@
  *
  * Everything client-specific (name, accent color, contact data, location,
  * socials, logo file) lives here. Change these values and the whole app
- * follows: browser tab title, metadata, portal sidebar wordmark, accent
+ * follows: browser tab title, metadata, portal sidebar logo, accent
  * color and glows, WhatsApp/email links.
  *
  * Copy is Spanish (the app's only language); code/comments are English.
@@ -22,14 +22,17 @@ export const BRAND = {
   url: "https://example.com",
 
   /**
-   * Optional logo image in /public (e.g. "/logo.png"). While it is null the
-   * <Logo /> component renders the brand name as a text wordmark, so the app
-   * ships with no branded binary. Drop a file in /public and set the path.
+   * The ticofit lockup (wordmark + "WELLNESS CLUB") as image files in
+   * /public/branding. It is a custom drawing — never typeset it as text.
+   * `onLight` for crema backgrounds, `onDark` for verde profundo / negro
+   * grisáceo. `width`/`height` are the files' intrinsic size.
    */
-  logoSrc: null as string | null,
-
-  /** Typeset wordmark used by the public site: "tico" + italic "fit" + mark. */
-  wordmark: { lead: "tico", italic: "fit", mark: "®" },
+  logo: {
+    onLight: "/branding/ticofit-logo-green.png",
+    onDark: "/branding/ticofit-logo-cream.png",
+    width: 1379,
+    height: 585,
+  },
 
   /**
    * Accent color — the ONE hue on an otherwise monochrome dark base.
