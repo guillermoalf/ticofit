@@ -18,7 +18,7 @@ export function IntroSession() {
   useEffect(() => {
     const root = document.documentElement;
     if (!root.hasAttribute(INTRO_ATTR)) return;
-    const done = window.setTimeout(() => root.removeAttribute(INTRO_ATTR), 2400);
+    const done = window.setTimeout(() => root.removeAttribute(INTRO_ATTR), 2900);
     return () => {
       window.clearTimeout(done);
       root.removeAttribute(INTRO_ATTR);
