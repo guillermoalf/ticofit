@@ -126,14 +126,15 @@ export const landing = {
        * palette token from BRAND (all pass AA against verde profundo text).
        * `tamano` sizes the figure box so each cut-out covers about the same
        * share of the word: "ancha" for landscape cut-outs, "media" for bulky
-       * ones, "alta" for tall, narrow ones.
+       * ones, "alta" for tall, narrow ones, "baja" for a landscape cut-out that
+       * should only graze the top of the word.
        */
       slides: [
         {
           id: "reformer",
           nombre: "Pilates Reformer",
           descripcion:
-            "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel, desde tu primera clase hasta la más retadora. Grupos pequeños, con guía en cada movimiento.",
+            "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel desde la primera clase. Grupos pequeños, con guía en cada movimiento.",
           horarios: "/clases#pilates-reformer",
           fondo: "limaClaro",
           figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates", tamano: "ancha" as const },
@@ -145,7 +146,7 @@ export const landing = {
             "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
           horarios: "/clases#yoga",
           fondo: "celeste",
-          figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "ancha" as const },
+          figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "baja" as const },
         },
         {
           id: "barre",

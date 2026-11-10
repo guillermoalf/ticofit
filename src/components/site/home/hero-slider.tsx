@@ -25,7 +25,8 @@ const FONDOS: Record<Fondo, string> = {
 /** Also the length of the figure drift (passed to CSS as --tf-slide-ms). */
 /** Figure box per cut-out shape (see `tamano` in landing.ts). */
 const FIGURA_TAMANOS: Record<Slide["figura"]["tamano"], string> = {
-  ancha: "h-[300px] max-w-[370px] md:h-[380px] md:max-w-[500px] lg:h-[88%] lg:w-[min(44vw,720px)] lg:max-w-none",
+  ancha: "h-[300px] max-w-[370px] md:h-[380px] md:max-w-[500px] lg:h-[88%] lg:w-[min(40vw,720px)] lg:max-w-none",
+  baja: "h-[260px] max-w-[350px] md:h-[340px] md:max-w-[460px] lg:h-[88%] lg:w-[min(41vw,640px)] lg:max-w-none",
   media: "h-[270px] max-w-[320px] md:h-[340px] md:max-w-[420px] lg:h-[74%] lg:w-[min(32vw,460px)]",
   alta: "h-[300px] max-w-[350px] md:h-[380px] md:max-w-[460px] lg:h-[88%] lg:w-[min(36vw,520px)]",
 };
@@ -232,7 +233,7 @@ function SlideBody({
         </div>
       </div>
 
-      <div className="tf-desc relative z-[2] mt-6 max-w-[420px] lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[min(420px,calc(32vw-56px))]">
+      <div className="tf-desc relative z-[2] mt-6 max-w-[420px] lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[min(420px,calc(30vw-56px))]">
         <p className="text-[17px] leading-[1.55] md:text-[18px]">{slide.descripcion}</p>
         <Link
           href={slide.horarios}
