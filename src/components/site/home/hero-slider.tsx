@@ -187,6 +187,19 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
   );
 }
 
+/**
+ * Same-page jump to #horario: set ?servicio= in place (useSearchParams in the
+ * schedule picks it up) and scroll smoothly, instead of a navigation.
+ */
+function irAlHorario(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  const destino = document.getElementById("horario");
+  if (!destino || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+  e.preventDefault();
+  window.history.replaceState(null, "", href);
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  destino.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+}
+
 function SlideBody({
   slide,
   hasFigura,
@@ -237,6 +250,7 @@ function SlideBody({
         <p className="text-[17px] leading-[1.55] md:text-[18px]">{slide.descripcion}</p>
         <Link
           href={slide.horarios}
+          onClick={(e) => irAlHorario(e, slide.horarios)}
           className="group mt-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo no-underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
         >
           <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{hero.verHorarios}</span>

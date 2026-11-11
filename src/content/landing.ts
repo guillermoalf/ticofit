@@ -19,6 +19,7 @@ export const PENDIENTE = "[Pendiente — Jeremy]" as const;
 export type Img = { src: string; alt: string };
 export type LinkItem = { label: string; href: string };
 export type SedeId = "pavas" | "cafe";
+export type HorarioClase = { hora: string; servicio: string; coach: string; cupos: number };
 
 const whatsappUrl = `https://wa.me/${BRAND.contact.whatsapp}`;
 const mapsUrl = BRAND.mapsUrl;
@@ -41,11 +42,6 @@ export const landing = {
       title: "Sedes",
       description:
         "ticofit pavas en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
-    },
-    clases: {
-      title: "Clases",
-      description:
-        "Funcional, pilates reformer, yoga, barre, baile, recovery, open gym y entrenamiento personal.",
     },
     numa: {
       title: "Numa ProteinBar",
@@ -75,7 +71,7 @@ export const landing = {
       { label: "ticofit parque del café", sub: "Abre pronto", href: "/sedes?sede=cafe" },
     ],
     links: [
-      { label: "Clases", href: "/clases" },
+      { label: "Clases", href: "/#horario" },
       { label: "Numa ProteinBar", href: "/numa" },
       { label: "Membresías", href: "/membresias" },
       { label: "Comunidad", href: "/comunidad" },
@@ -105,7 +101,7 @@ export const landing = {
     club: {
       titulo: "EL CLUB",
       links: [
-        { label: "Clases", href: "/clases" },
+        { label: "Clases", href: "/#horario" },
         { label: "Numa ProteinBar", href: "/numa" },
         { label: "Membresías", href: "/membresias" },
       ],
@@ -135,7 +131,7 @@ export const landing = {
           nombre: "Pilates Reformer",
           descripcion:
             "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel desde la primera clase. Grupos pequeños, con guía en cada movimiento.",
-          horarios: "/clases#pilates-reformer",
+          horarios: "/?servicio=reformer#horario",
           fondo: "limaClaro",
           figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates", tamano: "ancha" as const },
         },
@@ -144,7 +140,7 @@ export const landing = {
           nombre: "Yoga",
           descripcion:
             "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
-          horarios: "/clases#yoga",
+          horarios: "/?servicio=yoga#horario",
           fondo: "celeste",
           figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "baja" as const },
         },
@@ -153,7 +149,7 @@ export const landing = {
           nombre: "Barre",
           descripcion:
             "Movimientos pequeños, resultados que se notan. Barre combina técnica de ballet, pilates y fuerza para tonificar piernas, glúteos y centro, cuidando tus articulaciones.",
-          horarios: "/clases#barre",
+          horarios: "/?servicio=barre#horario",
           fondo: "amarilloVerde",
           figura: { src: "/hero/barre.png", alt: "Persona haciendo barre", tamano: "media" as const },
         },
@@ -162,7 +158,7 @@ export const landing = {
           nombre: "Functional System",
           descripcion:
             "Entrená para moverte mejor fuera del gym. Circuitos guiados de fuerza, cardio y coordinación que cambian cada clase, con un coach que adapta todo a tu nivel.",
-          horarios: "/clases#funcional",
+          horarios: "/?servicio=functional#horario",
           fondo: "bandaSalvia",
           figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional", tamano: "alta" as const },
         },
@@ -171,7 +167,7 @@ export const landing = {
           nombre: "Open Gym",
           descripcion:
             "Tu rutina, a tu ritmo. Pesas libres y espacio para entrenar cuando te quede bien, en un gym tranquilo, sin filas en un espacio grande.",
-          horarios: "/clases#open-gym",
+          horarios: "/?servicio=open-gym#horario",
           fondo: "lineaTag",
           figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym", tamano: "alta" as const },
         },
@@ -180,7 +176,7 @@ export const landing = {
           nombre: "Recovery",
           descripcion:
             "La otra mitad del entrenamiento. Sauna, terapia infrarroja y cold plunge para que tu cuerpo se recupere y llegues con ganas a la siguiente clase.",
-          horarios: "/clases#recovery",
+          horarios: "/?servicio=recovery#horario",
           fondo: "niebla",
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar", tamano: "media" as const },
         },
@@ -190,13 +186,13 @@ export const landing = {
         pavas: {
           nombre: "ticofit pavas",
           detalle: "Rohrmoser",
-          horarios: { label: "Ver horarios", href: "/clases?sede=pavas" },
+          horarios: { label: "Ver horarios", href: "/#horario" },
         },
         cafe: { nombre: "ticofit parque del café", badge: "Abre pronto" },
         rating: "4.9",
         ratingLabel: "4.9 de 5 estrellas en Google",
         ratingDetalle: "19 reseñas en Google",
-        reservar: { label: "Reservar", href: "/clases" },
+        reservar: { label: "Reservar", href: "/#horario" },
       },
     },
     intro: {
@@ -212,7 +208,7 @@ export const landing = {
         titulo: "ENTRENÁ",
         pie: "Funcional, pesas y entrenamiento personal",
         chips: ["PAVAS", "PARQUE DEL CAFÉ"],
-        href: "/clases",
+        href: "/#horario",
         img: img("barra.jpg", "Manos en una barra olímpica"),
       },
       {
@@ -226,7 +222,7 @@ export const landing = {
         titulo: "RECUPERATE",
         pie: "Sauna, cold plunge y terapia roja",
         chips: ["PARQUE DEL CAFÉ"],
-        href: "/clases",
+        href: "/?servicio=recovery#horario",
         img: img("sauna.jpg", "Sauna con terapia de luz roja"),
       },
       {
@@ -237,49 +233,11 @@ export const landing = {
         img: img("cowork.jpg", "Rincón de coworking del club"),
       },
     ],
-    clases: {
-      kicker: "Nuestras clases",
-      lista: [
-        "FUNCIONAL",
-        "PILATES REFORMER",
-        "YOGA",
-        "BARRE",
-        "BAILE",
-        "OPEN GYM",
-        "ENTRENAMIENTO PERSONAL",
-      ],
-      href: "/clases",
-      cta: { label: "VER TODAS", href: "/clases" },
-      texto:
-        "Grupos pequeños, con un coach que te corrige la técnica y te lleva el progreso. No es una clase donde sos uno más en el fondo del salón.",
-      img: img("funcional.jpg", "Clase funcional en ticofit"),
-    },
-    sedes: {
-      titulo: "Nuestras sedes",
-      textoAntes: "Dos clubes en ",
-      textoDestacado: "San José",
-      textoDespues: " pensados para que entrenes, comas y te recuperes sin moverte de ahí.",
-      cards: [
-        {
-          nombre: "TICOFIT PAVAS",
-          badge: null,
-          href: "/sedes",
-          tono: "verde",
-          img: img("opengym.jpg", "Piso de open gym en ticofit pavas"),
-        },
-        {
-          nombre: "TICOFIT PARQUE DEL CAFÉ",
-          badge: "ABRE PRONTO",
-          href: "/sedes?sede=cafe",
-          tono: "teal",
-          img: img("cowork.jpg", "Interior de ticofit parque del café"),
-        },
-      ],
-    },
     empezar: {
+      id: "primera-clase",
       titulo: "¿No sabés por dónde empezar?",
       texto: "Vení a una clase suelta antes de decidirte. Sin membresía y sin compromiso.",
-      cta: { label: "VER EL CALENDARIO", href: "/clases" },
+      cta: { label: "VER EL CALENDARIO", href: "#horario" },
       ofertas: [
         {
           titulo: "PRIMERA CLASE",
@@ -296,21 +254,96 @@ export const landing = {
       ],
       ivaLabel: "+ IVA",
     },
-    ctaAncho: {
-      titulo: "Reservá tu primera sesión",
-      texto: "Da el primer paso hacia tu mejor versión.",
-      cta: { label: "Empezar ahora", href: whatsappUrl },
-      img: img("comunidad.jpg", "Comunidad de ticofit a la entrada del club"),
+    horario: {
+      id: "horario",
+      eyebrow: "Horario",
+      titulo: "Reservá tu",
+      tituloItalico: "próxima clase.",
+      /**
+       * Shown under the title while `semana` holds sample rows. Set it to
+       * null once Jeremy sends the real schedule.
+       */
+      aviso: `Horario de muestra. ${PENDIENTE}` as string | null,
+      diasLabel: "Elegí un día",
+      hoy: "Hoy",
+      filtroLabel: "Filtrar por clase",
+      todos: "Todos",
+      columnas: { hora: "Hora", clase: "Clase", coach: "Coach", cupos: "Cupos" },
+      cupo: "cupo disponible",
+      cupos: "cupos disponibles",
+      lleno: "Lleno",
+      vacio: {
+        dia: "No hay clases este día.",
+        filtro: "No hay clases de este tipo este día.",
+        accion: "Ver todas las clases",
+      },
+      /**
+       * Without an account or an active membership, "Reservar" goes to buying
+       * the first class. Direct booking for members arrives with the Reservas
+       * y aforo module (there is no booking backend yet).
+       */
+      reservar: { label: "Reservar", href: "#primera-clase" },
+      /**
+       * Weekly template by day of the week (0 = domingo … 6 = sábado).
+       * `servicio` is a slide id from `home.hero.slides`: the filter chips,
+       * `?servicio=` and the hero "Ver horarios" links share that one list.
+       *
+       * PENDIENTE: SAMPLE rows to lay out the section. Replace them with
+       * Jeremy's real schedule, coaches and capacities.
+       */
+      semana: {
+        0: [],
+        1: [
+          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 8 },
+          { hora: "07:00", servicio: "reformer", coach: PENDIENTE, cupos: 3 },
+          { hora: "09:00", servicio: "yoga", coach: PENDIENTE, cupos: 10 },
+          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 18 },
+          { hora: "17:30", servicio: "barre", coach: PENDIENTE, cupos: 0 },
+          { hora: "18:30", servicio: "recovery", coach: PENDIENTE, cupos: 4 },
+        ],
+        2: [
+          { hora: "06:00", servicio: "reformer", coach: PENDIENTE, cupos: 5 },
+          { hora: "08:00", servicio: "barre", coach: PENDIENTE, cupos: 9 },
+          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 20 },
+          { hora: "18:00", servicio: "yoga", coach: PENDIENTE, cupos: 1 },
+          { hora: "19:00", servicio: "functional", coach: PENDIENTE, cupos: 6 },
+        ],
+        3: [
+          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 7 },
+          { hora: "07:00", servicio: "yoga", coach: PENDIENTE, cupos: 12 },
+          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 15 },
+          { hora: "17:30", servicio: "reformer", coach: PENDIENTE, cupos: 2 },
+          { hora: "18:30", servicio: "recovery", coach: PENDIENTE, cupos: 4 },
+        ],
+        4: [
+          { hora: "06:00", servicio: "reformer", coach: PENDIENTE, cupos: 4 },
+          { hora: "08:00", servicio: "barre", coach: PENDIENTE, cupos: 10 },
+          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 19 },
+          { hora: "18:00", servicio: "yoga", coach: PENDIENTE, cupos: 8 },
+          { hora: "19:00", servicio: "functional", coach: PENDIENTE, cupos: 0 },
+        ],
+        5: [
+          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 9 },
+          { hora: "07:00", servicio: "yoga", coach: PENDIENTE, cupos: 11 },
+          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 22 },
+          { hora: "17:00", servicio: "barre", coach: PENDIENTE, cupos: 6 },
+          { hora: "18:00", servicio: "recovery", coach: PENDIENTE, cupos: 3 },
+        ],
+        6: [
+          { hora: "08:00", servicio: "reformer", coach: PENDIENTE, cupos: 2 },
+          { hora: "09:00", servicio: "yoga", coach: PENDIENTE, cupos: 12 },
+          { hora: "10:00", servicio: "open-gym", coach: PENDIENTE, cupos: 16 },
+        ],
+      } as Record<number, readonly HorarioClase[]>,
     },
     resenas: {
+      eyebrow: "Reseñas",
       rating: "4.9",
-      estrellasLabel: "4.9 de 5 estrellas",
+      estrellasLabel: "4.9 de 5 estrellas en Google",
       cantidadLabel: "19 reseñas en Google",
-      placeholders: [
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-      ],
+      verTodas: { label: "Ver todas en Google", href: mapsUrl },
+      siguiente: "Siguiente reseña",
+      progresoLabel: "Progreso de las reseñas",
     },
   },
 
@@ -362,7 +395,7 @@ export const landing = {
       ],
       ctas: [
         { label: "Ver membresías", href: "/membresias?sede=cafe" },
-        { label: "Ver las clases", href: "/clases" },
+        { label: "Ver las clases", href: "/#horario" },
       ],
       img: img("pilates.jpg", "Salón mova de ticofit parque del café"),
       panel: {
@@ -374,120 +407,6 @@ export const landing = {
           { destacado: null, texto: "Numa ProteinBar y coworking" },
         ],
       },
-    },
-  },
-
-  clases: {
-    titulo: "Clases que se",
-    tituloItalico: "sienten distinto.",
-    texto:
-      "Grupos pequeños, coaches que te corrigen y un salón donde se oye la respiración, no la música a todo volumen. Reservá desde tu cuenta.",
-    filtro: {
-      label: "Filtrar por sede",
-      opciones: [
-        { id: "todas" as const, label: "Todas" },
-        { id: "pavas" as const, label: "ticofit pavas" },
-        { id: "cafe" as const, label: "ticofit parque del café" },
-      ],
-    },
-    cta: { label: "RESERVAR", href: whatsappUrl },
-    items: [
-      {
-        id: "funcional",
-        nombre: "Funcional",
-        sede: "cafe" as SedeId,
-        sedeLabel: "PARQUE DEL CAFÉ",
-        descripcion:
-          "Fuerza, potencia y aguante en una sola hora. Hay clase todos los días y con la membresía entrás a la que quieras.",
-        tags: ["Todos los días", "Grupo pequeño"],
-        img: img("funcional.jpg", "Clase funcional con kettlebells"),
-      },
-      {
-        id: "pilates-reformer",
-        nombre: "Pilates reformer",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Control, centro y movilidad sobre el reformer. Cupo muy limitado, así que el coach te ve toda la clase.",
-        tags: ["Cupo limitado", "Nivel inicial y avanzado"],
-        img: img("pilates.jpg", "Mujer en un reformer de pilates"),
-      },
-      {
-        id: "yoga",
-        nombre: "Yoga",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Respirar, estirar y bajar revoluciones. Para abrir el día o para cerrarlo sin llevarte el trabajo a la casa.",
-        tags: ["Grupo pequeño", "Mañana y tarde"],
-        img: img("yoga.jpg", "Grupo de yoga en el salón"),
-      },
-      {
-        id: "barre",
-        nombre: "Barre",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Repeticiones chiquitas en la barra que al rato se sienten enormes. Piernas, glúteo y centro.",
-        tags: ["Grupo pequeño", "Bajo impacto"],
-        img: img("barre.jpg", "Clase de barre en la barra"),
-      },
-      {
-        id: "baile",
-        nombre: "Baile",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Cardio que no se siente cardio. Coreografías cortas, buena música y una hora que se pasa volando.",
-        tags: ["Grupo pequeño", "Sin experiencia"],
-        img: img("baile.jpg", "Clase de baile en el salón con espejos"),
-      },
-      {
-        id: "recovery",
-        nombre: "Recovery",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN RESET · PARQUE DEL CAFÉ",
-        descripcion:
-          "Sauna, cold plunge y terapia de luz roja. Lo que hace que mañana puedas volver a entrenar.",
-        tags: ["Por sesión o paquete", "Sauna · Cold plunge · Luz roja"],
-        img: img("recovery.jpg", "Sala de recovery con cold plunge"),
-      },
-      {
-        id: "open-gym",
-        nombre: "Open gym",
-        sede: "pavas" as SedeId,
-        sedeLabel: "TICOFIT PAVAS",
-        descripcion:
-          "Entrá a la hora que quieras y entrená a tu ritmo. Siempre hay un coach en piso por si necesitás que te revisen la técnica.",
-        tags: ["Entrada libre", "Todo el horario"],
-        img: img("opengym.jpg", "Piso de open gym con mancuernas"),
-      },
-      {
-        id: "entrenamiento-personal",
-        nombre: "Entrenamiento personal",
-        sede: "pavas" as SedeId,
-        sedeLabel: "TICOFIT PAVAS",
-        descripcion:
-          "Uno a uno, con un plan hecho para vos y mediciones cada mes para ver si está funcionando.",
-        tags: ["Paquetes de 4, 8 y 12", "Medición mensual"],
-        img: img("personal.jpg", "Coach acompañando a un cliente"),
-      },
-      {
-        id: "fisioterapia-y-nutricion",
-        nombre: "Fisioterapia y nutrición",
-        sede: "pavas" as SedeId,
-        sedeLabel: "CONSULTORIO · TICOFIT PAVAS",
-        descripcion:
-          "Profesionales que atienden dentro del club, para que no andes buscando cita por otro lado.",
-        tags: ["Con cita", "Profesional externo"],
-        img: img("hero.jpg", "Consultorio del club con luz natural"),
-      },
-    ],
-    cierre: {
-      titulo: "El calendario sale cada semana",
-      texto:
-        "Reservá tu campo desde la app. Si la clase ya se llenó, entrás en lista de espera y te avisamos apenas se libere un espacio.",
-      cta: { label: "Ver membresías", href: "/membresias" },
     },
   },
 
