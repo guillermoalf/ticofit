@@ -186,11 +186,13 @@ export const landing = {
         },
       ],
       tarjeta: {
-        sedeLabel: "Elegí tu sede",
-        sedes: [
-          { id: "pavas" as SedeId, nombre: "ticofit pavas", detalle: "Rohrmoser" },
-          { id: "cafe" as SedeId, nombre: "ticofit parque del café", detalle: "Abre pronto" },
-        ],
+        sedeLabel: "Nuestras sedes",
+        pavas: {
+          nombre: "ticofit pavas",
+          detalle: "Rohrmoser",
+          horarios: { label: "Ver horarios", href: "/clases?sede=pavas" },
+        },
+        cafe: { nombre: "ticofit parque del café", badge: "Abre pronto" },
         rating: "4.9",
         ratingLabel: "4.9 de 5 estrellas en Google",
         ratingDetalle: "19 reseñas en Google",
@@ -198,11 +200,12 @@ export const landing = {
       },
     },
     intro: {
-      titulo: ["Entrená, comé,", "recuperate y trabajá."],
+      eyebrow: "Bienvenidos a ticofit",
+      titulo: "Encontrá",
+      tituloItalico: "tu espacio.",
       cta: { label: "RESERVÁ TU PRIMERA CLASE", href: whatsappUrl },
-      kicker: "Bienvenido a ticofit: todo lo que tu cuerpo necesita, en un mismo lugar.",
       texto:
-        "Clases que retan de verdad, comida real que alimenta y un espacio para recuperarte de lo que hiciste. Dos sedes, grupos pequeños y gente que se aprende tu nombre.",
+        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Pavas y Parque del Café.",
     },
     tiles: [
       {
