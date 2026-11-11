@@ -109,7 +109,7 @@
   --color-overlay-verde: var(--tf-overlay-verde);
   --color-overlay-teal: var(--tf-overlay-teal);
 
-  --font-tf-serif: var(--font-instrument-serif), Georgia, serif;
+  --font-tf-serif: var(--font-tf-display), Georgia, serif;
   --font-tf-sans: var(--font-google-sans), system-ui, sans-serif;
 }
 

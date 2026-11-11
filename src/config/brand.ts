@@ -119,8 +119,8 @@ export const BRAND = {
    * repeats these values — keep the two in sync.
    */
   fonts: {
-    /** Stand-in for Trendsetter Prestige (brand manual) until its files arrive. */
-    display: { family: "Instrument Serif", cssVar: "--font-instrument-serif" },
+    /** Display serif, self-hosted from src/fonts. TRIAL: Antic Didone. */
+    display: { family: "Antic Didone", cssVar: "--font-tf-display" },
     /** Brand manual typeface, self-hosted from src/fonts (SIL OFL). */
     body: { family: "Google Sans", cssVar: "--font-google-sans" },
   },
