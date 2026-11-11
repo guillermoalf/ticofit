@@ -32,3 +32,6 @@ next-env.d.ts
 # agent tooling — per-instance, points at one Supabase project
 .mcp.json
 .claude/settings.local.json
+
+# Brand font sources (large); the subset woff2 used by the app live in src/fonts
+/public/fonts/
