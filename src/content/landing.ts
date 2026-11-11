@@ -101,7 +101,7 @@ export const landing = {
     contacto: {
       titulo: "CONTACTO",
       comoLlegar: "Cómo llegar",
-      instagram: "[Instagram — pendiente]",
+      instagram: { label: "Instagram · @tico.fit", href: BRAND.socials.instagram },
     },
     club: {
       titulo: "EL CLUB",

@@ -56,9 +56,9 @@ export const BRAND = {
     lng: -84.0833,
   },
 
-  /** PLACEHOLDER social profiles. */
+  /** Social profiles. TikTok is still a placeholder. */
   socials: {
-    instagram: "https://www.instagram.com/",
+    instagram: "https://www.instagram.com/tico.fit/",
     tiktok: "https://www.tiktok.com/",
   },
   /**
