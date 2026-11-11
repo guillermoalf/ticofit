@@ -76,7 +76,8 @@ This is a standing rule from the owner of the repo. Do not ask about it again.
 6. `git push origin feat/task-name`
 7. When no 🔴/🟡 remain and lint + build are green, merge into **`staging`**
    (`git checkout staging && git merge --no-ff feat/task-name && git push origin staging`)
-   and delete the branch locally and on the remote — yourself, WITHOUT asking. You have
+   — yourself, WITHOUT asking. **NEVER delete the branch** afterwards, locally or on the
+   remote: every task branch is kept after its merge. You have
    standing authorization to self-merge into `staging` — never request permission for it.
    Only pause on a REAL blocker (merge conflict, failing build you can't fix,
    git/permissions error); explain it and stop. "I need confirmation to merge" is NOT a
