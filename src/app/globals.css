@@ -70,8 +70,8 @@
   --shadow-glow-accent: var(--glow-accent);
   --shadow-glow-soft: var(--glow-soft);
 
-  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-google-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-google-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Public site (the `(site)` route group). Values come from BRAND.palette and
@@ -110,7 +110,7 @@
   --color-overlay-teal: var(--tf-overlay-teal);
 
   --font-tf-serif: var(--font-instrument-serif), Georgia, serif;
-  --font-tf-sans: var(--font-figtree), system-ui, sans-serif;
+  --font-tf-sans: var(--font-google-sans), system-ui, sans-serif;
 }
 
 @layer base {

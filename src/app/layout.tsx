@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { Toaster } from "sonner";
 import { BRAND, brandCssVars } from "@/config/brand";
 import { introScript } from "@/lib/intro";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+/**
+ * Google Sans (brand manual typeface, SIL OFL — see src/fonts/GoogleSans-OFL.txt).
+ * Variable weight 400–700, subset to Latin from public/fonts/Google_Sans.
+ * The one sans for the whole app: public site and portal.
+ */
+const googleSans = localFont({
+  variable: "--font-google-sans",
+  src: [
+    { path: "../fonts/google-sans.woff2", weight: "400 700", style: "normal" },
+    { path: "../fonts/google-sans-italic.woff2", weight: "400 700", style: "italic" },
+  ],
   display: "swap",
 });
 
@@ -59,7 +61,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: introScript }} />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${inter.variable} font-sans antialiased`}
+        className={`${googleSans.variable} font-sans antialiased`}
       >
         {children}
         <Toaster theme="dark" position="top-center" richColors />
