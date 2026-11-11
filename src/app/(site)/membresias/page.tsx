@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { landing, type SedeId } from "@/content/landing";
-import { CafePlans, PavasPlans } from "@/components/site/membresias/plan-panels";
+import { CafePlans, BellavistaPlans } from "@/components/site/membresias/plan-panels";
 import { PillLink } from "@/components/site/pill-link";
 import { SedeTabs } from "@/components/site/sede-tabs";
 
@@ -18,7 +18,7 @@ export default async function MembresiasPage({
   searchParams: Promise<{ sede?: string }>;
 }) {
   const { sede } = await searchParams;
-  const initial: SedeId = sede === "cafe" || sede === "pavas" ? sede : membresias.porDefecto;
+  const initial: SedeId = sede === "cafe" || sede === "bellavista" ? sede : membresias.porDefecto;
 
   return (
     <div className="bg-verde-profundo text-crema-claro">
@@ -42,7 +42,7 @@ export default async function MembresiasPage({
             </p>
           </>
         }
-        panels={{ pavas: <PavasPlans />, cafe: <CafePlans /> }}
+        panels={{ bellavista: <BellavistaPlans />, cafe: <CafePlans /> }}
       />
 
       <section className="flex flex-wrap items-center justify-center gap-6 bg-lima-claro px-5 py-16 text-center text-verde-profundo lg:px-10">

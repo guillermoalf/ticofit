@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 
-const { pavas, cafe } = landing.sedes;
+const { bellavista, cafe } = landing.sedes;
 
 type Dato = { label: string; valor: string; serif: boolean };
 
@@ -27,31 +27,31 @@ const nameClass = "mt-[22px] font-tf-serif text-[40px] leading-[1.04] font-norma
 const descClass = "mt-3.5 text-[17px] leading-[1.6] text-musgo";
 const pillClass = "min-h-[52px] px-8 text-[16px]";
 
-export function PavasPanel() {
+export function BellavistaPanel() {
   return (
     <section className={sectionClass}>
       <div className="min-w-0 flex-[1_1_420px]">
         <span className="inline-block rounded-full border border-verde-profundo px-[18px] py-[7px] text-[11px] tracking-[2.4px]">
-          {pavas.badge}
+          {bellavista.badge}
         </span>
-        <h2 className={nameClass}>{pavas.nombre}</h2>
-        <p className={descClass}>{pavas.descripcion}</p>
-        <Datos datos={pavas.datos} />
+        <h2 className={nameClass}>{bellavista.nombre}</h2>
+        <p className={descClass}>{bellavista.descripcion}</p>
+        <Datos datos={bellavista.datos} />
         <div className="mt-9 flex flex-wrap gap-3.5">
-          <PillLink href={pavas.ctas[0].href} variant="verde" className={cn(pillClass, "font-semibold")}>
-            {pavas.ctas[0].label}
+          <PillLink href={bellavista.ctas[0].href} variant="verde" className={cn(pillClass, "font-semibold")}>
+            {bellavista.ctas[0].label}
           </PillLink>
-          <PillLink href={pavas.ctas[1].href} variant="outline" className={pillClass}>
-            {pavas.ctas[1].label}
+          <PillLink href={bellavista.ctas[1].href} variant="outline" className={pillClass}>
+            {bellavista.ctas[1].label}
           </PillLink>
         </div>
       </div>
       <div className="flex min-w-0 flex-[1_1_380px] flex-col gap-4">
-        <Photo img={pavas.img} sizes="(min-width: 1024px) 45vw, 100vw" className="h-[320px] rounded-3xl" />
+        <Photo img={bellavista.img} sizes="(min-width: 1024px) 45vw, 100vw" className="h-[320px] rounded-3xl" />
         <div className="rounded-3xl bg-lima-claro p-7 text-verde-profundo">
-          <h3 className="mb-3.5 font-tf-serif text-[26px] font-normal">{pavas.panel.titulo}</h3>
+          <h3 className="mb-3.5 font-tf-serif text-[26px] font-normal">{bellavista.panel.titulo}</h3>
           <ul className="flex list-disc flex-col gap-[9px] pl-5 text-[15px]">
-            {pavas.panel.items.map((item) => (
+            {bellavista.panel.items.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>

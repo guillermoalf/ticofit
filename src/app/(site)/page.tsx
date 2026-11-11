@@ -3,14 +3,12 @@ import type { Metadata } from "next";
 import { landing } from "@/content/landing";
 import { SiteFooter } from "@/components/site/site-footer";
 import {
-  ClassesBand,
   Empezar,
   Hero,
+  HorarioSection,
   Intro,
-  Reviews,
-  Sedes,
+  ResenasSection,
   Tiles,
-  WideCta,
 } from "@/components/site/home/sections";
 
 export const metadata: Metadata = {
@@ -26,11 +24,9 @@ export default function HomePage() {
       <div className="tf-intro-rest">
         <Intro />
         <Tiles />
-        <ClassesBand />
-        <Sedes />
+        <HorarioSection />
+        <ResenasSection />
         <Empezar />
-        <WideCta />
-        <Reviews />
         <SiteFooter />
       </div>
     </>

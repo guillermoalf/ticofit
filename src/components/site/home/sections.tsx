@@ -1,16 +1,17 @@
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { Suspense } from "react";
 
 import { BRAND } from "@/config/brand";
 import { landing } from "@/content/landing";
-import { cn } from "@/lib/utils";
-import { Star } from "../icons";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 import { SmartLink } from "../smart-link";
-import { HeroCard } from "./hero-card";
+import { HeroCard, HeroCardView } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
+import { Horario } from "./horario";
 import { IntroSession } from "./intro-session";
+import { Reviews } from "./reviews";
 
 const { home } = landing;
 
@@ -33,7 +34,9 @@ export function Hero() {
     <section className="pb-[72px]">
       <h1 className="sr-only">{BRAND.name}</h1>
       <HeroSlider figuras={figuras} />
-      <HeroCard />
+      <Suspense fallback={<HeroCardView sede={home.sedes.porDefecto} />}>
+        <HeroCard />
+      </Suspense>
       <IntroSession />
     </section>
   );
@@ -97,84 +100,23 @@ export function Tiles() {
   );
 }
 
-export function ClassesBand() {
-  const { clases } = home;
+/** Public schedule, the target of every "Clases" / "Ver horarios" link. */
+export function HorarioSection() {
+  const { horario } = home;
   return (
-    <section className="flex flex-wrap gap-12 bg-banda-salvia px-5 py-[72px] lg:px-10">
-      <div className="min-w-0 flex-[1_1_320px]">
-        <p className="mb-6 font-tf-serif text-[26px] text-banda-tinta">{clases.kicker}</p>
-        <ul className="flex flex-col gap-1.5">
-          {clases.lista.map((nombre) => (
-            <li key={nombre}>
-              <SmartLink
-                href={clases.href}
-                className="font-tf-serif text-[30px] leading-[1.22] tracking-[0.5px] text-banda-tinta no-underline hover:italic md:text-[40px]"
-              >
-                {nombre}
-              </SmartLink>
-            </li>
-          ))}
-        </ul>
-        <PillLink
-          href={clases.cta.href}
-          variant="outlineTinta"
-          className="mt-7 min-h-11 px-6 text-[13px] tracking-[1.2px]"
-        >
-          {clases.cta.label}
-        </PillLink>
+    <section id={horario.id} className="scroll-mt-6 px-5 pb-[88px] lg:px-10">
+      <div className="mb-6">
+        <div>
+          <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{horario.eyebrow}</p>
+          <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
+            {horario.titulo} <span className="italic">{horario.tituloItalico}</span>
+          </h2>
+        </div>
       </div>
-      <div className="min-w-0 flex-[1_1_260px]">
-        <p className="text-[15px] leading-[1.7] text-banda-tinta">{clases.texto}</p>
-      </div>
-      <Photo
-        img={clases.img}
-        sizes="(min-width: 1024px) 33vw, 100vw"
-        className="min-h-[340px] min-w-0 flex-[1_1_320px] rounded-[14px]"
-      />
-    </section>
-  );
-}
-
-export function Sedes() {
-  const { sedes } = home;
-  return (
-    <section className="px-5 py-[88px] lg:px-10">
-      <h2 className="mb-2.5 text-center font-tf-serif text-[38px] leading-[1.05] font-normal md:text-[46px]">
-        {sedes.titulo}
-      </h2>
-      <p className="mx-auto mb-10 max-w-[540px] text-center text-[16px] leading-[1.6] text-musgo">
-        {sedes.textoAntes}
-        <strong>{sedes.textoDestacado}</strong>
-        {sedes.textoDespues}
-      </p>
-      <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2">
-        {sedes.cards.map((card) => (
-          <SmartLink key={card.nombre} href={card.href} className="block no-underline">
-            <Photo
-              img={card.img}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="flex min-h-[320px] items-end rounded-2xl p-7 md:min-h-[400px]"
-            >
-              <div
-                className={cn(
-                  "pointer-events-none absolute inset-0 bg-linear-to-t",
-                  card.tono === "teal"
-                    ? "from-overlay-teal/72 to-overlay-teal/5"
-                    : "from-overlay-verde/72 to-overlay-verde/5",
-                )}
-              />
-              <div className="relative">
-                {card.badge && (
-                  <span className="mb-2.5 inline-block rounded-full bg-crema-claro/92 px-[13px] py-[5px] text-[10px] tracking-[1.6px] text-teal">
-                    {card.badge}
-                  </span>
-                )}
-                <h3 className="text-[20px] font-semibold tracking-[2.4px] text-crema-claro">{card.nombre}</h3>
-              </div>
-            </Photo>
-          </SmartLink>
-        ))}
-      </div>
+      {/* useSearchParams needs a boundary to keep the page static. */}
+      <Suspense>
+        <Horario />
+      </Suspense>
     </section>
   );
 }
@@ -182,7 +124,7 @@ export function Sedes() {
 export function Empezar() {
   const { empezar } = home;
   return (
-    <section className="flex flex-wrap gap-10 px-5 pb-[88px] lg:px-10">
+    <section id={empezar.id} className="flex scroll-mt-6 flex-wrap gap-10 px-5 pb-[88px] lg:px-10">
       <div className="min-w-0 flex-[1_1_340px]">
         <h2 className="mb-3.5 font-tf-serif text-[34px] leading-[1.08] font-normal md:text-[38px]">
           {empezar.titulo}
@@ -219,51 +161,10 @@ export function Empezar() {
   );
 }
 
-export function WideCta() {
-  const { ctaAncho } = home;
+export function ResenasSection() {
   return (
-    <section className="px-5 pb-[88px] lg:px-10">
-      <Photo
-        img={ctaAncho.img}
-        sizes="100vw"
-        className="flex min-h-[440px] flex-col items-center justify-center rounded-[20px] p-6 text-center md:p-12"
-      >
-        <div className="pointer-events-none absolute inset-0 bg-overlay-verde/58" />
-        <h2 className="relative font-tf-serif text-[40px] leading-[1.04] font-normal text-crema-claro md:text-[52px]">
-          {ctaAncho.titulo}
-        </h2>
-        <p className="relative mt-3.5 text-[17px] text-texto-foto">{ctaAncho.texto}</p>
-        <PillLink href={ctaAncho.cta.href} variant="lima" className="relative mt-7 min-h-12 px-8 text-[15px]">
-          {ctaAncho.cta.label}
-        </PillLink>
-      </Photo>
-    </section>
-  );
-}
-
-export function Reviews() {
-  const { resenas } = home;
-  return (
-    <section className="px-5 pb-[88px] lg:px-10">
-      <div className="mb-[26px] flex flex-wrap items-center gap-7">
-        <p className="font-tf-serif text-[56px] leading-none">{resenas.rating}</p>
-        <div>
-          <div className="flex gap-[3px]" role="img" aria-label={resenas.estrellasLabel}>
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Star key={i} />
-            ))}
-          </div>
-          <p className="mt-1.5 text-[14px] text-musgo">{resenas.cantidadLabel}</p>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-[18px] md:grid-cols-3">
-        {resenas.placeholders.map((r, i) => (
-          <article key={i} className="rounded-2xl border border-linea p-[26px]">
-            <p className="text-[15px] leading-[1.6] text-musgo">{r.texto}</p>
-            <p className="mt-[18px] text-[14px] font-semibold">{r.autor}</p>
-          </article>
-        ))}
-      </div>
+    <section className="border-t border-linea px-5 py-[88px] lg:px-10">
+      <Reviews />
     </section>
   );
 }

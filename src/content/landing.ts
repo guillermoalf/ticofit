@@ -18,7 +18,11 @@ export const PENDIENTE = "[Pendiente — Jeremy]" as const;
 
 export type Img = { src: string; alt: string };
 export type LinkItem = { label: string; href: string };
-export type SedeId = "pavas" | "cafe";
+export type SedeId = "bellavista" | "cafe";
+export type Turno = { hora: string; coach: string };
+export type CafeServicio =
+  | { aforo: number; lunVie: readonly Turno[]; sabado: readonly Turno[] }
+  | { aforo: number; cadaHora: true; coach: string | null };
 
 const whatsappUrl = `https://wa.me/${BRAND.contact.whatsapp}`;
 const mapsUrl = BRAND.mapsUrl;
@@ -40,12 +44,7 @@ export const landing = {
     sedes: {
       title: "Sedes",
       description:
-        "ticofit pavas en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
-    },
-    clases: {
-      title: "Clases",
-      description:
-        "Funcional, pilates reformer, yoga, barre, baile, recovery, open gym y entrenamiento personal.",
+        "ticofit parque bellavista en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
     },
     numa: {
       title: "Numa ProteinBar",
@@ -54,7 +53,7 @@ export const landing = {
     membresias: {
       title: "Membresías",
       description:
-        "Planes de ticofit pavas y ticofit parque del café. Precios mensuales, IVA aparte.",
+        "Planes de ticofit parque bellavista y ticofit parque del café. Precios mensuales, IVA aparte.",
     },
     comunidad: {
       title: "Comunidad",
@@ -71,11 +70,11 @@ export const landing = {
   nav: {
     sedesLabel: "Sedes",
     sedesMenu: [
-      { label: "ticofit pavas", sub: "Rohrmoser", href: "/sedes" },
+      { label: "ticofit parque bellavista", sub: "Rohrmoser", href: "/sedes" },
       { label: "ticofit parque del café", sub: "Abre pronto", href: "/sedes?sede=cafe" },
     ],
     links: [
-      { label: "Clases", href: "/clases" },
+      { label: "Clases", href: "/#horario" },
       { label: "Numa ProteinBar", href: "/numa" },
       { label: "Membresías", href: "/membresias" },
       { label: "Comunidad", href: "/comunidad" },
@@ -93,7 +92,7 @@ export const landing = {
     sedes: {
       titulo: "SEDES",
       items: [
-        { nombre: "ticofit pavas", detalle: "Rohrmoser, San José" },
+        { nombre: "ticofit parque bellavista", detalle: "Rohrmoser, San José" },
         { nombre: "ticofit parque del café", detalle: "Abre pronto" },
       ],
     },
@@ -105,7 +104,7 @@ export const landing = {
     club: {
       titulo: "EL CLUB",
       links: [
-        { label: "Clases", href: "/clases" },
+        { label: "Clases", href: "/#horario" },
         { label: "Numa ProteinBar", href: "/numa" },
         { label: "Membresías", href: "/membresias" },
       ],
@@ -135,7 +134,7 @@ export const landing = {
           nombre: "Pilates Reformer",
           descripcion:
             "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel desde la primera clase. Grupos pequeños, con guía en cada movimiento.",
-          horarios: "/clases#pilates-reformer",
+          horarios: "/?sede=cafe&servicio=reformer#horario",
           fondo: "limaClaro",
           figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates", tamano: "ancha" as const },
         },
@@ -144,7 +143,7 @@ export const landing = {
           nombre: "Yoga",
           descripcion:
             "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
-          horarios: "/clases#yoga",
+          horarios: "/?sede=cafe&servicio=yoga#horario",
           fondo: "celeste",
           figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "baja" as const },
         },
@@ -153,7 +152,7 @@ export const landing = {
           nombre: "Barre",
           descripcion:
             "Movimientos pequeños, resultados que se notan. Barre combina técnica de ballet, pilates y fuerza para tonificar piernas, glúteos y centro, cuidando tus articulaciones.",
-          horarios: "/clases#barre",
+          horarios: "/?sede=cafe&servicio=barre#horario",
           fondo: "amarilloVerde",
           figura: { src: "/hero/barre.png", alt: "Persona haciendo barre", tamano: "media" as const },
         },
@@ -162,7 +161,7 @@ export const landing = {
           nombre: "Functional System",
           descripcion:
             "Entrená para moverte mejor fuera del gym. Circuitos guiados de fuerza, cardio y coordinación que cambian cada clase, con un coach que adapta todo a tu nivel.",
-          horarios: "/clases#funcional",
+          horarios: "/?sede=cafe&servicio=functional#horario",
           fondo: "bandaSalvia",
           figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional", tamano: "alta" as const },
         },
@@ -171,7 +170,7 @@ export const landing = {
           nombre: "Open Gym",
           descripcion:
             "Tu rutina, a tu ritmo. Pesas libres y espacio para entrenar cuando te quede bien, en un gym tranquilo, sin filas en un espacio grande.",
-          horarios: "/clases#open-gym",
+          horarios: "/?sede=cafe&servicio=open-gym#horario",
           fondo: "lineaTag",
           figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym", tamano: "alta" as const },
         },
@@ -180,24 +179,30 @@ export const landing = {
           nombre: "Recovery",
           descripcion:
             "La otra mitad del entrenamiento. Sauna, terapia infrarroja y cold plunge para que tu cuerpo se recupere y llegues con ganas a la siguiente clase.",
-          horarios: "/clases#recovery",
+          horarios: "/?sede=cafe&servicio=recovery#horario",
           fondo: "niebla",
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar", tamano: "media" as const },
         },
       ],
       tarjeta: {
         sedeLabel: "Nuestras sedes",
-        pavas: {
-          nombre: "ticofit pavas",
-          detalle: "Rohrmoser",
-          horarios: { label: "Ver horarios", href: "/clases?sede=pavas" },
-        },
-        cafe: { nombre: "ticofit parque del café", badge: "Abre pronto" },
+        horarios: { label: "Ver horarios", href: "#horario" },
         rating: "4.9",
         ratingLabel: "4.9 de 5 estrellas en Google",
         ratingDetalle: "19 reseñas en Google",
-        reservar: { label: "Reservar", href: "/clases" },
+        reservar: { label: "Reservar", href: "/#horario" },
       },
+    },
+    /**
+     * The two sedes as the home page shows them. The selection lives in the
+     * URL (`?sede=`), shared by the hero card and the schedule.
+     */
+    sedes: {
+      porDefecto: "bellavista" as SedeId,
+      lista: [
+        { id: "bellavista" as SedeId, nombre: "ticofit parque bellavista", corto: "Parque Bellavista", detalle: "Rohrmoser", badge: null },
+        { id: "cafe" as SedeId, nombre: "ticofit parque del café", corto: "Parque del Café", detalle: null, badge: "Abre pronto" },
+      ],
     },
     intro: {
       eyebrow: "Bienvenidos a ticofit",
@@ -205,14 +210,14 @@ export const landing = {
       tituloItalico: "tu espacio.",
       cta: { label: "RESERVÁ TU PRIMERA CLASE", href: whatsappUrl },
       texto:
-        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Pavas y Parque del Café.",
+        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Parque Bellavista y Parque del Café.",
     },
     tiles: [
       {
         titulo: "ENTRENÁ",
         pie: "Funcional, pesas y entrenamiento personal",
-        chips: ["PAVAS", "PARQUE DEL CAFÉ"],
-        href: "/clases",
+        chips: ["PARQUE BELLAVISTA", "PARQUE DEL CAFÉ"],
+        href: "/#horario",
         img: img("barra.jpg", "Manos en una barra olímpica"),
       },
       {
@@ -226,7 +231,7 @@ export const landing = {
         titulo: "RECUPERATE",
         pie: "Sauna, cold plunge y terapia roja",
         chips: ["PARQUE DEL CAFÉ"],
-        href: "/clases",
+        href: "/?sede=cafe&servicio=recovery#horario",
         img: img("sauna.jpg", "Sauna con terapia de luz roja"),
       },
       {
@@ -237,49 +242,11 @@ export const landing = {
         img: img("cowork.jpg", "Rincón de coworking del club"),
       },
     ],
-    clases: {
-      kicker: "Nuestras clases",
-      lista: [
-        "FUNCIONAL",
-        "PILATES REFORMER",
-        "YOGA",
-        "BARRE",
-        "BAILE",
-        "OPEN GYM",
-        "ENTRENAMIENTO PERSONAL",
-      ],
-      href: "/clases",
-      cta: { label: "VER TODAS", href: "/clases" },
-      texto:
-        "Grupos pequeños, con un coach que te corrige la técnica y te lleva el progreso. No es una clase donde sos uno más en el fondo del salón.",
-      img: img("funcional.jpg", "Clase funcional en ticofit"),
-    },
-    sedes: {
-      titulo: "Nuestras sedes",
-      textoAntes: "Dos clubes en ",
-      textoDestacado: "San José",
-      textoDespues: " pensados para que entrenes, comas y te recuperes sin moverte de ahí.",
-      cards: [
-        {
-          nombre: "TICOFIT PAVAS",
-          badge: null,
-          href: "/sedes",
-          tono: "verde",
-          img: img("opengym.jpg", "Piso de open gym en ticofit pavas"),
-        },
-        {
-          nombre: "TICOFIT PARQUE DEL CAFÉ",
-          badge: "ABRE PRONTO",
-          href: "/sedes?sede=cafe",
-          tono: "teal",
-          img: img("cowork.jpg", "Interior de ticofit parque del café"),
-        },
-      ],
-    },
     empezar: {
+      id: "primera-clase",
       titulo: "¿No sabés por dónde empezar?",
       texto: "Vení a una clase suelta antes de decidirte. Sin membresía y sin compromiso.",
-      cta: { label: "VER EL CALENDARIO", href: "/clases" },
+      cta: { label: "VER EL CALENDARIO", href: "#horario" },
       ofertas: [
         {
           titulo: "PRIMERA CLASE",
@@ -296,21 +263,120 @@ export const landing = {
       ],
       ivaLabel: "+ IVA",
     },
-    ctaAncho: {
-      titulo: "Reservá tu primera sesión",
-      texto: "Da el primer paso hacia tu mejor versión.",
-      cta: { label: "Empezar ahora", href: whatsappUrl },
-      img: img("comunidad.jpg", "Comunidad de ticofit a la entrada del club"),
+    horario: {
+      id: "horario",
+      eyebrow: "Horario",
+      titulo: "Planeá tu",
+      tituloItalico: "semana.",
+      sedeLabel: "Estás viendo",
+      diasLabel: "Elegí un día",
+      hoy: "Hoy",
+      filtroLabel: "Elegí una clase",
+      columnas: { hora: "Hora", clase: "Clase", coach: "Coach", cupos: "Cupos" },
+      cupo: "cupo disponible",
+      cupos: "cupos disponibles",
+      lleno: "Lleno",
+      vacio: {
+        dia: "Ese día el club está cerrado.",
+        servicio: "No hay espacios de esta clase ese día.",
+        hoy: "Ya no quedan espacios hoy. Probá con mañana.",
+      },
+      /**
+       * Without an account or an active membership, "Reservar" goes to buying
+       * the first class. Direct booking for members arrives with the Reservas
+       * y aforo module (there is no booking backend yet).
+       */
+      reservar: { label: "Reservar", href: "#primera-clase" },
+      /** Open gym the old way: nothing to book. Prices come from `membresias.bellavista`. */
+      bellavista: {
+        titulo: "Open gym, sin reservas.",
+        texto:
+          "En ticofit parque bellavista llegás a la hora que te quede bien: no hay clases ni nada que reservar. Si tenés entrenamiento personal, el horario lo coordinás directamente con tu coach.",
+        horarioTitulo: "Horario del club",
+        horario: [
+          { dias: "Lunes a viernes", horas: "6:00 a. m. – 9:00 p. m." },
+          { dias: "Sábado", horas: "8:00 a. m. – 12:00 m. d." },
+        ],
+        membresiaTitulo: "Membresía mensual",
+        personalTitulo: "Entrenamiento personal",
+        personalTexto:
+          "Se cobra aparte de la mensualidad: siempre pagás el open gym y, si querés personal, le sumás un paquete.",
+        porSesion: "por sesión",
+        cta: { label: "Escribinos por WhatsApp", href: whatsappUrl },
+      },
+      /**
+       * Parque del Café, by service. `servicio` keys are slide ids from
+       * `home.hero.slides`, so the chips, `?servicio=` and the hero links share
+       * one list. `cadaHora` services run one slot every hour the club is open.
+       *
+       * SAMPLE data (times, coaches, capacities) to show the layout. It will be
+       * replaced by what is configured in the system.
+       */
+      cafe: {
+        abierto: { lunVie: [6, 21], sabado: [8, 12] } as Record<"lunVie" | "sabado", [number, number]>,
+        servicios: {
+          reformer: {
+            aforo: 8,
+            lunVie: [
+              { hora: "06:00", coach: "Daniela Mora" },
+              { hora: "07:00", coach: "Daniela Mora" },
+              { hora: "12:00", coach: "Valeria Quesada" },
+              { hora: "17:00", coach: "Valeria Quesada" },
+              { hora: "18:00", coach: "Daniela Mora" },
+              { hora: "19:00", coach: "Valeria Quesada" },
+            ],
+            sabado: [
+              { hora: "08:00", coach: "Daniela Mora" },
+              { hora: "09:00", coach: "Daniela Mora" },
+              { hora: "10:00", coach: "Valeria Quesada" },
+              { hora: "11:00", coach: "Valeria Quesada" },
+            ],
+          },
+          yoga: {
+            aforo: 14,
+            lunVie: [
+              { hora: "06:30", coach: "Andrea Solís" },
+              { hora: "12:15", coach: "Mariana Castro" },
+              { hora: "18:30", coach: "Andrea Solís" },
+            ],
+            sabado: [{ hora: "09:00", coach: "Mariana Castro" }],
+          },
+          barre: {
+            aforo: 12,
+            lunVie: [
+              { hora: "08:00", coach: "Sofía Rojas" },
+              { hora: "17:30", coach: "Sofía Rojas" },
+              { hora: "19:30", coach: "Mariana Castro" },
+            ],
+            sabado: [{ hora: "10:00", coach: "Sofía Rojas" }],
+          },
+          functional: {
+            aforo: 16,
+            lunVie: [
+              { hora: "06:00", coach: "Andrés Vargas" },
+              { hora: "07:00", coach: "Andrés Vargas" },
+              { hora: "17:00", coach: "Diego Jiménez" },
+              { hora: "18:00", coach: "Diego Jiménez" },
+              { hora: "19:00", coach: "Andrés Vargas" },
+            ],
+            sabado: [
+              { hora: "08:00", coach: "Diego Jiménez" },
+              { hora: "09:00", coach: "Diego Jiménez" },
+            ],
+          },
+          "open-gym": { aforo: 40, cadaHora: true, coach: "Coach en piso" },
+          recovery: { aforo: 8, cadaHora: true, coach: null },
+        } as Record<string, CafeServicio>,
+      },
     },
     resenas: {
+      eyebrow: "Reseñas",
       rating: "4.9",
-      estrellasLabel: "4.9 de 5 estrellas",
+      estrellasLabel: "4.9 de 5 estrellas en Google",
       cantidadLabel: "19 reseñas en Google",
-      placeholders: [
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-        { texto: "[Pendiente — reseña real de Google]", autor: "[Nombre]" },
-      ],
+      verTodas: { label: "Ver todas en Google", href: mapsUrl },
+      siguiente: "Siguiente reseña",
+      progresoLabel: "Progreso de las reseñas",
     },
   },
 
@@ -318,14 +384,14 @@ export const landing = {
     titulo: "Dos sedes, dos clubes",
     texto: "No comparten horarios ni precios. Escogé una y toda la página se acomoda a esa sede.",
     tabsLabel: "Sede",
-    porDefecto: "pavas" as SedeId,
+    porDefecto: "bellavista" as SedeId,
     tabs: [
-      { id: "pavas" as SedeId, label: "ticofit pavas" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
       { id: "cafe" as SedeId, label: "ticofit parque del café" },
     ],
-    pavas: {
+    bellavista: {
       badge: "ABIERTA HOY",
-      nombre: "ticofit pavas",
+      nombre: "ticofit parque bellavista",
       descripcion:
         "Rohrmoser, San José. El club original: open gym de verdad, entrá a la hora que quieras y entrená a tu ritmo, con un coach cerca si lo necesitás.",
       datos: [
@@ -335,10 +401,10 @@ export const landing = {
         { label: "SÁBADO", valor: "8:00\u00a0a.m. –\u00a012:00\u00a0m.d.", serif: false },
       ],
       ctas: [
-        { label: "Ver precios de pavas", href: "/membresias?sede=pavas" },
+        { label: "Ver precios de parque bellavista", href: "/membresias?sede=bellavista" },
         { label: "Cómo llegar", href: mapsUrl },
       ],
-      img: img("opengym.jpg", "Piso de open gym en ticofit pavas"),
+      img: img("opengym.jpg", "Piso de open gym en ticofit parque bellavista"),
       panel: {
         titulo: "Qué hay acá",
         items: [
@@ -362,7 +428,7 @@ export const landing = {
       ],
       ctas: [
         { label: "Ver membresías", href: "/membresias?sede=cafe" },
-        { label: "Ver las clases", href: "/clases" },
+        { label: "Ver las clases", href: "/#horario" },
       ],
       img: img("pilates.jpg", "Salón mova de ticofit parque del café"),
       panel: {
@@ -374,120 +440,6 @@ export const landing = {
           { destacado: null, texto: "Numa ProteinBar y coworking" },
         ],
       },
-    },
-  },
-
-  clases: {
-    titulo: "Clases que se",
-    tituloItalico: "sienten distinto.",
-    texto:
-      "Grupos pequeños, coaches que te corrigen y un salón donde se oye la respiración, no la música a todo volumen. Reservá desde tu cuenta.",
-    filtro: {
-      label: "Filtrar por sede",
-      opciones: [
-        { id: "todas" as const, label: "Todas" },
-        { id: "pavas" as const, label: "ticofit pavas" },
-        { id: "cafe" as const, label: "ticofit parque del café" },
-      ],
-    },
-    cta: { label: "RESERVAR", href: whatsappUrl },
-    items: [
-      {
-        id: "funcional",
-        nombre: "Funcional",
-        sede: "cafe" as SedeId,
-        sedeLabel: "PARQUE DEL CAFÉ",
-        descripcion:
-          "Fuerza, potencia y aguante en una sola hora. Hay clase todos los días y con la membresía entrás a la que quieras.",
-        tags: ["Todos los días", "Grupo pequeño"],
-        img: img("funcional.jpg", "Clase funcional con kettlebells"),
-      },
-      {
-        id: "pilates-reformer",
-        nombre: "Pilates reformer",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Control, centro y movilidad sobre el reformer. Cupo muy limitado, así que el coach te ve toda la clase.",
-        tags: ["Cupo limitado", "Nivel inicial y avanzado"],
-        img: img("pilates.jpg", "Mujer en un reformer de pilates"),
-      },
-      {
-        id: "yoga",
-        nombre: "Yoga",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Respirar, estirar y bajar revoluciones. Para abrir el día o para cerrarlo sin llevarte el trabajo a la casa.",
-        tags: ["Grupo pequeño", "Mañana y tarde"],
-        img: img("yoga.jpg", "Grupo de yoga en el salón"),
-      },
-      {
-        id: "barre",
-        nombre: "Barre",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Repeticiones chiquitas en la barra que al rato se sienten enormes. Piernas, glúteo y centro.",
-        tags: ["Grupo pequeño", "Bajo impacto"],
-        img: img("barre.jpg", "Clase de barre en la barra"),
-      },
-      {
-        id: "baile",
-        nombre: "Baile",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN MOVA · PARQUE DEL CAFÉ",
-        descripcion:
-          "Cardio que no se siente cardio. Coreografías cortas, buena música y una hora que se pasa volando.",
-        tags: ["Grupo pequeño", "Sin experiencia"],
-        img: img("baile.jpg", "Clase de baile en el salón con espejos"),
-      },
-      {
-        id: "recovery",
-        nombre: "Recovery",
-        sede: "cafe" as SedeId,
-        sedeLabel: "SALÓN RESET · PARQUE DEL CAFÉ",
-        descripcion:
-          "Sauna, cold plunge y terapia de luz roja. Lo que hace que mañana puedas volver a entrenar.",
-        tags: ["Por sesión o paquete", "Sauna · Cold plunge · Luz roja"],
-        img: img("recovery.jpg", "Sala de recovery con cold plunge"),
-      },
-      {
-        id: "open-gym",
-        nombre: "Open gym",
-        sede: "pavas" as SedeId,
-        sedeLabel: "TICOFIT PAVAS",
-        descripcion:
-          "Entrá a la hora que quieras y entrená a tu ritmo. Siempre hay un coach en piso por si necesitás que te revisen la técnica.",
-        tags: ["Entrada libre", "Todo el horario"],
-        img: img("opengym.jpg", "Piso de open gym con mancuernas"),
-      },
-      {
-        id: "entrenamiento-personal",
-        nombre: "Entrenamiento personal",
-        sede: "pavas" as SedeId,
-        sedeLabel: "TICOFIT PAVAS",
-        descripcion:
-          "Uno a uno, con un plan hecho para vos y mediciones cada mes para ver si está funcionando.",
-        tags: ["Paquetes de 4, 8 y 12", "Medición mensual"],
-        img: img("personal.jpg", "Coach acompañando a un cliente"),
-      },
-      {
-        id: "fisioterapia-y-nutricion",
-        nombre: "Fisioterapia y nutrición",
-        sede: "pavas" as SedeId,
-        sedeLabel: "CONSULTORIO · TICOFIT PAVAS",
-        descripcion:
-          "Profesionales que atienden dentro del club, para que no andes buscando cita por otro lado.",
-        tags: ["Con cita", "Profesional externo"],
-        img: img("hero.jpg", "Consultorio del club con luz natural"),
-      },
-    ],
-    cierre: {
-      titulo: "El calendario sale cada semana",
-      texto:
-        "Reservá tu campo desde la app. Si la clase ya se llenó, entrás en lista de espera y te avisamos apenas se libere un espacio.",
-      cta: { label: "Ver membresías", href: "/membresias" },
     },
   },
 
@@ -534,11 +486,11 @@ export const landing = {
     tabsLabel: "Sede",
     porDefecto: "cafe" as SedeId,
     tabs: [
-      { id: "pavas" as SedeId, label: "ticofit pavas" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
       { id: "cafe" as SedeId, label: "ticofit parque del café" },
     ],
     ivaMes: "+ IVA · al mes",
-    pavas: {
+    bellavista: {
       openGym: {
         kicker: "LA MENSUALIDAD",
         nombre: "Open gym",
