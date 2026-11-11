@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 
-import { landing, type CafeServicio, type Turno } from "@/content/landing";
+import { landing, type CafeServicio, type SedeId, type Turno } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { PillLink } from "../pill-link";
+import { WaitlistButton } from "../waitlist-modal";
 import { useHomeParams } from "./home-params";
 
 const { horario, hero, sedes } = landing.home;
@@ -110,11 +111,27 @@ export function Horario() {
         </div>
       </div>
 
-      {sede === "bellavista" ? (
+      {sedes.lista.find((s) => s.id === sede)?.estado === "proximamente" ? (
+        <Proximamente sede={sede} />
+      ) : sede === "bellavista" ? (
         <Bellavista />
       ) : (
         <Cafe servicio={servicio} onServicio={(id) => set({ sede: "cafe", servicio: id })} />
       )}
+    </div>
+  );
+}
+
+/**
+ * A sede that hasn't opened: its schedule stays configured (see `Cafe`) but
+ * hidden until its `estado` flips to "abierta" in landing.ts.
+ */
+function Proximamente({ sede }: { sede: SedeId }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-linea-tag px-6 py-12 text-center">
+      <p className="font-tf-serif text-[32px] leading-tight">{sedes.proximamente.titulo}</p>
+      <p className="mx-auto mt-3 max-w-[460px] text-[16px] leading-[1.6] text-musgo">{sedes.proximamente.texto}</p>
+      <WaitlistButton sede={sede} className="mt-6 min-h-12 px-7" />
     </div>
   );
 }

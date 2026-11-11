@@ -19,6 +19,8 @@ export const PENDIENTE = "[Pendiente — Jeremy]" as const;
 export type Img = { src: string; alt: string };
 export type LinkItem = { label: string; href: string };
 export type SedeId = "bellavista" | "cafe";
+/** "abierta" shows its schedule; "proximamente" hides it behind a waitlist. */
+export type SedeEstado = "abierta" | "proximamente";
 export type Turno = { hora: string; coach: string };
 export type CafeServicio =
   | { aforo: number; lunVie: readonly Turno[]; sabado: readonly Turno[] }
@@ -200,9 +202,33 @@ export const landing = {
     sedes: {
       porDefecto: "bellavista" as SedeId,
       lista: [
-        { id: "bellavista" as SedeId, nombre: "ticofit parque bellavista", corto: "Parque Bellavista", detalle: "Rohrmoser", badge: null },
-        { id: "cafe" as SedeId, nombre: "ticofit parque del café", corto: "Parque del Café", detalle: null, badge: "Abre pronto" },
+        { id: "bellavista" as SedeId, nombre: "ticofit parque bellavista", corto: "Parque Bellavista", detalle: "Rohrmoser", estado: "abierta" as SedeEstado },
+        { id: "cafe" as SedeId, nombre: "ticofit parque del café", corto: "Parque del Café", detalle: null, estado: "proximamente" as SedeEstado },
       ],
+      /** Shown for a sede whose `estado` is "proximamente". */
+      proximamente: {
+        titulo: "Abrimos pronto.",
+        texto:
+          "Las clases y horarios de esta sede aparecen acá el día que abramos. Dejanos tus datos y te avisamos primero.",
+      },
+    },
+    /** Waitlist modal for a sede that hasn't opened yet. */
+    listaEspera: {
+      boton: "Entrar en lista de espera",
+      titulo: "Lista de espera",
+      texto: "Dejanos tus datos y te avisamos apenas abramos ticofit parque del café.",
+      campos: {
+        nombre: { label: "Nombre completo", error: "Escribí tu nombre completo." },
+        telefono: { label: "Teléfono", ayuda: "8 dígitos, con o sin +506", error: "Escribí un teléfono de Costa Rica de 8 dígitos." },
+        email: { label: "Correo", error: "Escribí un correo válido." },
+      },
+      enviar: "Entrar en la lista",
+      enviando: "Enviando…",
+      exito: "Listo, te avisamos apenas abramos.",
+      error: "No pudimos guardar tus datos. Probá de nuevo en un momento.",
+      cerrar: "Cerrar",
+      /** Pre-filled WhatsApp message from the staff waitlist view. */
+      whatsapp: "Hola {nombre}, te escribimos de ticofit: ¡ya abrimos en {sede}!",
     },
     intro: {
       eyebrow: "Bienvenidos a ticofit",
