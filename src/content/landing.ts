@@ -401,8 +401,7 @@ export const landing = {
       estrellasLabel: "4.9 de 5 estrellas en Google",
       cantidadLabel: "19 reseñas en Google",
       verTodas: { label: "Ver todas en Google", href: mapsUrl },
-      siguiente: "Siguiente reseña",
-      progresoLabel: "Progreso de las reseñas",
+      fuente: "Reseña de Google",
     },
   },
 

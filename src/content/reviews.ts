@@ -1,7 +1,7 @@
 /**
- * Google reviews shown on the home page, one at a time. Copy them word for
- * word from Google — never edit or invent one. The section renders only the
- * entries listed here; with a single entry it shows no progress bars.
+ * Google reviews shown on the home page, all of them, in full. Copy them word
+ * for word from Google — never edit or invent one. The section renders only
+ * the entries listed here.
  */
 
 import { BRAND } from "@/config/brand";
@@ -40,6 +40,6 @@ export const reviews: readonly Review[] = [
     estrellas: 5,
     url:BRAND.mapsUrl,
   },
-  // Add the third review here, with the same shape:
+  // Add more reviews here, with the same shape:
   // { nombre: "…", texto: "…", estrellas: 5, url: BRAND.mapsUrl },
 ];
