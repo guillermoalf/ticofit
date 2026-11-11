@@ -1,7 +1,7 @@
 /**
- * Google reviews shown on the home page, all of them, in full. Copy them word
- * for word from Google — never edit or invent one. The section renders only
- * the entries listed here.
+ * Google reviews shown on the home page, one at a time. Copy them word for
+ * word from Google — never edit or invent one. The section renders only the
+ * entries listed here; with a single entry it shows no progress bars.
  */
 
 import { BRAND } from "@/config/brand";
