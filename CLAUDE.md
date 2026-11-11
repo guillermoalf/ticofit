@@ -5,7 +5,8 @@
 1. **Never commit directly on `staging` or `main`.** Not even a one-line or docs change.
 2. **Every task gets its own new branch**, created from the latest `staging`
    (`git checkout staging && git pull` → `git checkout -b feat|fix|docs/<task>`).
-3. **When done, merge that branch into `staging`**, push, and delete the branch.
+3. **When done, merge that branch into `staging`** and push. **NEVER delete the branch**
+   — not locally, not on the remote. It stays after the merge.
    `staging` always holds the freshest work — it is the reference point.
 4. **`main` stays behind.** It is only updated (fast-forwarded to `staging`) when the
    user explicitly says so. Never on your own initiative.
