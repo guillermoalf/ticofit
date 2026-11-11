@@ -417,22 +417,3 @@
     animation: tf-fade 400ms ease both;
   }
 }
-
-/* ————————————————————————————————————————————————
-   Home reviews (src/components/site/home/reviews.tsx): the active
-   story-style progress bar fills over 7s; its animationend advances.
-   Reduced motion gets no animation (and no autoplay).
-   ———————————————————————————————————————————————— */
-@keyframes tf-story {
-  0% {
-    scale: 0 1;
-  }
-  100% {
-    scale: 1 1;
-  }
-}
-@media (prefers-reduced-motion: no-preference) {
-  .tf-story {
-    animation: tf-story 7000ms linear both;
-  }
-}
