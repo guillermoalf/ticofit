@@ -5,7 +5,7 @@ import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 
 const { membresias } = landing;
-const { pavas, cafe } = membresias;
+const { bellavista, cafe } = membresias;
 
 const PLAN_TONES = {
   oscuro: {
@@ -34,8 +34,8 @@ const PLAN_TONES = {
 const kicker = "text-[11px] tracking-[2.4px]";
 const sectionTitle = "font-tf-serif text-[36px] leading-[1.04] font-normal md:text-[44px]";
 
-export function PavasPlans() {
-  const { openGym, personal } = pavas;
+export function BellavistaPlans() {
+  const { openGym, personal } = bellavista;
   return (
     <section className="px-5 pb-[72px] lg:px-10">
       <div className="flex flex-wrap gap-[18px]">

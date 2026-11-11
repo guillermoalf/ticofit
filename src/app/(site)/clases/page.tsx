@@ -11,5 +11,5 @@ export default async function ClasesPage({
 }) {
   const { servicio } = await searchParams;
   const slug = typeof servicio === "string" ? servicio : undefined;
-  redirect(slug ? `/?servicio=${encodeURIComponent(slug)}#horario` : "/#horario");
+  redirect(slug ? `/?sede=cafe&servicio=${encodeURIComponent(slug)}#horario` : "/#horario");
 }

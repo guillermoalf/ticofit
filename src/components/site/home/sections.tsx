@@ -7,7 +7,7 @@ import { landing } from "@/content/landing";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 import { SmartLink } from "../smart-link";
-import { HeroCard } from "./hero-card";
+import { HeroCard, HeroCardView } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
 import { Horario } from "./horario";
 import { IntroSession } from "./intro-session";
@@ -34,7 +34,9 @@ export function Hero() {
     <section className="pb-[72px]">
       <h1 className="sr-only">{BRAND.name}</h1>
       <HeroSlider figuras={figuras} />
-      <HeroCard />
+      <Suspense fallback={<HeroCardView sede={home.sedes.porDefecto} />}>
+        <HeroCard />
+      </Suspense>
       <IntroSession />
     </section>
   );
@@ -103,14 +105,13 @@ export function HorarioSection() {
   const { horario } = home;
   return (
     <section id={horario.id} className="scroll-mt-6 px-5 pb-[88px] lg:px-10">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
+      <div className="mb-6">
         <div>
           <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{horario.eyebrow}</p>
           <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
             {horario.titulo} <span className="italic">{horario.tituloItalico}</span>
           </h2>
         </div>
-        {horario.aviso && <p className="text-[14px] text-musgo">{horario.aviso}</p>}
       </div>
       {/* useSearchParams needs a boundary to keep the page static. */}
       <Suspense>

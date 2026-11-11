@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { landing, type SedeId } from "@/content/landing";
 import { SedeTabs } from "@/components/site/sede-tabs";
-import { CafePanel, PavasPanel } from "@/components/site/sedes/sede-panels";
+import { CafePanel, BellavistaPanel } from "@/components/site/sedes/sede-panels";
 
 const { sedes } = landing;
 
@@ -17,7 +17,7 @@ export default async function SedesPage({
   searchParams: Promise<{ sede?: string }>;
 }) {
   const { sede } = await searchParams;
-  const initial: SedeId = sede === "cafe" || sede === "pavas" ? sede : sedes.porDefecto;
+  const initial: SedeId = sede === "cafe" || sede === "bellavista" ? sede : sedes.porDefecto;
 
   return (
     <SedeTabs
@@ -33,7 +33,7 @@ export default async function SedesPage({
           <p className="mb-10 max-w-[580px] text-[17px] leading-[1.6] text-musgo">{sedes.texto}</p>
         </>
       }
-      panels={{ pavas: <PavasPanel />, cafe: <CafePanel /> }}
+      panels={{ bellavista: <BellavistaPanel />, cafe: <CafePanel /> }}
     />
   );
 }

@@ -18,8 +18,11 @@ export const PENDIENTE = "[Pendiente — Jeremy]" as const;
 
 export type Img = { src: string; alt: string };
 export type LinkItem = { label: string; href: string };
-export type SedeId = "pavas" | "cafe";
-export type HorarioClase = { hora: string; servicio: string; coach: string; cupos: number };
+export type SedeId = "bellavista" | "cafe";
+export type Turno = { hora: string; coach: string };
+export type CafeServicio =
+  | { aforo: number; lunVie: readonly Turno[]; sabado: readonly Turno[] }
+  | { aforo: number; cadaHora: true; coach: string | null };
 
 const whatsappUrl = `https://wa.me/${BRAND.contact.whatsapp}`;
 const mapsUrl = BRAND.mapsUrl;
@@ -41,7 +44,7 @@ export const landing = {
     sedes: {
       title: "Sedes",
       description:
-        "ticofit pavas en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
+        "ticofit parque bellavista en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
     },
     numa: {
       title: "Numa ProteinBar",
@@ -50,7 +53,7 @@ export const landing = {
     membresias: {
       title: "Membresías",
       description:
-        "Planes de ticofit pavas y ticofit parque del café. Precios mensuales, IVA aparte.",
+        "Planes de ticofit parque bellavista y ticofit parque del café. Precios mensuales, IVA aparte.",
     },
     comunidad: {
       title: "Comunidad",
@@ -67,7 +70,7 @@ export const landing = {
   nav: {
     sedesLabel: "Sedes",
     sedesMenu: [
-      { label: "ticofit pavas", sub: "Rohrmoser", href: "/sedes" },
+      { label: "ticofit parque bellavista", sub: "Rohrmoser", href: "/sedes" },
       { label: "ticofit parque del café", sub: "Abre pronto", href: "/sedes?sede=cafe" },
     ],
     links: [
@@ -89,7 +92,7 @@ export const landing = {
     sedes: {
       titulo: "SEDES",
       items: [
-        { nombre: "ticofit pavas", detalle: "Rohrmoser, San José" },
+        { nombre: "ticofit parque bellavista", detalle: "Rohrmoser, San José" },
         { nombre: "ticofit parque del café", detalle: "Abre pronto" },
       ],
     },
@@ -131,7 +134,7 @@ export const landing = {
           nombre: "Pilates Reformer",
           descripcion:
             "Fuerza sin impacto. El reformer trabaja tu centro, mejora tu postura y se ajusta a tu nivel desde la primera clase. Grupos pequeños, con guía en cada movimiento.",
-          horarios: "/?servicio=reformer#horario",
+          horarios: "/?sede=cafe&servicio=reformer#horario",
           fondo: "limaClaro",
           figura: { src: "/hero/reformer.png", alt: "Persona entrenando en un reformer de pilates", tamano: "ancha" as const },
         },
@@ -140,7 +143,7 @@ export const landing = {
           nombre: "Yoga",
           descripcion:
             "Respirá, estirá y soltá la semana. Clases para ganar flexibilidad, equilibrio y calma, ya sea tu primera vez en el mat o tengas años practicando.",
-          horarios: "/?servicio=yoga#horario",
+          horarios: "/?sede=cafe&servicio=yoga#horario",
           fondo: "celeste",
           figura: { src: "/hero/yoga.png", alt: "Persona en una postura de yoga", tamano: "baja" as const },
         },
@@ -149,7 +152,7 @@ export const landing = {
           nombre: "Barre",
           descripcion:
             "Movimientos pequeños, resultados que se notan. Barre combina técnica de ballet, pilates y fuerza para tonificar piernas, glúteos y centro, cuidando tus articulaciones.",
-          horarios: "/?servicio=barre#horario",
+          horarios: "/?sede=cafe&servicio=barre#horario",
           fondo: "amarilloVerde",
           figura: { src: "/hero/barre.png", alt: "Persona haciendo barre", tamano: "media" as const },
         },
@@ -158,7 +161,7 @@ export const landing = {
           nombre: "Functional System",
           descripcion:
             "Entrená para moverte mejor fuera del gym. Circuitos guiados de fuerza, cardio y coordinación que cambian cada clase, con un coach que adapta todo a tu nivel.",
-          horarios: "/?servicio=functional#horario",
+          horarios: "/?sede=cafe&servicio=functional#horario",
           fondo: "bandaSalvia",
           figura: { src: "/hero/functional.png", alt: "Persona en un entrenamiento funcional", tamano: "alta" as const },
         },
@@ -167,7 +170,7 @@ export const landing = {
           nombre: "Open Gym",
           descripcion:
             "Tu rutina, a tu ritmo. Pesas libres y espacio para entrenar cuando te quede bien, en un gym tranquilo, sin filas en un espacio grande.",
-          horarios: "/?servicio=open-gym#horario",
+          horarios: "/?sede=cafe&servicio=open-gym#horario",
           fondo: "lineaTag",
           figura: { src: "/hero/open-gym.png", alt: "Persona entrenando en el open gym", tamano: "alta" as const },
         },
@@ -176,24 +179,30 @@ export const landing = {
           nombre: "Recovery",
           descripcion:
             "La otra mitad del entrenamiento. Sauna, terapia infrarroja y cold plunge para que tu cuerpo se recupere y llegues con ganas a la siguiente clase.",
-          horarios: "/?servicio=recovery#horario",
+          horarios: "/?sede=cafe&servicio=recovery#horario",
           fondo: "niebla",
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar", tamano: "media" as const },
         },
       ],
       tarjeta: {
         sedeLabel: "Nuestras sedes",
-        pavas: {
-          nombre: "ticofit pavas",
-          detalle: "Rohrmoser",
-          horarios: { label: "Ver horarios", href: "/#horario" },
-        },
-        cafe: { nombre: "ticofit parque del café", badge: "Abre pronto" },
+        horarios: { label: "Ver horarios", href: "#horario" },
         rating: "4.9",
         ratingLabel: "4.9 de 5 estrellas en Google",
         ratingDetalle: "19 reseñas en Google",
         reservar: { label: "Reservar", href: "/#horario" },
       },
+    },
+    /**
+     * The two sedes as the home page shows them. The selection lives in the
+     * URL (`?sede=`), shared by the hero card and the schedule.
+     */
+    sedes: {
+      porDefecto: "bellavista" as SedeId,
+      lista: [
+        { id: "bellavista" as SedeId, nombre: "ticofit parque bellavista", corto: "Parque Bellavista", detalle: "Rohrmoser", badge: null },
+        { id: "cafe" as SedeId, nombre: "ticofit parque del café", corto: "Parque del Café", detalle: null, badge: "Abre pronto" },
+      ],
     },
     intro: {
       eyebrow: "Bienvenidos a ticofit",
@@ -201,13 +210,13 @@ export const landing = {
       tituloItalico: "tu espacio.",
       cta: { label: "RESERVÁ TU PRIMERA CLASE", href: whatsappUrl },
       texto:
-        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Pavas y Parque del Café.",
+        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Parque Bellavista y Parque del Café.",
     },
     tiles: [
       {
         titulo: "ENTRENÁ",
         pie: "Funcional, pesas y entrenamiento personal",
-        chips: ["PAVAS", "PARQUE DEL CAFÉ"],
+        chips: ["PARQUE BELLAVISTA", "PARQUE DEL CAFÉ"],
         href: "/#horario",
         img: img("barra.jpg", "Manos en una barra olímpica"),
       },
@@ -222,7 +231,7 @@ export const landing = {
         titulo: "RECUPERATE",
         pie: "Sauna, cold plunge y terapia roja",
         chips: ["PARQUE DEL CAFÉ"],
-        href: "/?servicio=recovery#horario",
+        href: "/?sede=cafe&servicio=recovery#horario",
         img: img("sauna.jpg", "Sauna con terapia de luz roja"),
       },
       {
@@ -257,25 +266,20 @@ export const landing = {
     horario: {
       id: "horario",
       eyebrow: "Horario",
-      titulo: "Reservá tu",
-      tituloItalico: "próxima clase.",
-      /**
-       * Shown under the title while `semana` holds sample rows. Set it to
-       * null once Jeremy sends the real schedule.
-       */
-      aviso: `Horario de muestra. ${PENDIENTE}` as string | null,
+      titulo: "Planeá tu",
+      tituloItalico: "semana.",
+      sedeLabel: "Estás viendo",
       diasLabel: "Elegí un día",
       hoy: "Hoy",
-      filtroLabel: "Filtrar por clase",
-      todos: "Todos",
+      filtroLabel: "Elegí una clase",
       columnas: { hora: "Hora", clase: "Clase", coach: "Coach", cupos: "Cupos" },
       cupo: "cupo disponible",
       cupos: "cupos disponibles",
       lleno: "Lleno",
       vacio: {
-        dia: "No hay clases este día.",
-        filtro: "No hay clases de este tipo este día.",
-        accion: "Ver todas las clases",
+        dia: "Ese día el club está cerrado.",
+        servicio: "No hay espacios de esta clase ese día.",
+        hoy: "Ya no quedan espacios hoy. Probá con mañana.",
       },
       /**
        * Without an account or an active membership, "Reservar" goes to buying
@@ -283,58 +287,87 @@ export const landing = {
        * y aforo module (there is no booking backend yet).
        */
       reservar: { label: "Reservar", href: "#primera-clase" },
+      /** Open gym the old way: nothing to book. Prices come from `membresias.bellavista`. */
+      bellavista: {
+        titulo: "Open gym, sin reservas.",
+        texto:
+          "En ticofit parque bellavista llegás a la hora que te quede bien: no hay clases ni nada que reservar. Si tenés entrenamiento personal, el horario lo coordinás directamente con tu coach.",
+        horarioTitulo: "Horario del club",
+        horario: [
+          { dias: "Lunes a viernes", horas: "6:00 a. m. – 9:00 p. m." },
+          { dias: "Sábado", horas: "8:00 a. m. – 12:00 m. d." },
+        ],
+        membresiaTitulo: "Membresía mensual",
+        personalTitulo: "Entrenamiento personal",
+        personalTexto:
+          "Se cobra aparte de la mensualidad: siempre pagás el open gym y, si querés personal, le sumás un paquete.",
+        porSesion: "por sesión",
+        cta: { label: "Escribinos por WhatsApp", href: whatsappUrl },
+      },
       /**
-       * Weekly template by day of the week (0 = domingo … 6 = sábado).
-       * `servicio` is a slide id from `home.hero.slides`: the filter chips,
-       * `?servicio=` and the hero "Ver horarios" links share that one list.
+       * Parque del Café, by service. `servicio` keys are slide ids from
+       * `home.hero.slides`, so the chips, `?servicio=` and the hero links share
+       * one list. `cadaHora` services run one slot every hour the club is open.
        *
-       * PENDIENTE: SAMPLE rows to lay out the section. Replace them with
-       * Jeremy's real schedule, coaches and capacities.
+       * SAMPLE data (times, coaches, capacities) to show the layout. It will be
+       * replaced by what is configured in the system.
        */
-      semana: {
-        0: [],
-        1: [
-          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 8 },
-          { hora: "07:00", servicio: "reformer", coach: PENDIENTE, cupos: 3 },
-          { hora: "09:00", servicio: "yoga", coach: PENDIENTE, cupos: 10 },
-          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 18 },
-          { hora: "17:30", servicio: "barre", coach: PENDIENTE, cupos: 0 },
-          { hora: "18:30", servicio: "recovery", coach: PENDIENTE, cupos: 4 },
-        ],
-        2: [
-          { hora: "06:00", servicio: "reformer", coach: PENDIENTE, cupos: 5 },
-          { hora: "08:00", servicio: "barre", coach: PENDIENTE, cupos: 9 },
-          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 20 },
-          { hora: "18:00", servicio: "yoga", coach: PENDIENTE, cupos: 1 },
-          { hora: "19:00", servicio: "functional", coach: PENDIENTE, cupos: 6 },
-        ],
-        3: [
-          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 7 },
-          { hora: "07:00", servicio: "yoga", coach: PENDIENTE, cupos: 12 },
-          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 15 },
-          { hora: "17:30", servicio: "reformer", coach: PENDIENTE, cupos: 2 },
-          { hora: "18:30", servicio: "recovery", coach: PENDIENTE, cupos: 4 },
-        ],
-        4: [
-          { hora: "06:00", servicio: "reformer", coach: PENDIENTE, cupos: 4 },
-          { hora: "08:00", servicio: "barre", coach: PENDIENTE, cupos: 10 },
-          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 19 },
-          { hora: "18:00", servicio: "yoga", coach: PENDIENTE, cupos: 8 },
-          { hora: "19:00", servicio: "functional", coach: PENDIENTE, cupos: 0 },
-        ],
-        5: [
-          { hora: "06:00", servicio: "functional", coach: PENDIENTE, cupos: 9 },
-          { hora: "07:00", servicio: "yoga", coach: PENDIENTE, cupos: 11 },
-          { hora: "12:00", servicio: "open-gym", coach: PENDIENTE, cupos: 22 },
-          { hora: "17:00", servicio: "barre", coach: PENDIENTE, cupos: 6 },
-          { hora: "18:00", servicio: "recovery", coach: PENDIENTE, cupos: 3 },
-        ],
-        6: [
-          { hora: "08:00", servicio: "reformer", coach: PENDIENTE, cupos: 2 },
-          { hora: "09:00", servicio: "yoga", coach: PENDIENTE, cupos: 12 },
-          { hora: "10:00", servicio: "open-gym", coach: PENDIENTE, cupos: 16 },
-        ],
-      } as Record<number, readonly HorarioClase[]>,
+      cafe: {
+        abierto: { lunVie: [6, 21], sabado: [8, 12] } as Record<"lunVie" | "sabado", [number, number]>,
+        servicios: {
+          reformer: {
+            aforo: 8,
+            lunVie: [
+              { hora: "06:00", coach: "Daniela Mora" },
+              { hora: "07:00", coach: "Daniela Mora" },
+              { hora: "12:00", coach: "Valeria Quesada" },
+              { hora: "17:00", coach: "Valeria Quesada" },
+              { hora: "18:00", coach: "Daniela Mora" },
+              { hora: "19:00", coach: "Valeria Quesada" },
+            ],
+            sabado: [
+              { hora: "08:00", coach: "Daniela Mora" },
+              { hora: "09:00", coach: "Daniela Mora" },
+              { hora: "10:00", coach: "Valeria Quesada" },
+              { hora: "11:00", coach: "Valeria Quesada" },
+            ],
+          },
+          yoga: {
+            aforo: 14,
+            lunVie: [
+              { hora: "06:30", coach: "Andrea Solís" },
+              { hora: "12:15", coach: "Mariana Castro" },
+              { hora: "18:30", coach: "Andrea Solís" },
+            ],
+            sabado: [{ hora: "09:00", coach: "Mariana Castro" }],
+          },
+          barre: {
+            aforo: 12,
+            lunVie: [
+              { hora: "08:00", coach: "Sofía Rojas" },
+              { hora: "17:30", coach: "Sofía Rojas" },
+              { hora: "19:30", coach: "Mariana Castro" },
+            ],
+            sabado: [{ hora: "10:00", coach: "Sofía Rojas" }],
+          },
+          functional: {
+            aforo: 16,
+            lunVie: [
+              { hora: "06:00", coach: "Andrés Vargas" },
+              { hora: "07:00", coach: "Andrés Vargas" },
+              { hora: "17:00", coach: "Diego Jiménez" },
+              { hora: "18:00", coach: "Diego Jiménez" },
+              { hora: "19:00", coach: "Andrés Vargas" },
+            ],
+            sabado: [
+              { hora: "08:00", coach: "Diego Jiménez" },
+              { hora: "09:00", coach: "Diego Jiménez" },
+            ],
+          },
+          "open-gym": { aforo: 40, cadaHora: true, coach: "Coach en piso" },
+          recovery: { aforo: 8, cadaHora: true, coach: null },
+        } as Record<string, CafeServicio>,
+      },
     },
     resenas: {
       eyebrow: "Reseñas",
@@ -351,14 +384,14 @@ export const landing = {
     titulo: "Dos sedes, dos clubes",
     texto: "No comparten horarios ni precios. Escogé una y toda la página se acomoda a esa sede.",
     tabsLabel: "Sede",
-    porDefecto: "pavas" as SedeId,
+    porDefecto: "bellavista" as SedeId,
     tabs: [
-      { id: "pavas" as SedeId, label: "ticofit pavas" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
       { id: "cafe" as SedeId, label: "ticofit parque del café" },
     ],
-    pavas: {
+    bellavista: {
       badge: "ABIERTA HOY",
-      nombre: "ticofit pavas",
+      nombre: "ticofit parque bellavista",
       descripcion:
         "Rohrmoser, San José. El club original: open gym de verdad, entrá a la hora que quieras y entrená a tu ritmo, con un coach cerca si lo necesitás.",
       datos: [
@@ -368,10 +401,10 @@ export const landing = {
         { label: "SÁBADO", valor: "8:00\u00a0a.m. –\u00a012:00\u00a0m.d.", serif: false },
       ],
       ctas: [
-        { label: "Ver precios de pavas", href: "/membresias?sede=pavas" },
+        { label: "Ver precios de parque bellavista", href: "/membresias?sede=bellavista" },
         { label: "Cómo llegar", href: mapsUrl },
       ],
-      img: img("opengym.jpg", "Piso de open gym en ticofit pavas"),
+      img: img("opengym.jpg", "Piso de open gym en ticofit parque bellavista"),
       panel: {
         titulo: "Qué hay acá",
         items: [
@@ -453,11 +486,11 @@ export const landing = {
     tabsLabel: "Sede",
     porDefecto: "cafe" as SedeId,
     tabs: [
-      { id: "pavas" as SedeId, label: "ticofit pavas" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
       { id: "cafe" as SedeId, label: "ticofit parque del café" },
     ],
     ivaMes: "+ IVA · al mes",
-    pavas: {
+    bellavista: {
       openGym: {
         kicker: "LA MENSUALIDAD",
         nombre: "Open gym",

@@ -42,7 +42,7 @@ export const BRAND = {
     email: "hola@example.com",
   },
 
-  /** Google Maps link for ticofit pavas. */
+  /** Google Maps link for ticofit parque bellavista. */
   mapsUrl: "https://maps.app.goo.gl/DQkPhczxUTHfDDae9",
 
   /** PLACEHOLDER location. */
