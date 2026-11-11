@@ -44,10 +44,9 @@ export function Intro() {
   return (
     <section className="flex flex-wrap gap-14 px-5 pb-14 lg:px-10">
       <div className="min-w-0 flex-[1_1_380px]">
+        <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{intro.eyebrow}</p>
         <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
-          {intro.titulo[0]}
-          <br />
-          {intro.titulo[1]}
+          {intro.titulo} <span className="italic">{intro.tituloItalico}</span>
         </h2>
         <PillLink
           href={intro.cta.href}
@@ -57,8 +56,7 @@ export function Intro() {
           {intro.cta.label}
         </PillLink>
       </div>
-      <div className="min-w-0 flex-[1_1_420px]">
-        <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{intro.kicker}</p>
+      <div className="min-w-0 flex-[1_1_420px] md:pt-[34px]">
         <p className="text-[16px] leading-[1.65] text-musgo">{intro.texto}</p>
       </div>
     </section>
