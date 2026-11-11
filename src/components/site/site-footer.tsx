@@ -52,7 +52,11 @@ export function SiteFooter() {
               {footer.contacto.comoLlegar}
             </SmartLink>
           </p>
-          <p className="text-[15px] text-niebla-suave">{footer.contacto.instagram}</p>
+          <p className="text-[15px]">
+            <SmartLink href={footer.contacto.instagram.href} className="text-niebla no-underline hover:text-lima-claro">
+              {footer.contacto.instagram.label}
+            </SmartLink>
+          </p>
         </div>
 
         <div className="min-w-0 flex-[1_1_180px]">

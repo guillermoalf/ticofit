@@ -7,6 +7,7 @@ import {
   CalendarCheck,
   Camera,
   ClipboardList,
+  ListChecks,
   CreditCard,
   Dumbbell,
   LineChart,
@@ -34,12 +35,14 @@ const COACH_LINKS: NavItem[] = [
   { href: "/portal/programas", label: "Programas", icon: ClipboardList },
   { href: "/portal/pagos", label: "Pagos", icon: CreditCard },
   { href: "/portal/visitas", label: "Visitas", icon: CalendarCheck },
+  { href: "/portal/lista-espera", label: "Lista de espera", icon: ListChecks },
   { href: "/portal/perfil", label: "Mi cuenta", icon: User },
 ];
 
-/** The platform owner manages coaches, nothing else. */
+/** The platform owner manages coaches and the sede waitlist. */
 const ADMIN_LINKS: NavItem[] = [
   { href: "/portal/admin", label: "Entrenadores", icon: ShieldCheck },
+  { href: "/portal/lista-espera", label: "Lista de espera", icon: ListChecks },
   { href: "/portal/perfil", label: "Mi cuenta", icon: User },
 ];
 

@@ -7,7 +7,7 @@ import { landing } from "@/content/landing";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
 import { SmartLink } from "../smart-link";
-import { HeroCard, HeroCardView } from "./hero-card";
+import { HeroCard } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
 import { Horario } from "./horario";
 import { IntroSession } from "./intro-session";
@@ -34,9 +34,7 @@ export function Hero() {
     <section className="pb-[72px]">
       <h1 className="sr-only">{BRAND.name}</h1>
       <HeroSlider figuras={figuras} />
-      <Suspense fallback={<HeroCardView sede={home.sedes.porDefecto} />}>
-        <HeroCard />
-      </Suspense>
+      <HeroCard />
       <IntroSession />
     </section>
   );
