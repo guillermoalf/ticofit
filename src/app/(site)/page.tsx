@@ -8,7 +8,6 @@ import {
   HorarioSection,
   Intro,
   ResenasSection,
-  UbicacionSection,
 } from "@/components/site/home/sections";
 
 export const metadata: Metadata = {
@@ -26,7 +25,6 @@ export default function HomePage() {
         <HorarioSection />
         <ResenasSection />
         <Empezar />
-        <UbicacionSection />
         <SiteFooter />
       </div>
     </>

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { PillLink } from "../pill-link";
 import { WaitlistButton } from "../waitlist-modal";
 import { useHomeParams } from "./home-params";
+import { SedeUbicacion } from "./ubicacion";
 
 const { horario, hero, sedes } = landing.home;
 const { cafe } = horario;
@@ -118,6 +119,8 @@ export function Horario() {
       ) : (
         <Cafe servicio={servicio} onServicio={(id) => set({ sede: "cafe", servicio: id })} />
       )}
+
+      <SedeUbicacion sede={sede} />
     </div>
   );
 }
