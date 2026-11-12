@@ -8,7 +8,7 @@ import {
   HorarioSection,
   Intro,
   ResenasSection,
-  Tiles,
+  UbicacionSection,
 } from "@/components/site/home/sections";
 
 export const metadata: Metadata = {
@@ -23,10 +23,10 @@ export default function HomePage() {
       {/* Kept off the cream canvas while the intro logo writes itself. */}
       <div className="tf-intro-rest">
         <Intro />
-        <Tiles />
         <HorarioSection />
         <ResenasSection />
         <Empezar />
+        <UbicacionSection />
         <SiteFooter />
       </div>
     </>

@@ -4,9 +4,7 @@ import { Suspense } from "react";
 
 import { BRAND } from "@/config/brand";
 import { landing } from "@/content/landing";
-import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
-import { SmartLink } from "../smart-link";
 import { HeroCard } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
 import { Horario } from "./horario";
@@ -14,9 +12,6 @@ import { IntroSession } from "./intro-session";
 import { Reviews } from "./reviews";
 
 const { home } = landing;
-
-const photoOverlay =
-  "pointer-events-none absolute inset-0 bg-linear-to-t from-overlay-verde/72 to-overlay-verde/5";
 
 /**
  * Full-bleed service slider under a transparent header, with the cream sede
@@ -49,50 +44,9 @@ export function Intro() {
         <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
           {intro.titulo} <span className="italic">{intro.tituloItalico}</span>
         </h2>
-        <PillLink
-          href={intro.cta.href}
-          variant="outline"
-          className="mt-[26px] min-h-[46px] px-[26px] text-[13px] tracking-[1.4px]"
-        >
-          {intro.cta.label}
-        </PillLink>
       </div>
       <div className="min-w-0 flex-[1_1_420px] md:pt-[34px]">
         <p className="text-[16px] leading-[1.65] text-musgo">{intro.texto}</p>
-      </div>
-    </section>
-  );
-}
-
-export function Tiles() {
-  return (
-    <section className="px-5 pb-[88px] lg:px-10">
-      <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2">
-        {home.tiles.map((tile) => (
-          <SmartLink key={tile.titulo} href={tile.href} className="group block no-underline">
-            <Photo
-              img={tile.img}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="flex min-h-[300px] items-end rounded-2xl p-7 md:min-h-[360px]"
-            >
-              <div className={photoOverlay} />
-              <div className="absolute top-5 left-5 flex flex-wrap gap-[7px]">
-                {tile.chips.map((chip) => (
-                  <span
-                    key={chip}
-                    className="rounded-full bg-crema-claro/92 px-3 py-[5px] text-[10px] tracking-[1.6px] text-verde-profundo"
-                  >
-                    {chip}
-                  </span>
-                ))}
-              </div>
-              <div className="relative">
-                <h3 className="text-[22px] font-semibold tracking-[2.6px] text-crema-claro">{tile.titulo}</h3>
-                <p className="mt-1.5 text-[14px] text-texto-foto">{tile.pie}</p>
-              </div>
-            </Photo>
-          </SmartLink>
-        ))}
       </div>
     </section>
   );
@@ -127,14 +81,7 @@ export function Empezar() {
         <h2 className="mb-3.5 font-tf-serif text-[34px] leading-[1.08] font-normal md:text-[38px]">
           {empezar.titulo}
         </h2>
-        <p className="mb-6 max-w-[420px] text-[16px] leading-[1.6] text-musgo">{empezar.texto}</p>
-        <PillLink
-          href={empezar.cta.href}
-          variant="outline"
-          className="min-h-[46px] px-[26px] text-[13px] tracking-[1.2px]"
-        >
-          {empezar.cta.label}
-        </PillLink>
+        <p className="max-w-[420px] text-[16px] leading-[1.6] text-musgo">{empezar.texto}</p>
       </div>
       <div className="flex min-w-0 flex-[999_1_460px] flex-wrap gap-[18px]">
         {empezar.ofertas.map((oferta) => (
@@ -163,6 +110,49 @@ export function ResenasSection() {
   return (
     <section className="border-t border-linea px-5 py-[88px] lg:px-10">
       <Reviews />
+    </section>
+  );
+}
+
+/** One map per sede, after the offers: the last thing before the footer. */
+export function UbicacionSection() {
+  const { ubicacion } = home;
+  return (
+    <section id={ubicacion.id} className="scroll-mt-6 px-5 pb-[88px] lg:px-10">
+      <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{ubicacion.eyebrow}</p>
+      <h2 className="mb-8 font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
+        {ubicacion.titulo} <span className="italic">{ubicacion.tituloItalico}</span>
+      </h2>
+      <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2">
+        {ubicacion.sedes.map((sede) => (
+          <div key={sede.id} className="flex flex-col overflow-hidden rounded-2xl bg-crema-card">
+            {sede.coords ? (
+              <iframe
+                title={ubicacion.mapaTitulo.replace("{sede}", sede.nombre)}
+                src={`https://maps.google.com/maps?q=${sede.coords[0]},${sede.coords[1]}&z=16&output=embed`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="aspect-[4/3] w-full border-0 md:aspect-[16/10]"
+              />
+            ) : (
+              <div className="flex aspect-[4/3] w-full items-center justify-center bg-verde-profundo/6 px-8 text-center text-[15px] text-musgo md:aspect-[16/10]">
+                {ubicacion.pendiente}
+              </div>
+            )}
+            <div className="flex flex-wrap items-center gap-4 p-6">
+              <div className="min-w-0">
+                <h3 className="text-[17px] font-semibold">{sede.nombre}</h3>
+                <p className="mt-0.5 text-[14px] text-musgo">{sede.detalle}</p>
+              </div>
+              {sede.href && (
+                <PillLink href={sede.href} variant="verde" className="ml-auto min-h-11 px-6 text-[14px] font-semibold">
+                  {ubicacion.comoLlegar}
+                </PillLink>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
