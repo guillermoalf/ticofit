@@ -145,7 +145,7 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
       <div
         role="tablist"
         aria-label={hero.tabsLabel}
-        className="tf-intro-lead absolute right-5 bottom-[92px] z-10 flex gap-1 md:bottom-[112px] lg:right-10 lg:bottom-[192px]"
+        className="tf-intro-lead absolute right-3 bottom-[116px] z-10 flex md:right-5 md:bottom-[112px] md:gap-1 lg:right-10 lg:bottom-[192px]"
       >
         {slides.map((slide, i) => {
           const selected = i === active;
@@ -165,18 +165,18 @@ export function HeroSlider({ figuras }: { figuras: Record<string, boolean> }) {
               onClick={() => go(i)}
               onKeyDown={(e) => onTabKey(e, i)}
               className={cn(
-                "group relative inline-flex min-h-11 min-w-11 cursor-pointer flex-col items-center justify-center bg-transparent px-1.5 text-[13px] tracking-[1px] text-verde-profundo tabular-nums",
+                "group relative inline-flex min-h-11 min-w-8 cursor-pointer flex-col items-center justify-center bg-transparent px-1.5 md:min-w-11 text-[13px] tracking-[1px] text-verde-profundo tabular-nums",
                 "focus-visible:rounded-md focus-visible:outline-2 focus-visible:outline-verde-profundo",
               )}
             >
-              <span className={cn("transition-opacity", selected ? "font-semibold" : "font-medium")}>
+              <span className={cn("hidden transition-opacity md:inline", selected ? "font-semibold" : "font-medium")}>
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span
                 aria-hidden="true"
                 className={cn(
-                  "mt-1 h-[2px] w-6 origin-left rounded-full bg-verde-profundo transition-transform duration-500",
-                  selected ? "scale-x-100" : "scale-x-0",
+                  "h-[2px] w-5 origin-left rounded-full bg-verde-profundo transition-[transform,opacity] duration-500 md:mt-1 md:w-6",
+                  selected ? "scale-x-100 opacity-100" : "opacity-30 md:scale-x-0 md:opacity-100",
                 )}
               />
             </button>
@@ -210,10 +210,10 @@ function SlideBody({
   priority: boolean;
 }) {
   return (
-    <div className="relative flex min-h-[640px] flex-col px-5 pt-[132px] pb-[168px] text-verde-profundo md:pt-[176px] lg:h-[clamp(680px,calc(100svh-24px),900px)] lg:px-10 lg:pt-[168px] lg:pb-[200px]">
+    <div className="relative flex min-h-[640px] flex-col px-5 pt-[132px] pb-[116px] text-verde-profundo md:pt-[176px] lg:h-[clamp(680px,calc(100svh-24px),900px)] lg:px-10 lg:pt-[168px] lg:pb-[200px]">
       {/* Word behind, figure in front: the figure covers part of the word. */}
       <div className="relative flex flex-1 flex-col items-center justify-center lg:block">
-        <h2 className="relative z-0 w-full text-center font-tf-serif text-[clamp(52px,13vw,224px)] leading-[0.88] font-normal tracking-[-0.01em] text-balance break-words lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2">
+        <h2 className="relative z-0 w-full text-center font-tf-serif text-[clamp(52px,13vw,224px)] leading-[0.88] font-normal tracking-[-0.01em] text-balance break-words lg:absolute lg:inset-x-0 lg:top-[clamp(0px,3svh,32px)] lg:text-[min(13vw,21svh,224px)]">
           {slide.nombre}
         </h2>
         {/* Outer box: size and centring (static). Inner box: the drift
@@ -246,12 +246,12 @@ function SlideBody({
         </div>
       </div>
 
-      <div className="tf-desc relative z-[2] mt-6 max-w-[420px] lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[min(420px,calc(30vw-56px))]">
-        <p className="text-[17px] leading-[1.55] md:text-[18px]">{slide.descripcion}</p>
+      <div className="tf-desc relative z-[2] mt-4 max-w-[420px] md:mt-6 lg:absolute lg:bottom-[192px] lg:left-10 lg:mt-0 lg:max-w-[min(420px,calc(30vw-56px))]">
+        <p className="hidden text-[17px] leading-[1.55] md:block md:text-[18px]">{slide.descripcion}</p>
         <Link
           href={slide.horarios}
           onClick={(e) => irAlHorario(e, slide.horarios)}
-          className="group mt-3 inline-flex min-h-11 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo no-underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
+          className="group inline-flex min-h-11 md:mt-3 items-center gap-1.5 text-[15px] font-semibold text-verde-profundo no-underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-verde-profundo"
         >
           <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{hero.verHorarios}</span>
           <span aria-hidden="true">→</span>
