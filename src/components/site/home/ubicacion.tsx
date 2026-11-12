@@ -25,8 +25,8 @@ export function SedeUbicacion({ sede }: { sede: SedeId }) {
   return (
     <div id={ubicacion.id} className="mt-14 scroll-mt-6">
       <p className="mb-4 text-[12px] font-semibold tracking-[1.8px] text-salvia uppercase">{ubicacion.eyebrow}</p>
-      <div className="grid overflow-hidden rounded-2xl bg-verde-profundo text-crema-claro md:grid-cols-[2fr_1fr]">
-        <div className="relative aspect-[4/5] md:aspect-[3/2]">
+      <div className="grid overflow-hidden rounded-2xl bg-verde-profundo text-crema-claro md:grid-cols-[3fr_2fr]">
+        <div className="relative aspect-[4/5] md:aspect-auto md:h-[clamp(360px,50vh,520px)]">
           {mapa ? (
             <MapaIlustrado mapa={mapa} titulo={ubicacion.mapaTitulo.replace("{sede}", s.nombre)} />
           ) : (
