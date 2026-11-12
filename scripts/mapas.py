@@ -31,7 +31,7 @@ LABELLED = {"trunk", "primary", "secondary", "tertiary"}
 # Coordinates must match `ubicacion.sedes` in src/content/landing.ts.
 SEDES = {
     "bellavista": {"coords": (9.9511475, -84.1239449), "landmarks": ["Parque Bella Vista", "Fresh Market"]},
-    "cafe": {"coords": (9.9419345, -84.1157282), "landmarks": ["Parque del ICE", "Plaza Etreus"]},
+    "cafe": {"coords": (9.9419345, -84.1157282), "landmarks": ["Parque del Café", "Parque del ICE", "Plaza Etreus"]},
 }
 
 OUT = Path(__file__).resolve().parent.parent / "src/components/site/home/mapas.generated.ts"
