@@ -35,3 +35,7 @@ next-env.d.ts
 
 # Brand font sources (large); the subset woff2 used by the app live in src/fonts
 /public/fonts/
+
+# Google Cloud OAuth client secrets (local only, never commit)
+client secret*.json
+client_secret*.json
