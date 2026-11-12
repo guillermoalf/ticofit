@@ -3,7 +3,9 @@ import path from "node:path";
 import { Suspense } from "react";
 
 import { BRAND } from "@/config/brand";
+import { cn } from "@/lib/utils";
 import { landing } from "@/content/landing";
+import { PANEL, TONOS_CLAROS } from "../panel";
 import { PillLink } from "../pill-link";
 import { HeroCard } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
@@ -57,7 +59,7 @@ export function Intro() {
 export function HorarioSection() {
   const { horario } = home;
   return (
-    <section id={horario.id} className="scroll-mt-6 px-5 pb-[88px] lg:px-10">
+    <section id={horario.id} className={cn(PANEL, TONOS_CLAROS, "scroll-mt-6 bg-lima-claro px-5 pt-[72px] pb-[120px] text-verde-profundo lg:px-10 lg:pt-[88px]")}>
       <div className="mb-6">
         <div>
           <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{horario.eyebrow}</p>
@@ -88,16 +90,16 @@ export function Empezar() {
 function EmpezarContenido() {
   const { empezar } = home;
   return (
-    <section id={empezar.id} className="flex scroll-mt-6 flex-wrap gap-10 px-5 pb-[88px] lg:px-10">
+    <section id={empezar.id} className={cn(PANEL, "flex scroll-mt-6 flex-wrap gap-10 bg-verde-profundo px-5 pt-[72px] pb-[120px] text-crema-claro lg:px-10 lg:pt-[88px]")}>
       <div className="min-w-0 flex-[1_1_340px]">
         <h2 className="mb-3.5 font-tf-serif text-[34px] leading-[1.08] font-normal md:text-[38px]">
           {empezar.titulo}
         </h2>
-        <p className="max-w-[420px] text-[16px] leading-[1.6] text-musgo">{empezar.texto}</p>
+        <p className="max-w-[420px] text-[16px] leading-[1.6] text-niebla">{empezar.texto}</p>
       </div>
       <div className="flex min-w-0 flex-[999_1_460px] flex-wrap gap-[18px]">
         {empezar.ofertas.map((oferta) => (
-          <article key={oferta.titulo} className="flex min-w-0 flex-[1_1_220px] flex-col rounded-2xl bg-crema-card p-7">
+          <article key={oferta.titulo} className="flex min-w-0 flex-[1_1_220px] flex-col rounded-2xl bg-crema-claro p-7 text-verde-profundo">
             <h3 className="text-[13px] font-semibold tracking-[2px]">{oferta.titulo}</h3>
             <p className="mt-3.5 text-[15px] leading-[1.55] text-musgo">{oferta.texto}</p>
             <p className="mt-[22px] font-tf-serif text-[32px]">
@@ -120,7 +122,7 @@ function EmpezarContenido() {
 
 export function ResenasSection() {
   return (
-    <section className="border-t border-linea px-5 py-[88px] lg:px-10">
+    <section className={cn(PANEL, TONOS_CLAROS, "bg-celeste px-5 pt-[72px] pb-[120px] text-verde-profundo lg:px-10 lg:pt-[88px]")}>
       <Reviews />
     </section>
   );
