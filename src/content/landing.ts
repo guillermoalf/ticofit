@@ -192,7 +192,7 @@ export const landing = {
         rating: "4.9",
         ratingLabel: "4.9 de 5 estrellas en Google",
         ratingDetalle: "19 reseñas en Google",
-        reservar: { label: "Reservar", href: "/#horario" },
+        reservar: { label: "Reservar", href: whatsappUrl },
       },
     },
     /**
@@ -234,45 +234,42 @@ export const landing = {
       eyebrow: "Bienvenidos a ticofit",
       titulo: "Encontrá",
       tituloItalico: "tu espacio.",
-      cta: { label: "RESERVÁ TU PRIMERA CLASE", href: whatsappUrl },
       texto:
         "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Parque Bellavista y Parque del Café.",
     },
-    tiles: [
-      {
-        titulo: "ENTRENÁ",
-        pie: "Funcional, pesas y entrenamiento personal",
-        chips: ["PARQUE BELLAVISTA", "PARQUE DEL CAFÉ"],
-        href: "/#horario",
-        img: img("barra.jpg", "Manos en una barra olímpica"),
-      },
-      {
-        titulo: "COMÉ",
-        pie: "Numa ProteinBar, adentro del club",
-        chips: ["PARQUE DEL CAFÉ"],
-        href: "/numa",
-        img: img("numa.jpg", "Batido de proteína y bowl de fruta"),
-      },
-      {
-        titulo: "RECUPERATE",
-        pie: "Sauna, cold plunge y terapia roja",
-        chips: ["PARQUE DEL CAFÉ"],
-        href: "/?sede=cafe&servicio=recovery#horario",
-        img: img("sauna.jpg", "Sauna con terapia de luz roja"),
-      },
-      {
-        titulo: "TRABAJÁ",
-        pie: "Coworking para quedarse después",
-        chips: ["PARQUE DEL CAFÉ"],
-        href: "/sedes?sede=cafe",
-        img: img("cowork.jpg", "Rincón de coworking del club"),
-      },
-    ],
+    /**
+     * Two maps, one per sede. `coords` feed a keyless Google Maps embed;
+     * null shows a "pronto" card until Jeremy sends the location.
+     */
+    ubicacion: {
+      id: "ubicacion",
+      eyebrow: "Ubicación",
+      titulo: "Vení a",
+      tituloItalico: "conocernos.",
+      comoLlegar: "Cómo llegar",
+      mapaTitulo: "Mapa de {sede}",
+      pendiente: "La ubicación exacta la anunciamos pronto.",
+      sedes: [
+        {
+          id: "bellavista" as SedeId,
+          nombre: "ticofit parque bellavista",
+          detalle: "Rohrmoser, San José",
+          coords: [9.9511475, -84.1239449] as [number, number] | null,
+          href: mapsUrl as string | null,
+        },
+        {
+          id: "cafe" as SedeId,
+          nombre: "ticofit parque del café",
+          detalle: "Abre pronto",
+          coords: null as [number, number] | null,
+          href: null as string | null,
+        },
+      ],
+    },
     empezar: {
       id: "primera-clase",
       titulo: "¿No sabés por dónde empezar?",
       texto: "Vení a una clase suelta antes de decidirte. Sin membresía y sin compromiso.",
-      cta: { label: "VER EL CALENDARIO", href: "#horario" },
       ofertas: [
         {
           titulo: "PRIMERA CLASE",
@@ -308,11 +305,11 @@ export const landing = {
         hoy: "Ya no quedan espacios hoy. Probá con mañana.",
       },
       /**
-       * Without an account or an active membership, "Reservar" goes to buying
-       * the first class. Direct booking for members arrives with the Reservas
-       * y aforo module (there is no booking backend yet).
+       * The public site can't sell or book: every "Reservar" opens WhatsApp,
+       * where the team closes the sale. Direct booking for members arrives
+       * with the Reservas y aforo module.
        */
-      reservar: { label: "Reservar", href: "#primera-clase" },
+      reservar: { label: "Reservar", href: whatsappUrl },
       /** Open gym the old way: nothing to book. Prices come from `membresias.bellavista`. */
       bellavista: {
         titulo: "Open gym, sin reservas.",
