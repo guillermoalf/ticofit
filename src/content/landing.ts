@@ -246,8 +246,11 @@ export const landing = {
       eyebrow: "Ubicación",
       titulo: "Vení a",
       tituloItalico: "conocernos.",
-      comoLlegar: "Cómo llegar",
+      waze: "Abrir en Waze",
+      googleMaps: "Abrir en Google Maps",
       mapaTitulo: "Mapa de {sede}",
+      credito: "© OpenStreetMap",
+      pin: "ticofit.",
       pendiente: "La ubicación exacta la anunciamos pronto.",
       sedes: [
         {
