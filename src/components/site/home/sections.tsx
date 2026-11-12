@@ -10,6 +10,7 @@ import { HeroSlider } from "./hero-slider";
 import { Horario } from "./horario";
 import { IntroSession } from "./intro-session";
 import { Reviews } from "./reviews";
+import { SoloSede } from "./ubicacion";
 
 const { home } = landing;
 
@@ -73,7 +74,18 @@ export function HorarioSection() {
   );
 }
 
+/** Single-class offers: classes only exist at Parque del Café, so it follows the sede switch. */
 export function Empezar() {
+  return (
+    <Suspense>
+      <SoloSede sede="cafe">
+        <EmpezarContenido />
+      </SoloSede>
+    </Suspense>
+  );
+}
+
+function EmpezarContenido() {
   const { empezar } = home;
   return (
     <section id={empezar.id} className="flex scroll-mt-6 flex-wrap gap-10 px-5 pb-[88px] lg:px-10">
@@ -110,49 +122,6 @@ export function ResenasSection() {
   return (
     <section className="border-t border-linea px-5 py-[88px] lg:px-10">
       <Reviews />
-    </section>
-  );
-}
-
-/** One map per sede, after the offers: the last thing before the footer. */
-export function UbicacionSection() {
-  const { ubicacion } = home;
-  return (
-    <section id={ubicacion.id} className="scroll-mt-6 px-5 pb-[88px] lg:px-10">
-      <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{ubicacion.eyebrow}</p>
-      <h2 className="mb-8 font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
-        {ubicacion.titulo} <span className="italic">{ubicacion.tituloItalico}</span>
-      </h2>
-      <div className="grid grid-cols-1 gap-[18px] md:grid-cols-2">
-        {ubicacion.sedes.map((sede) => (
-          <div key={sede.id} className="flex flex-col overflow-hidden rounded-2xl bg-crema-card">
-            {sede.coords ? (
-              <iframe
-                title={ubicacion.mapaTitulo.replace("{sede}", sede.nombre)}
-                src={`https://maps.google.com/maps?q=${sede.coords[0]},${sede.coords[1]}&z=16&output=embed`}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="aspect-[4/3] w-full border-0 md:aspect-[16/10]"
-              />
-            ) : (
-              <div className="flex aspect-[4/3] w-full items-center justify-center bg-verde-profundo/6 px-8 text-center text-[15px] text-musgo md:aspect-[16/10]">
-                {ubicacion.pendiente}
-              </div>
-            )}
-            <div className="flex flex-wrap items-center gap-4 p-6">
-              <div className="min-w-0">
-                <h3 className="text-[17px] font-semibold">{sede.nombre}</h3>
-                <p className="mt-0.5 text-[14px] text-musgo">{sede.detalle}</p>
-              </div>
-              {sede.href && (
-                <PillLink href={sede.href} variant="verde" className="ml-auto min-h-11 px-6 text-[14px] font-semibold">
-                  {ubicacion.comoLlegar}
-                </PillLink>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }
