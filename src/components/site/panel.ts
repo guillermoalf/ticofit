@@ -1,10 +1,8 @@
 /**
- * Full-bleed colour section that rides up over the one before it with rounded
- * top corners — the same move as the hero's sede card over the slider. Each
- * panel needs bottom padding of its own for the next one to overlap.
+ * Full-bleed colour section with a straight cut: edge to edge, no rounding,
+ * no overlap, no shadow. The colour change alone marks the new section.
  */
-export const PANEL =
-  "relative -mt-10 rounded-t-[36px] shadow-[0_-18px_40px_-28px] shadow-verde-profundo/25 lg:-mt-14 lg:rounded-t-[56px]";
+export const PANEL = "relative px-5 py-16 lg:px-10 lg:py-24";
 
 /**
  * Remaps the muted text and rule tokens for content on lima or celeste, where

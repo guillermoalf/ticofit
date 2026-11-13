@@ -143,7 +143,7 @@ function Bellavista() {
   const b = horario.bellavista;
   const { openGym, personal } = landing.membresias.bellavista;
   const { ivaMes } = landing.membresias;
-  const card = "rounded-2xl bg-crema-card p-7";
+  const card = "rounded-2xl bg-crema-claro p-7";
   const kicker = "mb-4 text-[12px] font-semibold tracking-[1.8px] text-salvia uppercase";
 
   return (
