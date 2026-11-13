@@ -10,7 +10,7 @@ const { footer, contacto } = landing;
 /** Shared footer on `/` and `/comunidad`. */
 export function SiteFooter() {
   return (
-    <footer className={cn(PANEL, "bg-negro-grisaceo px-5 pt-[72px] pb-11 text-crema-claro lg:px-10 lg:pt-[88px]")}>
+    <footer className={cn(PANEL, "bg-negro-grisaceo pb-11 text-crema-claro lg:pb-11")}>
       <div className="flex flex-wrap gap-12 border-b border-linea-oscura pb-[52px]">
         <div className="min-w-0 flex-[999_1_400px]">
           <p className="font-tf-serif text-[34px] leading-[1.1] lg:text-[42px]">

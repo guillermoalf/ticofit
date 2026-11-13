@@ -41,7 +41,7 @@ export function Hero() {
 export function Intro() {
   const { intro } = home;
   return (
-    <section className="flex flex-wrap gap-14 px-5 pb-14 lg:px-10">
+    <section className="flex flex-wrap gap-14 px-5 pb-16 lg:px-10 lg:pb-24">
       <div className="min-w-0 flex-[1_1_380px]">
         <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{intro.eyebrow}</p>
         <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
@@ -59,7 +59,7 @@ export function Intro() {
 export function HorarioSection() {
   const { horario } = home;
   return (
-    <section id={horario.id} className={cn(PANEL, TONOS_CLAROS, "scroll-mt-6 bg-lima-claro px-5 pt-[72px] pb-[120px] text-verde-profundo lg:px-10 lg:pt-[88px]")}>
+    <section id={horario.id} className={cn(PANEL, TONOS_CLAROS, "scroll-mt-6 bg-crema-card text-verde-profundo")}>
       <div className="mb-6">
         <div>
           <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{horario.eyebrow}</p>
@@ -90,7 +90,7 @@ export function Empezar() {
 function EmpezarContenido() {
   const { empezar } = home;
   return (
-    <section id={empezar.id} className={cn(PANEL, "flex scroll-mt-6 flex-wrap gap-10 bg-verde-profundo px-5 pt-[72px] pb-[120px] text-crema-claro lg:px-10 lg:pt-[88px]")}>
+    <section id={empezar.id} className={cn(PANEL, "flex scroll-mt-6 flex-wrap gap-10 bg-verde-profundo text-crema-claro")}>
       <div className="min-w-0 flex-[1_1_340px]">
         <h2 className="mb-3.5 font-tf-serif text-[34px] leading-[1.08] font-normal md:text-[38px]">
           {empezar.titulo}
@@ -122,7 +122,7 @@ function EmpezarContenido() {
 
 export function ResenasSection() {
   return (
-    <section className={cn(PANEL, TONOS_CLAROS, "bg-celeste px-5 pt-[72px] pb-[120px] text-verde-profundo lg:px-10 lg:pt-[88px]")}>
+    <section className={cn(PANEL, "bg-crema-claro text-verde-profundo")}>
       <Reviews />
     </section>
   );
