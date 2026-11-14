@@ -30,14 +30,11 @@ export default async function MembresiasPage({ searchParams }: { searchParams: P
           intro={
             <>
               <p className="mb-[18px] text-[11px] tracking-[3px] text-lima-claro">{membresias.kicker}</p>
-              <h1 className="mx-auto max-w-[760px] font-tf-serif text-[44px] leading-none font-normal md:text-[68px]">
+              <h1 className="mx-auto mb-10 max-w-[760px] font-tf-serif text-[44px] leading-none font-normal md:text-[68px]">
                 {membresias.titulo}
                 <br />
                 <span className="text-lima-claro italic">{membresias.tituloItalico}</span>
               </h1>
-              <p className="mx-auto mt-[22px] mb-9 max-w-[540px] text-[17px] leading-[1.6] text-niebla-media">
-                {membresias.texto}
-              </p>
             </>
           }
           panels={{ bellavista: <BellavistaPlans />, cafe: <CafePlans /> }}
