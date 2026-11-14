@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { Check } from "../icons";
 import { Photo } from "../photo";
 import { PillLink } from "../pill-link";
+import { SmartLink } from "../smart-link";
 
 const { membresias } = landing;
 const { bellavista, cafe } = membresias;
@@ -59,7 +60,9 @@ export function BellavistaPlans() {
 
         <article className="flex min-w-0 flex-[1_1_380px] flex-col rounded-[18px] border border-linea-oscura p-7 md:p-10">
           <p className={cn(kicker, "text-lima-claro")}>{personal.kicker}</p>
-          <h2 className="mt-3.5 font-tf-serif text-[38px] leading-none font-normal md:text-[44px]">{personal.nombre}</h2>
+          <h2 className="mt-3.5 font-tf-serif text-[38px] leading-none font-normal md:text-[44px]">
+            {personal.nombre}
+          </h2>
           <p className="mt-[18px] text-[16px] leading-[1.6] text-niebla-media">{personal.texto}</p>
           <div className="mt-[26px] mb-9">
             {personal.paquetes.map((p) => (
@@ -107,7 +110,7 @@ export function CafePlans() {
                   {plan.precio}
                 </p>
                 <p className={cn("mt-1 text-[13px]", t.sub)}>{membresias.ivaMes}</p>
-                <ul className="mt-7 flex flex-col gap-3">
+                <ul className="mt-7 mb-[34px] flex flex-col gap-3">
                   {plan.incluye.map((item) => (
                     <li key={item} className={cn("flex gap-[11px] text-[15px] leading-[1.45]", t.texto)}>
                       <Check size={15} className={cn("mt-[3px] flex-none", t.acento)} />
@@ -118,7 +121,7 @@ export function CafePlans() {
                 <PillLink
                   href={plan.cta.href}
                   variant={t.boton}
-                  className="mt-[34px] min-h-[50px] text-[15px] font-semibold"
+                  className="mt-auto min-h-[50px] text-[15px] font-semibold"
                 >
                   {plan.cta.label}
                 </PillLink>
@@ -256,7 +259,15 @@ export function CafePlans() {
             </article>
           ))}
         </div>
-        <p className="mt-[22px] text-center text-[14px] text-niebla-suave">{sueltas.nota}</p>
+        <p className="mt-[22px] text-center text-[14px] text-niebla-suave">
+          {sueltas.nota.texto}{" "}
+          <SmartLink
+            href={sueltas.nota.link.href}
+            className="text-lima-claro underline underline-offset-4 hover:text-crema-claro"
+          >
+            {sueltas.nota.link.label}
+          </SmartLink>
+        </p>
       </section>
     </>
   );
