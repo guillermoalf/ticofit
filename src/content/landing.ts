@@ -518,8 +518,6 @@ export const landing = {
     kicker: "LOS PLANES",
     titulo: "Elegí cómo querés",
     tituloItalico: "vivir ticofit.",
-    texto:
-      "Todos los planes incluyen recovery, porque recuperarse no es un extra. Precios mensuales, IVA aparte.",
     tabsLabel: "Sede",
     porDefecto: "cafe" as SedeId,
     tabs: [
