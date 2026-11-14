@@ -10,13 +10,13 @@ const TONES = {
     list: "bg-amarillo-verde p-1.5",
     on: "bg-verde-profundo text-crema-claro",
     off: "bg-transparent text-oliva",
-    button: "px-4 text-[14px] sm:px-[30px] sm:text-[15px]",
+    button: "px-3 text-[14px] sm:px-[30px] sm:text-[15px]",
   },
   dark: {
     list: "bg-verde-noche p-[5px]",
     on: "bg-lima-claro text-verde-profundo",
     off: "bg-transparent text-niebla-media",
-    button: "px-4 text-[14px] sm:px-7",
+    button: "px-3 text-[14px] sm:px-7",
   },
 } as const;
 
@@ -34,7 +34,7 @@ export function SedeTabs({
   panels,
 }: {
   label: string;
-  tabs: ReadonlyArray<{ id: SedeId; label: string }>;
+  tabs: ReadonlyArray<{ id: SedeId; label: string; corto?: string }>;
   initial: SedeId;
   tone: keyof typeof TONES;
   intro: React.ReactNode;
@@ -58,7 +58,11 @@ export function SedeTabs({
     <>
       <section className={introClassName}>
         {intro}
-        <div role="tablist" aria-label={label} className={cn("inline-flex max-w-full flex-wrap rounded-full", t.list)}>
+        <div
+          role="tablist"
+          aria-label={label}
+          className={cn("flex w-full rounded-full sm:inline-flex sm:w-auto", t.list)}
+        >
           {tabs.map((tab, i) => {
             const selected = tab.id === sede;
             return (
@@ -76,12 +80,19 @@ export function SedeTabs({
                 onClick={() => setSede(tab.id)}
                 onKeyDown={(e) => onKeyDown(e, i)}
                 className={cn(
-                  "min-h-11 cursor-pointer rounded-full border-0 font-semibold transition-colors",
+                  "min-h-11 min-w-0 flex-1 cursor-pointer rounded-full border-0 font-semibold whitespace-nowrap transition-colors sm:flex-none",
                   t.button,
                   selected ? t.on : t.off,
                 )}
               >
-                {tab.label}
+                {tab.corto ? (
+                  <>
+                    <span className="sm:hidden">{tab.corto}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </>
+                ) : (
+                  tab.label
+                )}
               </button>
             );
           })}

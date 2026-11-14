@@ -423,8 +423,8 @@ export const landing = {
     tabsLabel: "Sede",
     porDefecto: "bellavista" as SedeId,
     tabs: [
-      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
-      { id: "cafe" as SedeId, label: "ticofit parque del café" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista", corto: "Parque Bellavista" },
+      { id: "cafe" as SedeId, label: "ticofit parque del café", corto: "Parque del Café" },
     ],
     bellavista: {
       badge: "ABIERTA HOY",
@@ -523,8 +523,8 @@ export const landing = {
     tabsLabel: "Sede",
     porDefecto: "cafe" as SedeId,
     tabs: [
-      { id: "bellavista" as SedeId, label: "ticofit parque bellavista" },
-      { id: "cafe" as SedeId, label: "ticofit parque del café" },
+      { id: "bellavista" as SedeId, label: "ticofit parque bellavista", corto: "Parque Bellavista" },
+      { id: "cafe" as SedeId, label: "ticofit parque del café", corto: "Parque del Café" },
     ],
     ivaMes: "+ IVA · al mes",
     bellavista: {
@@ -654,7 +654,10 @@ export const landing = {
         ],
         sufijo: "por clase · + IVA",
         cta: { label: "Comprar", href: whatsappUrl },
-        nota: `También estamos armando planes de coworking y de cumpleaños. ${PENDIENTE}`,
+        nota: {
+          texto: "También estamos armando planes de coworking y de cumpleaños.",
+          link: { label: "Consultá aquí", href: whatsappUrl },
+        },
       },
     },
     cta: {

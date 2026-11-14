@@ -7,7 +7,7 @@ import { SmartLink } from "./smart-link";
 
 const { footer, contacto } = landing;
 
-/** Shared footer on `/` and `/comunidad`. */
+/** Shared footer, at the end of every public page. */
 export function SiteFooter() {
   return (
     <footer className={cn(PANEL, "bg-negro-grisaceo pb-11 text-crema-claro lg:pb-11")}>

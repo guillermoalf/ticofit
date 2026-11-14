@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/site/site-footer";
 import type { Metadata } from "next";
 
 import { landing } from "@/content/landing";
@@ -70,6 +71,8 @@ export default function NumaPage() {
           {numa.cierre.cta.label}
         </PillLink>
       </section>
+
+      <SiteFooter />
     </>
   );
 }
