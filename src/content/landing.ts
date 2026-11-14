@@ -186,18 +186,37 @@ export const landing = {
           figura: { src: "/hero/recovery.png", alt: "Persona recuperándose después de entrenar", tamano: "media" as const },
         },
       ],
-      tarjeta: {
-        sedeLabel: "Nuestras sedes",
-        horarios: { label: "Ver horarios", href: "#horario" },
-        rating: "4.9",
-        ratingLabel: "4.9 de 5 estrellas en Google",
-        ratingDetalle: "19 reseñas en Google",
-        reservar: { label: "Reservar", href: whatsappUrl },
-      },
+    },
+    /**
+     * Right under the hero: pick a sede, see what it offers. The choice
+     * (`?sede=`) filters everything below. `detalle` is how each service is
+     * used; `href` (optional) is where its arrow goes.
+     */
+    selector: {
+      eyebrow: "Elegí tu sede",
+      zona: "Rohrmoser",
+      servicios: {
+        bellavista: [
+          { nombre: "Open gym", detalle: "Sin reserva", href: "/?sede=bellavista#horario" },
+          { nombre: "Entrenamiento personal", detalle: "Paquetes de 4, 8 y 12", href: "/?sede=bellavista#horario" },
+          { nombre: "Consultorio", detalle: "Por hora", href: whatsappUrl },
+          { nombre: "Medición InBody", detalle: "Una vez al mes", href: whatsappUrl },
+        ],
+        cafe: [
+          { nombre: "Pilates Reformer", detalle: "Con reserva", href: "/?sede=cafe&servicio=reformer#horario" },
+          { nombre: "Yoga", detalle: "Con reserva", href: "/?sede=cafe&servicio=yoga#horario" },
+          { nombre: "Barre", detalle: "Con reserva", href: "/?sede=cafe&servicio=barre#horario" },
+          { nombre: "Functional System", detalle: "Con reserva", href: "/?sede=cafe&servicio=functional#horario" },
+          { nombre: "Open gym", detalle: "Con reserva", href: "/?sede=cafe&servicio=open-gym#horario" },
+          { nombre: "Recovery", detalle: "Sauna · cold plunge · terapia roja", href: "/?sede=cafe&servicio=recovery#horario" },
+          { nombre: "Numa ProteinBar", detalle: "Dentro del club", href: "/numa" },
+          { nombre: "Coworking", detalle: "Dentro del club", href: null },
+        ],
+      } as Record<SedeId, { nombre: string; detalle: string; href: string | null }[]>,
     },
     /**
      * The two sedes as the home page shows them. The selection lives in the
-     * URL (`?sede=`), shared by the hero card and the schedule.
+     * URL (`?sede=`), set by the sede picker under the hero.
      */
     sedes: {
       porDefecto: "bellavista" as SedeId,
@@ -229,13 +248,6 @@ export const landing = {
       cerrar: "Cerrar",
       /** Pre-filled WhatsApp message from the staff waitlist view. */
       whatsapp: "Hola {nombre}, te escribimos de ticofit: ¡ya abrimos en {sede}!",
-    },
-    intro: {
-      eyebrow: "Bienvenidos a ticofit",
-      titulo: "Encontrá",
-      tituloItalico: "tu espacio.",
-      texto:
-        "Clases en grupos pequeños, Numa ProteinBar para comer bien, una sala de recovery con sauna, infrarrojo y cold plunge, y un espacio para trabajar entre una cosa y otra. Todo bajo el mismo techo, en dos sedes: Parque Bellavista y Parque del Café.",
     },
     /**
      * Two maps, one per sede. `coords` feed a keyless Google Maps embed;
@@ -294,7 +306,6 @@ export const landing = {
       eyebrow: "Horario",
       titulo: "Planeá tu",
       tituloItalico: "semana.",
-      sedeLabel: "Estás viendo",
       diasLabel: "Elegí un día",
       hoy: "Hoy",
       filtroLabel: "Elegí una clase",

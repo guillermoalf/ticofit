@@ -6,7 +6,6 @@ import {
   Empezar,
   Hero,
   HorarioSection,
-  Intro,
   ResenasSection,
 } from "@/components/site/home/sections";
 
@@ -21,7 +20,6 @@ export default function HomePage() {
       <Hero />
       {/* Kept off the cream canvas while the intro logo writes itself. */}
       <div className="tf-intro-rest">
-        <Intro />
         <HorarioSection />
         <ResenasSection />
         <Empezar />

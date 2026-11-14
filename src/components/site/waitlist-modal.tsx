@@ -14,7 +14,8 @@ const copy = landing.home.listaEspera;
  * opened with showModal(): the rest of the page goes inert (focus stays
  * trapped inside) and Esc closes it; a click on the backdrop closes it too.
  */
-export function WaitlistButton({ sede, className }: { sede: SedeId; className?: string }) {
+/** `link` renders the trigger as a plain text link with an arrow instead of a pill. */
+export function WaitlistButton({ sede, className, link }: { sede: SedeId; className?: string; link?: boolean }) {
   const ref = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const id = useId();
@@ -103,11 +104,20 @@ export function WaitlistButton({ sede, className }: { sede: SedeId; className?: 
         type="button"
         onClick={abrir}
         className={cn(
-          "inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-verde-profundo px-5 text-[14px] font-semibold text-crema-claro transition-opacity hover:opacity-90",
+          link
+            ? "group inline-flex min-h-11 shrink-0 cursor-pointer items-center gap-2 text-[16px] font-semibold text-verde-profundo"
+            : "inline-flex min-h-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-verde-profundo px-5 text-[14px] font-semibold text-crema-claro transition-opacity hover:opacity-90",
           className,
         )}
       >
-        {copy.boton}
+        {link ? (
+          <>
+            <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{copy.boton}</span>
+            <span aria-hidden="true">→</span>
+          </>
+        ) : (
+          copy.boton
+        )}
       </button>
 
       <dialog
