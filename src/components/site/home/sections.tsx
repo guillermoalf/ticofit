@@ -7,18 +7,18 @@ import { cn } from "@/lib/utils";
 import { landing } from "@/content/landing";
 import { PANEL, TONOS_CLAROS } from "../panel";
 import { PillLink } from "../pill-link";
-import { HeroCard } from "./hero-card";
 import { HeroSlider } from "./hero-slider";
 import { Horario } from "./horario";
 import { IntroSession } from "./intro-session";
 import { Reviews } from "./reviews";
+import { SedeSelector } from "./sede-selector";
 import { SoloSede } from "./ubicacion";
 
 const { home } = landing;
 
 /**
- * Full-bleed service slider under a transparent header, with the cream sede
- * card riding up over its bottom edge. Figure PNGs are optional: the server
+ * Full-bleed service slider under a transparent header, then the sede picker
+ * that filters the rest of the page. Figure PNGs are optional: the server
  * checks public/hero so a missing file renders a placeholder, not a 404.
  */
 export function Hero() {
@@ -29,28 +29,17 @@ export function Hero() {
     ]),
   );
   return (
-    <section className="pb-[72px]">
+    <section>
       <h1 className="sr-only">{BRAND.name}</h1>
       <HeroSlider figuras={figuras} />
-      <HeroCard />
+      {/* Last element of the intro sequence: its animationend ends the intro. */}
+      <div className="tf-intro-cta px-5 pt-14 pb-16 lg:px-10 lg:pt-20 lg:pb-24">
+        {/* useSearchParams needs a boundary to keep the page static. */}
+        <Suspense>
+          <SedeSelector />
+        </Suspense>
+      </div>
       <IntroSession />
-    </section>
-  );
-}
-
-export function Intro() {
-  const { intro } = home;
-  return (
-    <section className="flex flex-wrap gap-14 px-5 pb-16 lg:px-10 lg:pb-24">
-      <div className="min-w-0 flex-[1_1_380px]">
-        <p className="mb-4 text-[13px] leading-normal font-semibold tracking-[1.2px] uppercase">{intro.eyebrow}</p>
-        <h2 className="font-tf-serif text-[38px] leading-[1.06] font-normal md:text-[44px]">
-          {intro.titulo} <span className="italic">{intro.tituloItalico}</span>
-        </h2>
-      </div>
-      <div className="min-w-0 flex-[1_1_420px] md:pt-[34px]">
-        <p className="text-[16px] leading-[1.65] text-musgo">{intro.texto}</p>
-      </div>
     </section>
   );
 }

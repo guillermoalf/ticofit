@@ -78,8 +78,7 @@ function cuposMuestra(seed: string, aforo: number) {
 }
 
 /**
- * Public schedule. "Estás viendo" shows and switches the sede (shared with
- * the hero card through `?sede=`). Parque Bellavista is open gym with nothing
+ * Public schedule for the sede picked under the hero (`?sede=`). Parque Bellavista is open gym with nothing
  * to book, so it shows hours and prices; Parque del Café shows the next 7
  * days for one class at a time (`?servicio=`). Dates are computed after mount
  * in Costa Rica time, so the statically built page never shows a stale "Hoy".
@@ -89,29 +88,6 @@ export function Horario() {
 
   return (
     <div>
-      <div className="mb-8 flex flex-wrap items-center gap-3">
-        <span className="text-[13px] font-semibold tracking-[1.2px] text-salvia uppercase">{horario.sedeLabel}</span>
-        <div role="group" aria-label={horario.sedeLabel} className="inline-flex rounded-full border border-linea-tag p-1">
-          {sedes.lista.map((s) => {
-            const selected = s.id === sede;
-            return (
-              <button
-                key={s.id}
-                type="button"
-                aria-pressed={selected}
-                onClick={() => set({ sede: s.id })}
-                className={cn(
-                  "min-h-10 cursor-pointer rounded-full px-4 text-[14px] font-medium transition-colors md:px-5",
-                  selected ? "bg-verde-profundo text-crema-claro" : "text-verde-profundo hover:bg-verde-profundo/8",
-                )}
-              >
-                {s.corto}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       {sedes.lista.find((s) => s.id === sede)?.estado === "proximamente" ? (
         <Proximamente sede={sede} />
       ) : sede === "bellavista" ? (
