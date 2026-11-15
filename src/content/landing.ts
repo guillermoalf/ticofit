@@ -256,6 +256,7 @@ export const landing = {
     ubicacion: {
       id: "ubicacion",
       eyebrow: "Ubicación",
+      cambiarSede: "Ver la ubicación de otra sede",
       titulo: "Vení a",
       tituloItalico: "conocernos.",
       waze: "Abrir en Waze",
