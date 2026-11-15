@@ -1,16 +1,33 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
+import { useId, useLayoutEffect, useRef, type ReactNode } from "react";
 
 import { landing, type SedeId } from "@/content/landing";
+import { cn } from "@/lib/utils";
 import { PillLink } from "../pill-link";
 import { useHomeParams } from "./home-params";
 import { MAPA_H, MAPA_W, MAPAS, type MapaSede } from "./mapas.generated";
 
-const { ubicacion } = landing.home;
+const { ubicacion, sedes } = landing.home;
 
 /** Illustrated map and directions for one sede, shown under its schedule and prices. */
 export function SedeUbicacion({ sede }: { sede: SedeId }) {
+  const { set } = useHomeParams();
+  const raiz = useRef<HTMLDivElement>(null);
+  // Switching sede here re-renders the whole page above (schedule, prices),
+  // so its height changes. Keep the map where the reader's eye already is.
+  const topAntes = useRef<number | null>(null);
+  useLayoutEffect(() => {
+    if (topAntes.current === null || !raiz.current) return;
+    window.scrollBy(0, raiz.current.getBoundingClientRect().top - topAntes.current);
+    topAntes.current = null;
+  }, [sede]);
+  const cambiar = (id: SedeId) => {
+    if (id === sede) return;
+    topAntes.current = raiz.current?.getBoundingClientRect().top ?? null;
+    set({ sede: id });
+  };
+
   const s = ubicacion.sedes.find((u) => u.id === sede);
   if (!s) return null;
   const mapa = MAPAS[sede];
@@ -23,8 +40,31 @@ export function SedeUbicacion({ sede }: { sede: SedeId }) {
     : [];
 
   return (
-    <div id={ubicacion.id} className="mt-14 scroll-mt-6">
-      <p className="mb-4 text-[12px] font-semibold tracking-[1.8px] text-salvia uppercase">{ubicacion.eyebrow}</p>
+    <div ref={raiz} id={ubicacion.id} className="mt-14 scroll-mt-6">
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <p className="text-[12px] font-semibold tracking-[1.8px] text-salvia uppercase">{ubicacion.eyebrow}</p>
+        <div role="group" aria-label={ubicacion.cambiarSede} className="flex gap-5 text-[14px]">
+          {sedes.lista.map((x) => {
+            const activa = x.id === sede;
+            return (
+              <button
+                key={x.id}
+                type="button"
+                aria-pressed={activa}
+                onClick={() => cambiar(x.id)}
+                className={cn(
+                  "cursor-pointer underline-offset-[6px] transition-colors",
+                  activa
+                    ? "font-semibold text-verde-profundo underline decoration-1"
+                    : "text-salvia hover:text-verde-profundo",
+                )}
+              >
+                {x.corto}
+              </button>
+            );
+          })}
+        </div>
+      </div>
       <div className="grid overflow-hidden rounded-2xl bg-verde-profundo text-crema-claro md:grid-cols-[3fr_2fr]">
         <div className="relative aspect-[4/5] md:aspect-auto md:h-[clamp(360px,50vh,520px)]">
           {mapa ? (
