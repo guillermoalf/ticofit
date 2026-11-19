@@ -59,7 +59,7 @@ export const landing = {
     },
     comunidad: {
       title: "Comunidad",
-      description: "La gente, el equipo y las reseñas de ticofit wellness club.",
+      description: "La gente de ticofit wellness club: los runs del domingo, el club y lo que viene después.",
     },
   },
 
@@ -666,18 +666,55 @@ export const landing = {
     },
   },
 
+  /**
+   * /comunidad: the people of ticofit, told with their own footage. Videos
+   * live in public/video/comunidad (edited from Jeremy's clips: 50% slow
+   * motion, muted, warm grade). The hero has a horizontal cut for wide
+   * screens and a vertical one for phones; the poster JPG shows while the
+   * video loads and for anyone who prefers reduced motion.
+   */
   comunidad: {
     titulo: "Comunidad",
+    hero: {
+      kicker: "Comunidad",
+      titulo: "La gente de",
+      tituloItalico: "ticofit.",
+      alt: "Miembros de ticofit estirando en el parque, corriendo, entrenando y desayunando juntos",
+      horizontal: { video: "/video/comunidad/hero-horizontal.mp4", poster: "/video/comunidad/hero-horizontal.jpg" },
+      vertical: { video: "/video/comunidad/hero-vertical.mp4", poster: "/video/comunidad/hero-vertical.jpg" },
+    },
     texto:
       "ticofit nació de una idea sencilla: que entrenar también sea sentirse bien, acompañado y parte de algo. Acá nadie es un número de casillero.",
-    pendiente: "[Pendiente — Jeremy: la historia del club en sus propias palabras.]",
-    img: img("comunidad.jpg", "Miembros de ticofit a la entrada del club"),
-    equipo: {
-      titulo: "El equipo",
-      retrato: "[Retrato]",
-      nombre: "[Nombre]",
-      rol: "[Rol y certificaciones]",
-      cantidad: 4,
+    momentos: [
+      {
+        kicker: "Domingo",
+        titulo: "Los domingos corremos.",
+        texto: "Salimos juntos, cada quien a su ritmo.",
+        video: "/video/comunidad/corremos.mp4",
+        poster: "/video/comunidad/corremos.jpg",
+        alt: "Miembros de ticofit corriendo juntos un domingo por la mañana",
+      },
+      {
+        kicker: "El club",
+        titulo: "Entrenar con guía.",
+        texto: "Un espacio tranquilo, con alguien que te acompaña en cada movimiento.",
+        video: "/video/comunidad/club.mp4",
+        poster: "/video/comunidad/club.jpg",
+        alt: "Miembros entrenando en ticofit parque bellavista",
+      },
+      {
+        kicker: "Después del run",
+        titulo: "Y después, a la mesa.",
+        texto: "El desayuno es parte del plan.",
+        video: "/video/comunidad/despues.mp4",
+        poster: "/video/comunidad/despues.jpg",
+        alt: "El grupo desayunando junto después de correr",
+      },
+    ],
+    cierre: {
+      titulo: "Vení a correr",
+      tituloItalico: "con nosotros.",
+      link: { label: "Escribinos por WhatsApp", href: whatsappUrl },
     },
     resenas: {
       rating: "4.9",
