@@ -33,7 +33,7 @@ export function Hero() {
       <h1 className="sr-only">{BRAND.name}</h1>
       <HeroSlider figuras={figuras} />
       {/* Last element of the intro sequence: its animationend ends the intro. */}
-      <div className="tf-intro-cta px-5 pt-14 pb-16 lg:px-10 lg:pt-20 lg:pb-24">
+      <div id={home.selector.id} className="tf-intro-cta scroll-mt-6 px-5 pt-14 pb-16 lg:px-10 lg:pt-20 lg:pb-24">
         {/* useSearchParams needs a boundary to keep the page static. */}
         <Suspense>
           <SedeSelector />
