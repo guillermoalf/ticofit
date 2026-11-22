@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { landing } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { SmartLink } from "../smart-link";
@@ -37,6 +39,27 @@ export function SedeSelector() {
   const { sede, set } = useHomeParams();
   const actual = sedes.lista.find((s) => s.id === sede);
   const servicios = selector.servicios[sede];
+
+  // A fresh load of /?sede=…#sedes (the navbar's Sedes links, old /sedes
+  // links) lands before the hero has its final height, so the browser's own
+  // jump to the anchor misses. Land on it again once mounted and once the
+  // page has loaded, unless the visitor has already started scrolling.
+  useEffect(() => {
+    if (window.location.hash !== `#${selector.id}`) return;
+    const ir = () => document.getElementById(selector.id)?.scrollIntoView({ behavior: "instant" });
+    const soltar = () => {
+      window.removeEventListener("load", ir);
+      window.removeEventListener("wheel", soltar);
+      window.removeEventListener("touchstart", soltar);
+    };
+    ir();
+    if (document.readyState !== "complete") {
+      window.addEventListener("load", ir, { once: true });
+      window.addEventListener("wheel", soltar, { once: true, passive: true });
+      window.addEventListener("touchstart", soltar, { once: true, passive: true });
+    }
+    return soltar;
+  }, []);
 
   return (
     <div>

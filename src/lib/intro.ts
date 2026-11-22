@@ -26,4 +26,4 @@ const play = `function p(){if(d.getAttribute(a)!==null)d.setAttribute(a,${JSON.s
 
 export const introScript = `try{var d=document.documentElement,a=${JSON.stringify(INTRO_ATTR)},k=${JSON.stringify(
   INTRO_SESSION_KEY,
-)};if(location.pathname==="/"&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");d.setAttribute(a,"");${play}var go=function(){requestAnimationFrame(p)};try{var o=new PerformanceObserver(function(l){if(l.getEntries().length){o.disconnect();go()}});o.observe({type:"paint",buffered:true})}catch(e){requestAnimationFrame(go)}setTimeout(p,3000)}}catch(e){}`;
+)};if(location.pathname==="/"&&!location.hash&&!sessionStorage.getItem(k)){sessionStorage.setItem(k,"1");d.setAttribute(a,"");${play}var go=function(){requestAnimationFrame(p)};try{var o=new PerformanceObserver(function(l){if(l.getEntries().length){o.disconnect();go()}});o.observe({type:"paint",buffered:true})}catch(e){requestAnimationFrame(go)}setTimeout(p,3000)}}catch(e){}`;

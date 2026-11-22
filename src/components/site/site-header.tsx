@@ -69,7 +69,26 @@ export function SiteHeader() {
   }, [menuOpen]);
 
   const isActive = (href: string) => pathname === href;
-  const sedesActive = pathname === "/sedes";
+
+  /**
+   * Sedes links point at the home's sede picker with that sede chosen. Already
+   * on the home, skip the navigation: pick the sede in place and glide down.
+   * Two frames' wait lets the mobile menu unmount and unlock body scroll first.
+   */
+  const irASede = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setSedesOpen(false);
+    setMenuOpen(false);
+    if (pathname !== "/") return;
+    e.preventDefault();
+    const url = new URL(href, window.location.href);
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+    const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        document.getElementById(url.hash.slice(1))?.scrollIntoView({ behavior: suave ? "smooth" : "auto" }),
+      ),
+    );
+  };
 
   const linkBase = "text-[14px] leading-[44px] tracking-[0.4px] no-underline";
   const linkTone = dark
@@ -106,7 +125,6 @@ export function SiteHeader() {
             className={cn(
               "inline-flex min-h-11 cursor-pointer items-center gap-[7px] bg-transparent px-1 text-[14px] tracking-[0.4px]",
               dark ? "text-crema-claro" : "text-verde-profundo",
-              sedesActive && activeTone,
             )}
           >
             {nav.sedesLabel}
@@ -121,7 +139,7 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setSedesOpen(false)}
+                  onClick={(e) => irASede(e, item.href)}
                   className="block rounded-[10px] px-[15px] py-[13px] text-verde-profundo no-underline hover:bg-crema-card"
                 >
                   <span className="block text-[15px] font-semibold">{item.label}</span>
@@ -205,7 +223,7 @@ export function SiteHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setMenuOpen(false)}
+                onClick={(e) => irASede(e, item.href)}
                 className="py-2 font-tf-serif text-[34px] leading-tight text-inherit no-underline"
               >
                 {item.label}

@@ -43,11 +43,6 @@ export const landing = {
       description:
         "Tu club de bienestar en San José. Entrená, comé bien y recuperate en un solo lugar.",
     },
-    sedes: {
-      title: "Sedes",
-      description:
-        "ticofit parque bellavista en Rohrmoser y ticofit parque del café. Dos sedes, dos clubes.",
-    },
     numa: {
       title: "Numa ProteinBar",
       description: "El bar del club, solo en ticofit parque del café.",
@@ -72,8 +67,8 @@ export const landing = {
   nav: {
     sedesLabel: "Sedes",
     sedesMenu: [
-      { label: "ticofit parque bellavista", sub: "Rohrmoser", href: "/sedes" },
-      { label: "ticofit parque del café", sub: "Abre pronto", href: "/sedes?sede=cafe" },
+      { label: "ticofit parque bellavista", sub: "Rohrmoser", href: "/?sede=bellavista#sedes" },
+      { label: "ticofit parque del café", sub: "Abre pronto", href: "/?sede=cafe#sedes" },
     ],
     links: [
       { label: "Clases", href: "/#horario" },
@@ -193,6 +188,8 @@ export const landing = {
      * used; `href` (optional) is where its arrow goes.
      */
     selector: {
+      /** Anchor for the navbar's Sedes links: they land here with the sede picked. */
+      id: "sedes",
       eyebrow: "Elegí tu sede",
       zona: "Rohrmoser",
       servicios: {
@@ -418,69 +415,6 @@ export const landing = {
     },
   },
 
-  sedes: {
-    titulo: "Dos sedes, dos clubes",
-    texto: "No comparten horarios ni precios. Escogé una y toda la página se acomoda a esa sede.",
-    tabsLabel: "Sede",
-    porDefecto: "bellavista" as SedeId,
-    tabs: [
-      { id: "bellavista" as SedeId, label: "ticofit parque bellavista", corto: "Parque Bellavista" },
-      { id: "cafe" as SedeId, label: "ticofit parque del café", corto: "Parque del Café" },
-    ],
-    bellavista: {
-      badge: "ABIERTA HOY",
-      nombre: "ticofit parque bellavista",
-      descripcion:
-        "Rohrmoser, San José. El club original: open gym de verdad, entrá a la hora que quieras y entrená a tu ritmo, con un coach cerca si lo necesitás.",
-      datos: [
-        { label: "ENTRADA", valor: "Sin reserva", serif: true },
-        { label: "AMBIENTE", valor: "Nunca lleno", serif: true },
-        { label: "LUN A VIE", valor: "6:00\u00a0a.m. –\u00a09:00\u00a0p.m.", serif: false },
-        { label: "SÁBADO", valor: "8:00\u00a0a.m. –\u00a012:00\u00a0m.d.", serif: false },
-      ],
-      ctas: [
-        { label: "Ver precios de parque bellavista", href: "/membresias?sede=bellavista" },
-        { label: "Cómo llegar", href: mapsUrl },
-      ],
-      img: img("opengym.jpg", "Piso de open gym en ticofit parque bellavista"),
-      panel: {
-        titulo: "Qué hay acá",
-        items: [
-          "Open gym — ₡40.000 + IVA al mes",
-          "Entrenamiento personal en paquetes de 4, 8 y 12",
-          "Consultorio por hora: fisioterapia y nutrición",
-          "Medición mensual con InBody y cinta métrica",
-        ],
-      },
-    },
-    cafe: {
-      badge: "PRÓXIMAMENTE",
-      nombre: "ticofit parque del café",
-      descripcion:
-        "El club nuevo. Acá reservás tu espacio antes de venir, hasta para el open gym, así nunca te toca hacer fila por una máquina.",
-      datos: [
-        { label: "ENTRADA", valor: "Con reserva", serif: true },
-        { label: "CLASES", valor: "Grupos pequeños", serif: true },
-        { label: "PILATES REFORMER", valor: "Cupo muy limitado", serif: false },
-        { label: "APERTURA", valor: PENDIENTE, serif: false },
-      ],
-      ctas: [
-        { label: "Ver membresías", href: "/membresias?sede=cafe" },
-        { label: "Ver las clases", href: "/#horario" },
-      ],
-      img: img("pilates.jpg", "Salón mova de ticofit parque del café"),
-      panel: {
-        titulo: "Los salones",
-        items: [
-          { destacado: "mova", texto: " — pilates, yoga, barre y baile" },
-          { destacado: "reset", texto: " — sauna, cold plunge y terapia roja" },
-          { destacado: null, texto: "Salón funcional, con clase todos los días" },
-          { destacado: null, texto: "Numa ProteinBar y coworking" },
-        ],
-      },
-    },
-  },
-
   numa: {
     badge: "SOLO EN PARQUE DEL CAFÉ",
     titulo: "Numa",
@@ -511,7 +445,7 @@ export const landing = {
     },
     cierre: {
       texto: "Numa abre junto con ticofit parque del café.",
-      cta: { label: "Ver la sede", href: "/sedes?sede=cafe" },
+      cta: { label: "Ver la sede", href: "/?sede=cafe#sedes" },
     },
   },
 
