@@ -14,8 +14,21 @@ const copy = landing.home.listaEspera;
  * opened with showModal(): the rest of the page goes inert (focus stays
  * trapped inside) and Esc closes it; a click on the backdrop closes it too.
  */
-/** `link` renders the trigger as a plain text link with an arrow instead of a pill. */
-export function WaitlistButton({ sede, className, link }: { sede: SedeId; className?: string; link?: boolean }) {
+/**
+ * `link` renders the trigger as a plain text link with an arrow instead of a
+ * pill; `label` replaces the default trigger text.
+ */
+export function WaitlistButton({
+  sede,
+  className,
+  link,
+  label = copy.boton,
+}: {
+  sede: SedeId;
+  className?: string;
+  link?: boolean;
+  label?: string;
+}) {
   const ref = useRef<HTMLDialogElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const id = useId();
@@ -112,11 +125,11 @@ export function WaitlistButton({ sede, className, link }: { sede: SedeId; classN
       >
         {link ? (
           <>
-            <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{copy.boton}</span>
+            <span className="underline decoration-1 underline-offset-4 group-hover:decoration-2">{label}</span>
             <span aria-hidden="true">→</span>
           </>
         ) : (
-          copy.boton
+          label
         )}
       </button>
 
