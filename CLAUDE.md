@@ -137,6 +137,12 @@ App icons (`app/favicon.ico`, `app/apple-icon.png`, `public/icon-192.png`,
 
 ## 3. Scope — Fase 1 (agreed: 107 hours / $2,140)
 
+> **Internal system (2026-11-21):** the internal system is now specified in
+> `design/internal/SISTEMA-INTERNO.md`, whose §0b overrides this section where they
+> differ. It includes payroll and a PIN time clock for staff. It is built on
+> `feat/internal-system` and never merged into `staging`, because **`staging` is
+> production** (Vercel deploys it).
+
 Jeremy's budget is tight. This is deliberately cut back. Anything outside this list is a
 later phase and must not be built without asking first.
 
