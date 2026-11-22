@@ -10,7 +10,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 |---|---|
 | 0 · Inventory + architecture | ✅ done |
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
-| 2 · Clients, expediente, measurements | ⏳ 0024 applied and verified; screens not yet tested against the database |
+| 2 · Clients, expediente, measurements | ✅ tested against the database (DEMO client); invitations untested |
 | 3 · Memberships & payments | ⬜ |
 | 4 · Exercise library & routines | ⬜ |
 | 5 · Salones, disciplines, calendar | ⬜ |
@@ -132,8 +132,24 @@ Checked with invented data on a throwaway route (deleted): sheet, every progress
 tooltip by keyboard, single-point chart, form validation, at 1440 and 390. Invitation
 page checked only in its invalid-link state.
 
-**Not exercised yet (needs a PIN session and flagged DEMO rows):** every real read and save, the roster, the
-client file, the client portal, sending and accepting an invitation.
+**Exercised against the database (2026-11-22, Guillermo's PIN session, client
+"DEMO — Prueba", no email):** create the file (with a failed validation first: values
+kept), clinical history v1 and v2, three measurements (backdated, today, and one inside
+the interval: refused without a reason, saved with one), correcting a measurement,
+editing the profile, roster search by accents, two words and phone. Audit columns all
+stamped with the acting employee. Desktop and phone.
+
+**Not exercised:** invitations (no SMTP), the client portal with a real client login,
+a coach (non-admin) session in the UI.
+
+- 🔴 fixed · `components/desk/record-form.tsx`: a submit before hydration fell back to
+  the browser's GET and put the whole measurement in the URL. Button is disabled until
+  hydrated and every desk form is `method="post"`.
+- 🔵 fixed · grey-bar caption shown with no grey bar; interval message told an admin to
+  ask an admin.
+- 🔵 open · toasts use the dark theme on the light desk.
+- **DEMO rows still in the database:** `supabase/cleanup/2026-11-22_demo_fase2.sql`
+  (untracked) deletes them.
 
 - 🟡 fixed before commit: test values copied from a real client's sheet → invented.
 - 🟡 open: invitations need setup in Supabase before they work for real clients: custom

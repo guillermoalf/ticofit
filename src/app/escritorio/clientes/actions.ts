@@ -145,6 +145,9 @@ export async function createMeasurementAction(id: string, form: FormData): Promi
     measured_on: date,
     override_reason: reason && can(auth.staff, "measurements.override") ? reason.slice(0, 500) : null,
   });
+  if (error?.message.includes("MEASUREMENT_INTERVAL") && can(auth.staff, "measurements.override")) {
+    return { ok: false, error: "Ya hay una medición muy cerca de esa fecha. Para registrarla igual, escribí el motivo." };
+  }
   if (error) return { ok: false, error: dbError(error) };
   revalidatePath(`/escritorio/clientes/${id}`);
   return { ok: true, message: "Medición guardada.", href: `/escritorio/clientes/${id}?tab=mediciones` };

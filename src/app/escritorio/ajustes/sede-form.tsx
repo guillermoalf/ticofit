@@ -60,7 +60,7 @@ export function SedeForm({ sede }: { sede: Sede }) {
   };
 
   return (
-    <form onSubmit={save} className="space-y-4 rounded-2xl border border-border bg-surface p-5">
+    <form onSubmit={save} method="post" className="space-y-4 rounded-2xl border border-border bg-surface p-5">
       <TextField label="Nombre" value={name} onChange={setName} required />
       <TextField label="Dirección" value={address} onChange={setAddress} />
       <div className="grid gap-4 sm:grid-cols-2">

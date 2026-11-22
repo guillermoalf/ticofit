@@ -148,7 +148,7 @@ function StaffForm({
   };
 
   return (
-    <form onSubmit={submit} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
+    <form onSubmit={submit} method="post" className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
       <TextField label="Nombre completo" value={name} onChange={setName} required autoComplete="off" />
       <SelectField label="Rol" value={role} onChange={setRole} options={roles.map((r) => ({ value: r.id, label: r.label }))} />
       <fieldset>
@@ -239,7 +239,7 @@ function PinForm({ row, onDone }: { row: StaffRow; onDone: () => void }) {
   };
 
   return (
-    <form onSubmit={submit} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
+    <form onSubmit={submit} method="post" className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
       <p className="text-[15px] text-muted">
         Nuevo PIN para <strong className="text-ink">{row.full_name}</strong>. También desbloquea a quien se quedó bloqueado por
         intentos fallidos.

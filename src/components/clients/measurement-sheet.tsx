@@ -20,6 +20,8 @@ export function MeasurementSheet({
   birthDate: string | null;
 }) {
   const ratio = waistHip(m, gender);
+  const hasPrevious =
+    previous !== null && [previous.muscle_kg, previous.fat_kg, previous.body_water_pct].some((v) => v !== null);
   const age = ageOn(birthDate, m.measured_on);
 
   return (
@@ -54,7 +56,7 @@ export function MeasurementSheet({
           share={percentOfWeight(m.fat_kg, m.weight_kg)}
         />
         <Compare label="Agua" unit=" %" now={m.body_water_pct} before={previous?.body_water_pct ?? null} max={100} />
-        {previous && (
+        {hasPrevious && (
           <p className="text-xs text-muted">La barra gris es la medición del {formatDate(previous.measured_on)}.</p>
         )}
       </div>

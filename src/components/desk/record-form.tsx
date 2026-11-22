@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState, useTransition } from "react";
+import { useEffect, useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -34,6 +34,10 @@ export function RecordForm({
   const id = useId();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  // Until React has attached onSubmit, a submit would be the browser's own GET
+  // and put health data in the URL: keep the button off until then.
+  const [ready, setReady] = useState(false);
+  useEffect(() => setReady(true), []);
 
   // onSubmit, not <form action>: React resets a form after its action, which
   // would wipe everything typed when validation fails.
@@ -52,7 +56,7 @@ export function RecordForm({
   };
 
   return (
-    <form onSubmit={submit} className="max-w-5xl space-y-8">
+    <form onSubmit={submit} method="post" className="max-w-5xl space-y-8">
       {groups.map((g) => (
         <fieldset key={g.title} disabled={pending} className="min-w-0 rounded-2xl border border-border bg-surface p-4 sm:p-5">
           <legend className="px-2 text-[15px] font-semibold">{g.title}</legend>
@@ -66,7 +70,7 @@ export function RecordForm({
       <div className="sticky bottom-0 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border bg-base py-3">
         <button
           type="submit"
-          disabled={pending}
+          disabled={pending || !ready}
           className="cursor-pointer rounded-full bg-verde-profundo px-6 py-3 font-semibold text-crema-claro disabled:opacity-60"
         >
           {pending ? "Guardando…" : submitLabel}

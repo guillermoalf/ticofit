@@ -210,7 +210,7 @@ function Bootstrap() {
     "w-full rounded-xl border border-border bg-surface px-4 py-3 text-[16px] text-ink outline-none focus:border-primary";
 
   return (
-    <form onSubmit={submit} className="mx-auto w-full max-w-sm">
+    <form onSubmit={submit} method="post" className="mx-auto w-full max-w-sm">
       <h1 className="font-tf-serif text-[40px] leading-tight">Primer ingreso</h1>
       <p className="mt-2 text-muted">
         Todavía no hay personal registrado. Creá el primer administrador: después vas a poder agregar al resto del equipo.
