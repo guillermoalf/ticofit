@@ -28,14 +28,14 @@ export const getStaff = cache(async (): Promise<StaffContext | null> => {
 
 /**
  * Gate for staff pages and server actions: a desk account with an unlocked
- * PIN session, optionally holding a permission. Anything else goes back to
- * /escritorio, whose layout shows the lock screen.
+ * PIN session, optionally holding a permission. A locked desk goes to
+ * /bloqueo; a missing permission goes back to /escritorio.
  */
 export async function requireStaff(permission?: Permission): Promise<StaffContext> {
   const { profile } = await requireProfile();
   if (!isDeskRole(profile.role)) redirect("/portal");
   const staff = await getStaff();
-  if (!staff) redirect("/escritorio");
+  if (!staff) redirect("/bloqueo");
   if (permission && !can(staff, permission)) redirect("/escritorio");
   return staff;
 }

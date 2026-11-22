@@ -22,7 +22,7 @@ import {
 import { TicofitLogo } from "@/components/brand/ticofit-logo";
 import { can, type StaffContext } from "@/lib/staff/permissions";
 import { cn } from "@/lib/utils";
-import { lockAction, switchSedeAction } from "./desk-actions";
+import { lockAction, switchSedeAction, touchAction } from "./desk-actions";
 import { DESK_NAV, type DeskNavItem } from "./nav";
 
 const ICONS: Record<DeskNavItem["icon"], React.ComponentType<{ size?: number; className?: string }>> = {
@@ -74,8 +74,17 @@ export function DeskShell({
   lockRef.current = lock;
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
+    let touched = Date.now();
     const reset = () => {
       clearTimeout(timer);
+      // The database only sees requests, so tell it about activity (at most
+      // every 20 s, well inside the 1-minute minimum idle setting).
+      if (Date.now() - touched > 20_000) {
+        touched = Date.now();
+        void touchAction().then((alive) => {
+          if (!alive) router.replace("/bloqueo");
+        });
+      }
       timer = setTimeout(() => lockRef.current(), Math.max(1, idleMinutes) * 60_000);
     };
     const events = ["pointerdown", "keydown", "scroll", "touchstart"] as const;
@@ -85,7 +94,7 @@ export function DeskShell({
       clearTimeout(timer);
       events.forEach((e) => window.removeEventListener(e, reset));
     };
-  }, [idleMinutes]);
+  }, [idleMinutes, router]);
 
   useEffect(() => setOpen(false), [pathname]);
 

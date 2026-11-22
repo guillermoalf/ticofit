@@ -33,6 +33,13 @@ export async function unlockAction(staffId: string, pin: string): Promise<Result
   return { ok: true };
 }
 
+/** Activity in the page with no navigation (typing a long form) keeps the session alive. */
+export async function touchAction(): Promise<boolean> {
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("staff_session_touch");
+  return data === true;
+}
+
 export async function lockAction(): Promise<void> {
   const supabase = await createClient();
   await supabase.rpc("staff_lock");
