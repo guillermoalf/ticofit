@@ -7,6 +7,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { landing } from "@/content/landing";
 import { cn } from "@/lib/utils";
 import { Chevron } from "./icons";
+import { NumaLogo } from "@/components/brand/numa-logo";
+
 import { PillLink } from "./pill-link";
 import { SiteLogo } from "./site-logo";
 
@@ -150,16 +152,29 @@ export function SiteHeader() {
           )}
         </div>
 
-        {nav.links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            aria-current={isActive(link.href) ? "page" : undefined}
-            className={cn(linkBase, linkTone, isActive(link.href) && activeTone)}
-          >
-            {link.label}
-          </Link>
-        ))}
+        {nav.links.map((link) =>
+          "logo" in link ? (
+            // nüma goes in as its own wordmark: the protein bar has its own brand.
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-label={link.label}
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={cn("inline-flex h-11 items-center px-0.5", linkTone, isActive(link.href) && activeTone)}
+            >
+              <NumaLogo className="h-[17px] w-auto" />
+            </Link>
+          ) : (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={isActive(link.href) ? "page" : undefined}
+              className={cn(linkBase, linkTone, isActive(link.href) && activeTone)}
+            >
+              {link.label}
+            </Link>
+          ),
+        )}
 
         <PillLink
           href={nav.reservar.href}
@@ -241,7 +256,7 @@ export function SiteHeader() {
                   isActive(link.href) && "italic",
                 )}
               >
-                {link.label}
+                {"logo" in link ? <NumaLogo className="my-2.5 h-[26px] w-auto" title={link.label} /> : link.label}
               </Link>
             ))}
           </nav>
