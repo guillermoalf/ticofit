@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/portal";
 import { PortalSidebar } from "@/components/portal/sidebar";
 
@@ -10,6 +11,8 @@ export default async function PortalLayout({
   children: React.ReactNode;
 }) {
   const { profile } = await requireProfile();
+  // Shared gym computers belong in the staff desk, not the client portal.
+  if (profile.role === "desk") redirect("/escritorio");
 
   return (
     <div className="min-h-screen lg:flex">

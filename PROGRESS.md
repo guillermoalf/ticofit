@@ -9,7 +9,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | Phase | Status |
 |---|---|
 | 0 · Inventory + architecture | ✅ done |
-| 1 · Auth, roles, sedes, staff PIN | ⏳ next |
+| 1 · Auth, roles, sedes, staff PIN | ⏳ code written, 0023 not applied, not tested in the browser |
 | 2 · Clients, expediente, measurements | ⬜ |
 | 3 · Memberships & payments | ⬜ |
 | 4 · Exercise library & routines | ⬜ |
@@ -109,6 +109,22 @@ code that uses it builds and has been checked (§0b.3). Additive only.
 
 ## Known issues / follow-ups
 
+- **0023 testing, correction (2026-11-22):** the first dry run used a trimmed copy of
+  the migration, not the file. It missed a 🔴 in `staff_set_pin`: with no PIN session
+  the guard evaluated to NULL and let any signed-in account set any employee's PIN.
+  Fixed in the file before it was ever applied. Dry runs must run the whole file.
+- **0023 dry run 1 (run by Guillermo in the SQL Editor, rolled back):** found five more
+  holes, all closed in the file: payroll holder PIN reset by an admin without payroll,
+  disabled desk keeping permissions, payroll holder's flag revoked by that admin, staff
+  pulled in from another sede, forgeable `created_by_staff`. From review: default
+  `ALL` grants on new tables, and no bounds on the PIN attempt limit. Dry run 2 covers
+  them (`supabase/dry-runs/0023_dry_run.sql`). **0023 is not applied yet.**
+- Desk accounts can change their own email/password through Supabase Auth, so anyone at
+  a signed-in computer could too. Decide before rollout.
+- The only payroll holder can't have their PIN reset or flag restored from the app.
+  Have a second holder, or recover with SQL.
+- `backups/2026-11-22-pre-internal-system.json` was written by hand from a query result
+  and references seed 0018 for the exercises: it is not a full dump (§0.4 asks for one).
 - `0022_waitlist` is applied but not in the migration log.
 - Legacy coach-ownership model (`profiles.coach_id`, `clients_meta`, `visits`) stays
   in place; the new screens don't use it. Clean up after review.
