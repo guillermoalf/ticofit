@@ -16,6 +16,7 @@ import { profileFormGroups } from "../profile-groups";
 import { ClinicalTab } from "./clinical-tab";
 import { InviteButton } from "./invite-button";
 import { MeasurementsTab } from "./measurements-tab";
+import { MembershipTab } from "./membership-tab";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,6 @@ const TABS = [
 
 const SOON: Record<string, string> = {
   rutina: "Acá va a estar su rutina.",
-  pagos: "Acá van a estar su membresía y sus pagos.",
   reservas: "Acá van a estar sus reservas.",
 };
 
@@ -109,6 +109,7 @@ export default async function ClientPage({
       {tab === "mediciones" && (
         <MeasurementsTab client={client} staff={staff} creating={query.nueva === "1"} editing={query.editar} selected={query.m} />
       )}
+      {tab === "pagos" && <MembershipTab client={client} staff={staff} />}
       {SOON[tab] && (
         <p className="rounded-2xl border border-dashed border-border-strong bg-surface px-5 py-10 text-center text-muted">{SOON[tab]}</p>
       )}

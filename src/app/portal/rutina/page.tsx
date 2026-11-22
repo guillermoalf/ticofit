@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { requireProfile } from "@/lib/portal";
 import { createClient } from "@/lib/supabase/server";
@@ -27,6 +28,28 @@ export default async function RutinaPage() {
   if (profile.role !== "client") redirect("/portal/clientes");
 
   const supabase = await createClient();
+
+  // Suspended for non-payment: the routine stays locked until a payment is approved.
+  const { data: file } = await supabase.from("clients").select("id").eq("user_id", userId).maybeSingle();
+  const { data: overview } = file
+    ? await supabase.from("membership_overview").select("status").eq("client_id", file.id).maybeSingle()
+    : { data: null };
+  if (overview?.status === "suspended") {
+    return (
+      <main className="mx-auto max-w-xl px-5 py-12 sm:px-6">
+        <h1 className="font-tf-serif text-[40px] leading-tight">Tu rutina está en pausa</h1>
+        <p className="mt-3 text-[16px] text-muted">
+          Tu membresía está suspendida por falta de pago. Subí el comprobante y la rutina se desbloquea apenas lo aprobemos.
+        </p>
+        <Link
+          href="/portal/pagos"
+          className="mt-6 inline-flex rounded-full bg-verde-profundo px-6 py-3 font-semibold text-crema-claro"
+        >
+          Subir comprobante
+        </Link>
+      </main>
+    );
+  }
 
   const { data: routineRows } = await supabase
     .from("routines")

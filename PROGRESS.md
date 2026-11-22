@@ -11,7 +11,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 0 · Inventory + architecture | ✅ done |
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
 | 2 · Clients, expediente, measurements | ✅ tested against the database (DEMO client); invitations untested |
-| 3 · Memberships & payments | ⬜ |
+| 3 · Memberships & payments | ⏳ code written, 0025 not applied, not tested against the database |
 | 4 · Exercise library & routines | ⬜ |
 | 5 · Salones, disciplines, calendar | ⬜ |
 | 6 · Reservations & capacity | ⬜ |
@@ -104,6 +104,13 @@ walk-ins); `client_clinical_history` is append-only; `client_measurements` follo
 sheet. Legacy `profiles` intake columns and `measurements` are empty and unused.
 Later phases reference `clients.id`.
 
+**A7 · Billing is computed from an anchor (0025).** A membership stores plan,
+`start_date` and `periods_paid`; `membership_overview` (security_invoker view) derives
+`paid_through = start + n months - 1 day` from the anchor every time (no 31st→28th
+drift), `due_date`, `days_overdue` and `status` (active / overdue within
+`payments.grace_days` or a reactivation / suspended). Payments only move forward
+through `receipt_review()` and `payment_record_cash()`; nothing edits or deletes one.
+
 ## Decisions
 
 *(chosen without asking during the run — what, why, alternative)*
@@ -125,6 +132,30 @@ Later phases reference `clients.id`.
 - **D6 · Invitations never link to an account that already exists.**
 - **D7 · Only the client role gets the light portal theme.** Legacy coach screens
   hard-code dark colours and have no users.
+
+- **D8 · Status computed on read, not by pg_cron:** nothing to schedule or keep in
+  sync, and changing the grace days applies immediately.
+- **D9 · A payment never ends a reactivation early;** it runs out on its own date.
+- **D10 · Packages (personal training, recovery, single classes) are seeded as plans
+  for reference only:** one membership per client is billed; packages are not.
+- **D11 · Restarting a membership resets what was paid** (for someone coming back after
+  months away). Changing plan keeps it.
+- **D12 · Receipt files go straight from the browser to the client's own folder** in the
+  private `receipts` bucket; staff only see them through 10-minute signed URLs made
+  after RLS showed them the receipt.
+
+## Phase 3 review (2026-11-22)
+
+Checked with invented data on a throwaway route (deleted): the four statuses, the plan,
+cash and reactivation forms, a receipt to review, receipt and payment lists, the upload
+form, at 1440 and 390.
+
+**Not exercised until 0025 is applied:** every read and write, uploading a real file,
+signed URLs, the suspended routine lock.
+
+- 🔵 open · the file picker button reads "Choose File" (browser language).
+- 🔵 open · a receipt whose insert fails after the upload leaves an orphan file in the
+  client's folder (clients have no delete permission on purpose).
 
 ## Phase 2 review (2026-11-22)
 
@@ -213,6 +244,9 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
   or reads them.
 
 ## Migrations created
+
+- `0025_memberships_payments.sql`: written, **not applied**. Waits for
+  `supabase/dry-runs/0025_dry_run.sql`.
 
 - `0024_clients_measurements.sql`: applied 2026-11-22 by Guillermo in the SQL Editor
   after its dry run passed (64 cases). Verified afterwards: function bodies, 8 policies,

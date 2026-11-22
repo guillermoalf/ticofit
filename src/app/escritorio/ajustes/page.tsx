@@ -2,7 +2,9 @@ import { DeskPageHeader } from "@/components/desk/page-header";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { requireStaff } from "@/lib/staff/context";
+import type { Plan } from "@/lib/billing/types";
 import { DesksPanel, type DeskRow } from "./desks-panel";
+import { PlansPanel } from "./plans-panel";
 import { SedeForm } from "./sede-form";
 import { SettingsPanel, type SettingRow } from "./settings-panel";
 import type { OpeningHours } from "./types";
@@ -13,13 +15,14 @@ export default async function AjustesPage() {
   const staff = await requireStaff("settings.manage");
   const supabase = await createClient();
 
-  const [{ data: sedes }, { data: settings }] = await Promise.all([
+  const [{ data: sedes }, { data: settings }, { data: plans }] = await Promise.all([
     supabase
       .from("sedes")
       .select("id, name, address, building_capacity, status, opening_hours")
       .in("id", staff.sede_ids)
       .order("sort_order"),
     supabase.from("app_settings").select("key, value, label").order("key"),
+    supabase.from("plans").select("*").in("sede_id", staff.sede_ids).order("sort_order"),
   ]);
 
   // Desk accounts live in auth + profiles, which RLS keeps from other desks:
@@ -59,6 +62,12 @@ export default async function AjustesPage() {
             <SedeForm key={s.id} sede={s} />
           ))}
         </div>
+      </section>
+
+      <section className="mb-12">
+        <h2 className="mb-1 text-xl font-semibold">Planes y precios</h2>
+        <p className="mb-4 text-[15px] text-muted">Precios sin IVA. Los de la página pública se cambian aparte.</p>
+        <PlansPanel plans={(plans ?? []) as Plan[]} sedes={sedeList.map((s) => ({ id: s.id, name: s.name }))} />
       </section>
 
       <section className="mb-12">
