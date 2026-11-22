@@ -44,7 +44,7 @@ function SettingItem({ row }: { row: SettingRow }) {
           value={value}
           onChange={(e) => setValue(e.target.value.replace(/[^\d]/g, ""))}
           inputMode="numeric"
-          className="w-20 rounded-lg border border-border bg-surface px-3 py-2 text-right text-base outline-none focus:border-primary"
+          className="w-20 rounded-lg border border-border bg-surface px-3 py-2 text-right text-[16px] text-ink outline-none focus:border-primary"
         />
         <button
           type="button"

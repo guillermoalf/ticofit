@@ -9,7 +9,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | Phase | Status |
 |---|---|
 | 0 · Inventory + architecture | ✅ done |
-| 1 · Auth, roles, sedes, staff PIN | ⏳ 0023 applied and verified; screens behind login not tested yet |
+| 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
 | 2 · Clients, expediente, measurements | ⬜ |
 | 3 · Memberships & payments | ⬜ |
 | 4 · Exercise library & routines | ⬜ |
@@ -104,6 +104,29 @@ code that uses it builds and has been checked (§0b.3). Additive only.
 - **D1 · Staff pick their name, then type the PIN** (like a POS), instead of typing a
   PIN alone. Four digits shared by many staff can't be guaranteed unique once hashed,
   and picking a name first makes a wrong PIN fail safely.
+
+## Phase 1 review (2026-11-22)
+
+Checked signed in, at 1440 and 390: every desk page through the menu, the Agregar
+persona panel, sede switcher, lock, PIN pad, activity keep-alive, and navigation after
+the session was locked from another tab.
+
+- 🔴 fixed · `src/app/escritorio/layout.tsx`: expired PIN + client navigation had no
+  lock screen to land on → `/bloqueo`.
+- 🟡 fixed · desk inputs: `text-base` is a colour here (`--color-base`), so values
+  rendered cream on white. Use `text-[16px] text-ink`, never `text-base`.
+- 🟡 fixed · `personal/staff-manager.tsx`, `ajustes/desks-panel.tsx`: SlideOver forms
+  had no padding.
+- 🔵 fixed · `ajustes/sede-form.tsx`: time inputs clipped and wrapped badly on phones.
+
+**Not exercised** (they write to the production database): create/edit staff, change a
+PIN, save sede/settings, create or disable a desk account, the coach role in the UI,
+wrong PIN in the UI (SQL covered by dry run 2). Screenshots were reviewed in the
+session, not saved under `design/internal/screenshots/`.
+
+**Local environment:** `node_modules` has Next 15.4.6 while package.json and yarn.lock
+pin 15.5.29, so local builds and these checks ran on 15.4.6. Needs
+`yarn install --frozen-lockfile`.
 
 ## Open questions for Guillermo
 

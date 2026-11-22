@@ -139,7 +139,7 @@ export function DeskShell({
               await switchSedeAction(e.target.value || null);
               router.refresh();
             })}
-            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-base"
+            className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-[16px] text-ink"
           >
             <option value="">Todas mis sedes</option>
             {sedes.map((s) => (

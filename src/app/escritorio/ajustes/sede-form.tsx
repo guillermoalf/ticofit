@@ -18,7 +18,7 @@ type Sede = {
 };
 
 const timeInput =
-  "w-[7.5rem] rounded-lg border border-border bg-surface px-2 py-2 text-base outline-none focus:border-primary";
+  "w-[8.75rem] max-w-[calc(50%-1.5rem)] rounded-lg border border-border bg-surface px-2 py-2 text-[16px] text-ink outline-none focus:border-primary";
 
 /** One sede: name, address, building capacity, status and weekly hours. */
 export function SedeForm({ sede }: { sede: Sede }) {
@@ -86,7 +86,7 @@ export function SedeForm({ sede }: { sede: Sede }) {
         <div className="space-y-2">
           {DAYS.map((d) => (
             <div key={d} className="flex flex-wrap items-center gap-3">
-              <label className="inline-flex w-32 items-center gap-2 text-[15px]">
+              <label className="inline-flex w-full items-center gap-2 text-[15px] sm:w-32">
                 <input
                   type="checkbox"
                   checked={hours[d].open}

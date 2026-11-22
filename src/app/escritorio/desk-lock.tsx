@@ -207,7 +207,7 @@ function Bootstrap() {
   };
 
   const input =
-    "w-full rounded-xl border border-border bg-surface px-4 py-3 text-base outline-none focus:border-primary";
+    "w-full rounded-xl border border-border bg-surface px-4 py-3 text-[16px] text-ink outline-none focus:border-primary";
 
   return (
     <form onSubmit={submit} className="mx-auto w-full max-w-sm">

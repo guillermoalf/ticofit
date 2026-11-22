@@ -92,7 +92,7 @@ function DeskForm({ sedes, onDone }: { sedes: { id: string; name: string }[]; on
   };
 
   return (
-    <form onSubmit={submit} className="space-y-4">
+    <form onSubmit={submit} className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
       <p className="text-[15px] text-muted">
         Creá una cuenta para una computadora del gimnasio. Se inicia sesión una vez y cada persona entra con su PIN.
       </p>
