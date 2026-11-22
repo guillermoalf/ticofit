@@ -184,6 +184,9 @@ export function appCssVars(): React.CSSProperties {
     "--accent": p.verdeProfundo,
     "--primary-ink": p.cremaClaro,
     "--accent-rgb": "180 215 128",
+    // Primary Button fill, and the grey "previous measurement" bar.
+    "--button": p.verdeProfundo,
+    "--bar-previous": "#858580",
     // Semantic states keep their own hues (never brand colours). AA on cream:
     // danger 7.4:1, success 6.4:1, warning 6.2:1.
     "--danger": "#9B2C1F",

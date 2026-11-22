@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import { appCssVars } from "@/config/brand";
+import { displaySerif } from "@/lib/fonts";
 import { requireProfile } from "@/lib/portal";
 import { PortalSidebar } from "@/components/portal/sidebar";
 
@@ -15,7 +17,12 @@ export default async function PortalLayout({
   if (profile.role === "desk") redirect("/escritorio");
 
   return (
-    <div className="min-h-screen lg:flex">
+    <div
+      // Only the client portal is rebranded: the legacy coach screens hard-code
+      // dark-theme colours and are being replaced by /escritorio.
+      style={profile.role === "client" ? appCssVars() : undefined}
+      className={`${displaySerif.variable} min-h-screen bg-base text-ink lg:flex`}
+    >
       <PortalSidebar role={profile.role} userName={profile.full_name} />
       <div className="min-w-0 flex-1">{children}</div>
     </div>

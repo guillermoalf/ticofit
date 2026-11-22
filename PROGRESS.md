@@ -10,7 +10,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 |---|---|
 | 0 · Inventory + architecture | ✅ done |
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
-| 2 · Clients, expediente, measurements | ⬜ |
+| 2 · Clients, expediente, measurements | ⏳ code written, 0024 not applied, not tested against the database |
 | 3 · Memberships & payments | ⬜ |
 | 4 · Exercise library & routines | ⬜ |
 | 5 · Salones, disciplines, calendar | ⬜ |
@@ -97,6 +97,13 @@ not a rewrite.
 dry-run against the remote database inside `begin … rollback`. It is applied once the
 code that uses it builds and has been checked (§0b.3). Additive only.
 
+**A6 · Client data lives in its own tables (0024).** `profiles` is self-editable on
+every column, so the sede, join date, clinical history and measurements can't live
+there. `clients` is the file the sede owns (`user_id` links the login, NULL for
+walk-ins); `client_clinical_history` is append-only; `client_measurements` follows the
+sheet. Legacy `profiles` intake columns and `measurements` are empty and unused.
+Later phases reference `clients.id`.
+
 ## Decisions
 
 *(chosen without asking during the run — what, why, alternative)*
@@ -104,6 +111,36 @@ code that uses it builds and has been checked (§0b.3). Additive only.
 - **D1 · Staff pick their name, then type the PIN** (like a POS), instead of typing a
   PIN alone. Four digits shared by many staff can't be guaranteed unique once hashed,
   and picking a name first makes a wrong PIN fail safely.
+
+- **D2 · The sheet wins over older lists (§0b.7):** no start/end time, targets on each
+  evaluation, frequency and available time on the profile. The coach of a measurement is
+  whoever entered it with their PIN (can't be forged; a backfilled paper sheet will show
+  the person who typed it). Alternative: a coach picker.
+- **D3 · Hand-rolled SVG line chart** instead of Recharts: one chart type, and the
+  approved download covered only the existing lockfile.
+- **D4 · "One per month" = `measurements.interval_days` (30) between any two sessions**,
+  backdated ones included. Admins override with a written reason.
+- **D5 · Waist/hip "ELEVADO" uses WHO limits** (0.90 men, 0.85 women) written from
+  memory of the 2008 report, not re-checked against it. Confirm with Jeremy.
+- **D6 · Invitations never link to an account that already exists.**
+- **D7 · Only the client role gets the light portal theme.** Legacy coach screens
+  hard-code dark colours and have no users.
+
+## Phase 2 review (2026-11-22)
+
+Checked with invented data on a throwaway route (deleted): sheet, every progress tab,
+tooltip by keyboard, single-point chart, form validation, at 1440 and 390. Invitation
+page checked only in its invalid-link state.
+
+**Not exercised until 0024 is applied:** every real read and save, the roster, the
+client file, the client portal, sending and accepting an invitation.
+
+- 🟡 fixed before commit: test values copied from a real client's sheet → invented.
+- 🟡 open: invitations need setup in Supabase before they work for real clients: custom
+  SMTP (the built-in mailer only writes to team addresses), `<site>/auth/invitacion` in
+  Auth → Redirect URLs, the email template in Spanish, and `NEXT_PUBLIC_SITE_URL` (an
+  invite sent from localhost links to localhost).
+- 🔵 open: an invite whose link step fails leaves a login with no file.
 
 ## Phase 1 review (2026-11-22)
 
@@ -124,9 +161,8 @@ PIN, save sede/settings, create or disable a desk account, the coach role in the
 wrong PIN in the UI (SQL covered by dry run 2). Screenshots were reviewed in the
 session, not saved under `design/internal/screenshots/`.
 
-**Local environment:** `node_modules` has Next 15.4.6 while package.json and yarn.lock
-pin 15.5.29, so local builds and these checks ran on 15.4.6. Needs
-`yarn install --frozen-lockfile`.
+**Local environment:** these checks ran on Next 15.4.6 (stale `node_modules`).
+Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
 
 ## Open questions for Guillermo
 
@@ -150,7 +186,7 @@ pin 15.5.29, so local builds and these checks ran on 15.4.6. Needs
   and references seed 0018 for the exercises: it is not a full dump (§0.4 asks for one).
 - `0022_waitlist` and `0023_sedes_staff_pin` are applied (SQL Editor) but not in the
   migration log. A future `supabase db push` would re-run them; both are idempotent.
-- For the next migration: revoke EXECUTE from `anon` on 0023's helper and trigger
+- In 0024 (pending): revoke EXECUTE from `anon` on 0023's helper and trigger
   functions (security advisor WARN; `setting_int` lets anon read numeric settings).
 - Advisor, older than this branch: anon can execute the 0001–0021 definer helpers, two
   functions have a mutable search_path, leaked-password protection is off.
@@ -161,6 +197,9 @@ pin 15.5.29, so local builds and these checks ran on 15.4.6. Needs
   or reads them.
 
 ## Migrations created
+
+- `0024_clients_measurements.sql`: written, **not applied**. Waits for
+  `supabase/dry-runs/0024_dry_run.sql`, then Guillermo runs it in the SQL Editor.
 
 - `0023_sedes_staff_pin.sql`: applied 2026-11-22 by Guillermo in the SQL Editor after
   dry run 2 passed. Verified afterwards: function bodies match the file, 13 policies,

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowRight, Dumbbell, LineChart, Target } from "lucide-react";
 import { requireProfile } from "@/lib/portal";
-import { StubCard } from "@/components/portal/stub-card";
 import { Badge } from "@/components/ui/badge";
 import { TRAINING_TYPE_LABELS } from "@/types/profile";
 
@@ -62,11 +61,22 @@ export default async function ClientHomePage() {
             videos.
           </p>
         </Link>
-        <StubCard
-          icon={LineChart}
-          title="Tu progreso"
-          desc="Seguí tu evolución: cargas, medidas y constancia en cada sesión."
-        />
+        <Link
+          href="/portal/progreso"
+          className="group rounded-card border border-border bg-surface/60 p-6 transition-colors hover:border-primary"
+        >
+          <div className="flex items-center justify-between">
+            <LineChart size={22} className="text-primary" />
+            <ArrowRight
+              size={18}
+              className="text-muted-2 transition-colors group-hover:text-primary"
+            />
+          </div>
+          <h3 className="mt-4 font-display text-lg font-semibold">Tu progreso</h3>
+          <p className="mt-2 text-sm text-muted">
+            Tus mediciones: grasa, músculo, agua, perímetros y peso.
+          </p>
+        </Link>
       </section>
     </main>
   );
