@@ -63,6 +63,13 @@ export function SedeSelector() {
 
   return (
     <div>
+      <h2 className="mb-12 max-w-[900px] font-tf-serif text-[44px] leading-[1.05] font-normal text-verde-profundo md:mb-16 md:text-[clamp(56px,6vw,88px)]">
+        {selector.titulo.texto}{" "}
+        {/* Lima as a highlighter band behind the words: verde profundo on lima is an approved pair (AA), lima text on cream is not. */}
+        <span className="box-decoration-clone bg-[linear-gradient(transparent_58%,var(--tf-lima-claro)_58%,var(--tf-lima-claro)_92%,transparent_92%)] px-1 italic">
+          {selector.titulo.resaltado}
+        </span>
+      </h2>
       <p className="mb-5 text-[13px] font-semibold tracking-[1.2px] text-salvia uppercase">{selector.eyebrow}</p>
       <div role="group" aria-label={selector.eyebrow} className="flex gap-5 border-b border-linea md:gap-14">
         {sedes.lista.map((s) => {
