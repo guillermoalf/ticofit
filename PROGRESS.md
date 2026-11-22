@@ -10,7 +10,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 |---|---|
 | 0 · Inventory + architecture | ✅ done |
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
-| 2 · Clients, expediente, measurements | ⏳ code written, 0024 not applied, not tested against the database |
+| 2 · Clients, expediente, measurements | ⏳ 0024 applied and verified; screens not yet tested against the database |
 | 3 · Memberships & payments | ⬜ |
 | 4 · Exercise library & routines | ⬜ |
 | 5 · Salones, disciplines, calendar | ⬜ |
@@ -132,7 +132,7 @@ Checked with invented data on a throwaway route (deleted): sheet, every progress
 tooltip by keyboard, single-point chart, form validation, at 1440 and 390. Invitation
 page checked only in its invalid-link state.
 
-**Not exercised until 0024 is applied:** every real read and save, the roster, the
+**Not exercised yet (needs a PIN session and flagged DEMO rows):** every real read and save, the roster, the
 client file, the client portal, sending and accepting an invitation.
 
 - 🟡 fixed before commit: test values copied from a real client's sheet → invented.
@@ -184,9 +184,9 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
   Have a second holder, or recover with SQL.
 - `backups/2026-11-22-pre-internal-system.json` was written by hand from a query result
   and references seed 0018 for the exercises: it is not a full dump (§0.4 asks for one).
-- `0022_waitlist` and `0023_sedes_staff_pin` are applied (SQL Editor) but not in the
-  migration log. A future `supabase db push` would re-run them; both are idempotent.
-- In 0024 (pending): revoke EXECUTE from `anon` on 0023's helper and trigger
+- `0022`, `0023` and `0024` are applied (SQL Editor) but not in the migration log.
+  A future `supabase db push` would re-run them; all are idempotent.
+- Done in 0024: revoked EXECUTE from `anon` on 0023's helper and trigger
   functions (security advisor WARN; `setting_int` lets anon read numeric settings).
 - Advisor, older than this branch: anon can execute the 0001–0021 definer helpers, two
   functions have a mutable search_path, leaked-password protection is off.
@@ -198,8 +198,9 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
 
 ## Migrations created
 
-- `0024_clients_measurements.sql`: written, **not applied**. Waits for
-  `supabase/dry-runs/0024_dry_run.sql`, then Guillermo runs it in the SQL Editor.
+- `0024_clients_measurements.sql`: applied 2026-11-22 by Guillermo in the SQL Editor
+  after its dry run passed (64 cases). Verified afterwards: function bodies, 8 policies,
+  triggers, column grants, and anon refused through the API.
 
 - `0023_sedes_staff_pin.sql`: applied 2026-11-22 by Guillermo in the SQL Editor after
   dry run 2 passed. Verified afterwards: function bodies match the file, 13 policies,
