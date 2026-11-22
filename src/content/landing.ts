@@ -111,7 +111,7 @@ export const landing = {
 
   home: {
     hero: {
-      eyebrow: "Club de bienestar en San José, Rohrmoser",
+      eyebrow: "Clubs de bienestar en San José, Rohrmoser",
       verHorarios: "Ver horarios",
       sliderLabel: "Servicios de ticofit",
       tabsLabel: "Elegí un servicio",
@@ -190,6 +190,8 @@ export const landing = {
     selector: {
       /** Anchor for the navbar's Sedes links: they land here with the sede picked. */
       id: "sedes",
+      /** `resaltado` gets the lima highlighter stroke. */
+      titulo: { texto: "Dos clubs,", resaltado: "una sola comunidad." },
       eyebrow: "Elegí tu sede",
       zona: "Rohrmoser",
       servicios: {
