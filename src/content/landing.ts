@@ -72,7 +72,7 @@ export const landing = {
     ],
     links: [
       { label: "Clases", href: "/#horario" },
-      { label: "Numa ProteinBar", href: "/numa" },
+      { label: "nüma protein bar & coffee", href: "/numa", logo: "numa" },
       { label: "Membresías", href: "/membresias" },
       { label: "Comunidad", href: "/comunidad" },
     ],
