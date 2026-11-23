@@ -4,7 +4,7 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY, isSupabaseConfigured } from "./env";
 import { publicUrl } from "@/lib/public-origin";
 
 /** Routes that require an authenticated user. */
-const PROTECTED_PREFIXES = ["/portal", "/escritorio", "/bloqueo"];
+const PROTECTED_PREFIXES = ["/portal", "/escritorio", "/bloqueo", "/imprimir"];
 
 /**
  * Refreshes the Supabase auth session on every request (so Server Components
