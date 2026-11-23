@@ -44,7 +44,7 @@ export function RoutineView({
       {routine.notes && <p className="whitespace-pre-line text-[15px]">{routine.notes}</p>}
       {routine.days.map((d) => (
         <section key={d.id ?? d.title} className={cn("rounded-2xl border border-border bg-surface", print ? "break-inside-avoid p-3" : "p-4 sm:p-5")}>
-          <h3 className={cn("mb-2 font-semibold", print ? "text-base" : "text-lg")}>{d.title}</h3>
+          <h3 className={cn("mb-2 font-semibold", print ? "text-[16px]" : "text-lg")}>{d.title}</h3>
           <ol className="divide-y divide-border">
             {d.items.map((it, n) => {
               const ex = exercises.get(it.exercise_id);
