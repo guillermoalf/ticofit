@@ -12,7 +12,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
 | 2 · Clients, expediente, measurements | ✅ tested against the database (DEMO client); invitations untested |
 | 3 · Memberships & payments | ✅ tested with the DEMO client; receipt upload/review untested (needs a client login) |
-| 4 · Exercise library & routines | ⬜ |
+| 4 · Exercise library & routines | 🟡 0027 applied; UI in progress |
 | 5 · Salones, disciplines, calendar | ⬜ |
 | 6 · Reservations & capacity | ⬜ |
 | 7 · Employees, time clock, payroll | ⬜ |
@@ -267,6 +267,7 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
   (51 cases). Verified: function bodies, 9 policies, column grants, private bucket,
   anon refused.
 - `0026_membership_due_day.sql`: applied 2026-11-23 by Guillermo after its dry run.
+- `0027_library_routines.sql`: applied 2026-11-23 by Guillermo after its dry run (53 cases); function bodies, policies, grants, bucket and the 38 tagged exercises verified.
   Verified: new `days_overdue`/status expressions, security_invoker kept, anon refused.
 
 - `0024_clients_measurements.sql`: applied 2026-11-22 by Guillermo in the SQL Editor
