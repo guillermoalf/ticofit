@@ -1027,7 +1027,7 @@ begin
   f := f || public.dryrun_check('building full', format($q$select public.reservation_book(%L, %L)$q$, two, k2), 'BUILDING_FULL');
 
   -- template edit regenerates unbooked slots; cancelled and booked ones stay
-  perform public.reservation_book(og6, k1);
+  -- og6 keeps k1's booking (rk1): the client's cancel above was undone by dryrun_check
   perform public.class_template_save(tpl, format('{"discipline_id":"%s","salon_id":"%s","weekdays":[1,2,3,4,5,6,7],"start_time":"06:00","duration_min":60,"repeat_until":"08:00"}', d_og, s1)::jsonb);
   v := public.dryrun_value(format($q$select count(*)::text || '/' || count(*) filter (where status = 'cancelled') from public.class_slots('bellavista', %L) where discipline_slug = 'open-gym'$q$, d1));
   if v <> '2/1' then f := f || ('after template edit ' || v)::text; end if;
