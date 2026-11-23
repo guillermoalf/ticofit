@@ -478,6 +478,7 @@ begin
   f := f || public.dryrun_check('routine with 7 days', format($q$select public.routine_save(null, '{"client_id":"%s","name":"Siete","days":%s}')$q$, k1, seven_days), 'DAYS_OUT_OF_RANGE');
   f := f || public.dryrun_check('valid weeks 8', format($q$select public.routine_save(null, '{"client_id":"%s","name":"Ocho","valid_weeks":8,"days":%s}')$q$, k1, two_days), '%valid_weeks%');
   f := f || public.dryrun_check('coach exercise in routine', format($q$select public.routine_save(null, '{"client_id":"%s","name":"Coach","days":[{"items":[{"exercise_id":"%s"}]},{"items":[]}]}')$q$, k1, coalesce(ecoach, gen_random_uuid())), 'EXERCISE_NOT_AVAILABLE');
+  update public.exercises set archived = true where id = sx;  -- dryrun_check undoes its own statement
   f := f || public.dryrun_check('archived exercise in routine', format($q$select public.routine_save(null, '{"client_id":"%s","name":"Arch","days":[{"items":[{"exercise_id":"%s"}]},{"items":[]}]}')$q$, k1, sx), 'EXERCISE_NOT_AVAILABLE');
   f := f || public.dryrun_check('routine for other sede', format($q$select public.routine_save(null, '{"client_id":"%s","name":"Cafe","days":%s}')$q$, kc, two_days), 'NOT_ALLOWED');
   f := f || public.dryrun_check('template in other sede', format($q$select public.routine_save(null, '{"sede_id":"cafe","name":"Plantilla","days":%s}')$q$, one_day), 'NOT_ALLOWED');
