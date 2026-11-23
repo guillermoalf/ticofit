@@ -63,8 +63,8 @@ export default async function AlDiaPage({ searchParams }: { searchParams: Promis
                   )
                 : null;
             return (
-              <li key={r.client_id} className="flex flex-wrap items-center gap-x-6 gap-y-1 px-5 py-3">
-                <div className="min-w-0 flex-1">
+              <li key={r.client_id} className="flex flex-wrap items-center gap-x-6 gap-y-1.5 px-5 py-3">
+                <div className="min-w-0 basis-full sm:basis-0 sm:flex-1">
                   <Link href={`/escritorio/clientes/${r.client_id}?tab=pagos`} className="font-semibold hover:underline">
                     {r.full_name}
                   </Link>

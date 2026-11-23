@@ -51,7 +51,7 @@ function PlanRow({ plan }: { plan: Plan }) {
   return (
     <li>
       <form onSubmit={save} method="post" className="flex flex-wrap items-center gap-2 py-2.5">
-        <input aria-label="Nombre del plan" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} className={`${input} min-w-0 flex-1`} />
+        <input aria-label="Nombre del plan" value={name} onChange={(e) => setName(e.target.value)} maxLength={80} className={`${input} w-full`} />
         <span className="text-sm text-muted">₡</span>
         <input
           aria-label={`Precio de ${plan.name}, sin IVA`}

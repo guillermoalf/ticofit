@@ -15,7 +15,12 @@ export function MembershipCard({ overview: o, audience }: { overview: Overview; 
     );
   }
 
-  const until = o.status === "active" ? `Pagado hasta el ${formatDate(o.paid_through!)}` : `Venció el ${formatDate(o.due_date!)}`;
+  const until =
+    o.status !== "active"
+      ? `Venció el ${formatDate(o.due_date!)}`
+      : o.due_date === todayCR()
+        ? "Vence hoy"
+        : `Pagado hasta el ${formatDate(o.paid_through!)}`;
   return (
     <section className="rounded-2xl border border-border bg-surface p-4 sm:p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">

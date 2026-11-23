@@ -42,6 +42,8 @@ export async function MembershipTab({ client, staff }: { client: Client; staff: 
     <div className="max-w-4xl space-y-8">
       <MembershipCard overview={overview} audience="staff" />
       <MembershipControls
+        // Remount after every change so the forms start from the saved state.
+        key={[overview.plan_id, overview.start_date, overview.periods_paid, overview.reactivated_until].join("|")}
         clientId={client.id}
         overview={overview}
         plans={(plans ?? []) as Plan[]}
