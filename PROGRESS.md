@@ -11,7 +11,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 0 · Inventory + architecture | ✅ done |
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
 | 2 · Clients, expediente, measurements | ✅ tested against the database (DEMO client); invitations untested |
-| 3 · Memberships & payments | ⏳ tested with the DEMO client; 0026 (due-day fix) pending |
+| 3 · Memberships & payments | ✅ tested with the DEMO client; receipt upload/review untested (needs a client login) |
 | 4 · Exercise library & routines | ⬜ |
 | 5 · Salones, disciplines, calendar | ⬜ |
 | 6 · Reservations & capacity | ⬜ |
@@ -152,7 +152,7 @@ reminder, the receipt queue (empty), plans and rules in Ajustes, at 1440 and 390
 **Not exercised:** a real receipt upload and its review (needs a client login), the
 suspended routine lock as a client.
 
-- 🟡 fixing · off-by-one: the due date counted as a late day and suspension came a day
+- 🟡 fixed (0026) · off-by-one: the due date counted as a late day and suspension came a day
   before the grace period ended → `0026_membership_due_day.sql` (view only).
 - 🟡 fixed · membership forms kept stale state after saving (empty cash amount; the
   restart date stayed filled, so a second click restarted again) → remount on change.
@@ -266,7 +266,8 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
 - `0025_memberships_payments.sql`: applied 2026-11-23 by Guillermo after its dry run
   (51 cases). Verified: function bodies, 9 policies, column grants, private bucket,
   anon refused.
-- `0026_membership_due_day.sql`: written, **not applied**. Waits for its dry run.
+- `0026_membership_due_day.sql`: applied 2026-11-23 by Guillermo after its dry run.
+  Verified: new `days_overdue`/status expressions, security_invoker kept, anon refused.
 
 - `0024_clients_measurements.sql`: applied 2026-11-22 by Guillermo in the SQL Editor
   after its dry run passed (64 cases). Verified afterwards: function bodies, 8 policies,
