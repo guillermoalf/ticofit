@@ -146,6 +146,13 @@ through `receipt_review()` and `payment_record_cash()`; nothing edits or deletes
 
 ## Phase 3 review (2026-11-22)
 
+- 🔴 fixed · `escritorio/desk-lock.tsx`: the PIN was sent from inside a `setPin`
+  updater; React replays updaters on re-render, so a correct PIN unlocked ~140 times in
+  4 minutes, each unlock ending the session the previous one opened, and the desk never
+  got in. Now it is sent once from the click/key handler, guarded by a ref. Found by
+  Guillermo ("no me deja poner el último dígito"); the phase 1 check only ever unlocked
+  once and missed it.
+
 Checked with invented data on a throwaway route (deleted): the four statuses, the plan,
 cash and reactivation forms, a receipt to review, receipt and payment lists, the upload
 form, at 1440 and 390.

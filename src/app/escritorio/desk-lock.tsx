@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Delete, Lock } from "lucide-react";
 
@@ -82,8 +82,9 @@ function PinPad({ person, onBack }: { person: DeskLockStaff; onBack: () => void 
       start(async () => {
         const res = await unlockAction(person.id, value);
         if (res.ok) {
-          router.refresh();
+          router.replace("/escritorio");
         } else {
+          sent.current = false;
           setError(res.error);
           setPin("");
         }
@@ -92,23 +93,28 @@ function PinPad({ person, onBack }: { person: DeskLockStaff; onBack: () => void 
     [person.id, router],
   );
 
+  // The PIN goes out from the click/keydown handler itself, never from inside a
+  // state updater: React may replay updaters on re-render, which resent the PIN
+  // in a loop (each unlock ended the session the previous one had opened).
+  const sent = useRef(false);
   const press = useCallback(
     (d: string) => {
-      if (pending) return;
+      if (pending || sent.current || pin.length >= 4) return;
       setError(null);
-      setPin((p) => {
-        const next = (p + d).slice(0, 4);
-        if (next.length === 4) submit(next);
-        return next;
-      });
+      const next = pin + d;
+      setPin(next);
+      if (next.length === 4) {
+        sent.current = true;
+        submit(next);
+      }
     },
-    [pending, submit],
+    [pending, pin, submit],
   );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (/^[0-9]$/.test(e.key)) press(e.key);
-      else if (e.key === "Backspace") setPin((p) => p.slice(0, -1));
+      else if (e.key === "Backspace" && !sent.current) setPin((p) => p.slice(0, -1));
       else if (e.key === "Escape") onBack();
     };
     window.addEventListener("keydown", onKey);
@@ -156,7 +162,7 @@ function PinPad({ person, onBack }: { person: DeskLockStaff; onBack: () => void 
         <Key onClick={() => press("0")} disabled={pending}>
           0
         </Key>
-        <Key onClick={() => setPin((p) => p.slice(0, -1))} disabled={pending} label="Borrar">
+        <Key onClick={() => !sent.current && setPin((p) => p.slice(0, -1))} disabled={pending} label="Borrar">
           <Delete size={22} aria-hidden="true" />
         </Key>
       </div>
