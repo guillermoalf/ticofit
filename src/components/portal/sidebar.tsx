@@ -48,6 +48,7 @@ const ADMIN_LINKS: NavItem[] = [
 
 const CLIENT_LINKS: NavItem[] = [
   { href: "/portal/rutina", label: "Mi rutina", icon: Dumbbell },
+  { href: "/portal/clases", label: "Clases", icon: CalendarCheck },
   { href: "/portal/progreso", label: "Mi progreso", icon: LineChart },
   { href: "/portal/pagos", label: "Mis pagos", icon: CreditCard },
   { href: "/portal/evidencias", label: "Evidencias", icon: Camera },

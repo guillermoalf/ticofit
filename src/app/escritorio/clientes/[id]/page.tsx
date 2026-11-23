@@ -17,6 +17,7 @@ import { ClinicalTab } from "./clinical-tab";
 import { InviteButton } from "./invite-button";
 import { MeasurementsTab } from "./measurements-tab";
 import { MembershipTab } from "./membership-tab";
+import { ReservationsTab } from "./reservations-tab";
 import { RoutineTab } from "./routine-tab";
 
 export const dynamic = "force-dynamic";
@@ -29,10 +30,6 @@ const TABS = [
   { id: "pagos", label: "Membresía y pagos" },
   { id: "reservas", label: "Reservas" },
 ] as const;
-
-const SOON: Record<string, string> = {
-  reservas: "Acá van a estar sus reservas.",
-};
 
 const UUID_RE = /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
 
@@ -111,9 +108,7 @@ export default async function ClientPage({
       )}
       {tab === "rutina" && <RoutineTab client={client} staff={staff} />}
       {tab === "pagos" && <MembershipTab client={client} staff={staff} />}
-      {SOON[tab] && (
-        <p className="rounded-2xl border border-dashed border-border-strong bg-surface px-5 py-10 text-center text-muted">{SOON[tab]}</p>
-      )}
+      {tab === "reservas" && <ReservationsTab client={client} staff={staff} />}
     </>
   );
 }
