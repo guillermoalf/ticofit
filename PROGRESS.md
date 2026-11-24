@@ -18,6 +18,20 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
 | 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO data deleted; Playwright walkthrough passes (12/12) |
 
+## Owners and undo (2026-11-23)
+
+Guillermo asked to move everything to `staging` (production) to test it there and show
+Jeremy. Migration `0030_owner_role_undo.sql` adds the role **Dueño** (`owner`): every
+permission plus `data.delete`, held by nobody else; only an owner creates or changes an
+owner; there is always one active owner. Guillermo is the first owner. **Jeremy is added
+by Guillermo** in Escritorio → Personal → Agregar persona, rol Dueño, with a PIN Jeremy picks.
+
+Owners see a red "Borrar" on: a client (everything, login included), a measurement, a
+clinical-history version, a routine, a payment (takes its months off; a receipt payment
+sends the receipt back to pendiente), a receipt (and the payment it created), the
+membership (plan + payments), a one-off class, a person, and an approved or paid payroll.
+Time entries, vacations and draft payrolls already had their own delete.
+
 ## Final state (2026-11-23)
 
 **Done:** phases 0–7, migrations 0023–0029 applied and verified, every one after a full
@@ -364,6 +378,9 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
   or reads them.
 
 ## Migrations created
+
+- `0030_owner_role_undo.sql`: Dueño role, owner guard, `owner_delete()`. Dry run in
+  `supabase/dry-runs/0030_dry_run.sql`.
 
 - `0029_time_clock_payroll.sql`: applied 2026-11-23 by Guillermo after its dry run (77
   cases, 4 rounds: constraint name clash, same-transaction clock times, a test typo, and a

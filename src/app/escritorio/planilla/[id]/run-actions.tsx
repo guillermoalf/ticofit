@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import type { RunStatus } from "@/lib/staff/payroll";
 import { BUTTON } from "../../salones/class-form";
 import { computeRunAction, deleteRunAction, setRunStatusAction } from "../actions";
@@ -12,7 +13,7 @@ const OUTLINE = "cursor-pointer rounded-full border border-border-strong px-5 py
 
 type Res = { ok: true; message: string } | { ok: false; error: string };
 
-export function RunActions({ id, status }: { id: string; status: RunStatus }) {
+export function RunActions({ id, status, canDelete = false }: { id: string; status: RunStatus; canDelete?: boolean }) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [confirm, setConfirm] = useState<"approve" | "paid" | "delete" | null>(null);
@@ -79,6 +80,17 @@ export function RunActions({ id, status }: { id: string; status: RunStatus }) {
       <a href={`/imprimir/planilla/${id}`} className={OUTLINE}>
         PDF
       </a>
+      {canDelete && status !== "draft" && (
+        <OwnerDelete
+          kind="payroll_run"
+          id={id}
+          label="Borrar planilla"
+          question={status === "paid" ? "¿Borrar esta planilla pagada?" : "¿Borrar esta planilla aprobada?"}
+          done="Planilla borrada."
+          redirectTo="/escritorio/planilla"
+          className="self-center"
+        />
+      )}
     </div>
   );
 }

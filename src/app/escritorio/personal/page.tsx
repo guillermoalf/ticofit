@@ -1,6 +1,7 @@
 import { DeskPageHeader } from "@/components/desk/page-header";
 import { createClient } from "@/lib/supabase/server";
 import { requireStaff } from "@/lib/staff/context";
+import { can } from "@/lib/staff/permissions";
 import { StaffManager, type StaffRow } from "./staff-manager";
 
 export const dynamic = "force-dynamic";
@@ -38,10 +39,12 @@ export default async function PersonalPage() {
       />
       <StaffManager
         rows={rows}
-        roles={(roles ?? []) as { id: string; label: string }[]}
+        // Only an owner can make someone an owner (enforced again in the database).
+        roles={((roles ?? []) as { id: string; label: string }[]).filter((r) => r.id !== "owner" || me.role_id === "owner")}
         sedes={(sedes ?? []) as { id: string; name: string }[]}
         meId={me.id}
         canGrantPayroll={me.can_manage_payroll}
+        canDelete={can(me, "data.delete")}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import { RecordView } from "@/components/clients/record-view";
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { RecordForm, type FormValues } from "@/components/desk/record-form";
 import { formatMoment } from "@/lib/clients/body";
 import { CLINICAL_GROUPS } from "@/lib/clients/fields";
@@ -29,10 +30,24 @@ export async function ClinicalTab({ client, staff }: { client: Client; staff: St
     return `${formatMoment(v.created_at)}${author ? ` · ${author}` : ""}`;
   };
 
+  const canDelete = can(staff, "data.delete");
   return (
     <div className="max-w-5xl">
       <p className="mb-4 text-sm text-muted">
         Datos de salud, de uso restringido. {current ? `Última versión: ${byline(current)}.` : "Todavía sin llenar."}
+        {current && canDelete && (
+          <>
+            {" "}
+            <OwnerDelete
+              key={current.id}
+              kind="clinical"
+              id={current.id}
+              label="Borrar esta versión"
+              question={versions.length > 1 ? "¿Borrar esta versión? Queda la anterior." : "¿Borrar la historia clínica?"}
+              done="Versión borrada."
+            />
+          </>
+        )}
       </p>
       {can(staff, "clinical.write") ? (
         <RecordForm
@@ -53,6 +68,9 @@ export async function ClinicalTab({ client, staff }: { client: Client; staff: St
               <summary className="cursor-pointer py-1 text-[15px]">{byline(v)}</summary>
               <div className="py-3">
                 <RecordView groups={CLINICAL_GROUPS} record={v} />
+                {canDelete && (
+                  <OwnerDelete kind="clinical" id={v.id} label="Borrar esta versión" question="¿Borrar esta versión anterior?" done="Versión borrada." />
+                )}
               </div>
             </details>
           ))}

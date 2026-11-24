@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { RoutineView, ValidityNote } from "@/components/routines/routine-view";
 import { formatMoment, todayCR } from "@/lib/clients/body";
 import type { Client } from "@/lib/clients/types";
@@ -28,6 +29,7 @@ export async function RoutineTab({ client, staff }: { client: Client; staff: Sta
   const [current, ...past] = routines;
   const names = Object.fromEntries((people ?? []).map((p) => [p.id as string, p.full_name as string]));
   const canWrite = can(staff, "routines.write");
+  const canDelete = can(staff, "data.delete");
   const base = `/escritorio/clientes/${client.id}/rutina`;
 
   const startNew = canWrite && (
@@ -85,6 +87,17 @@ export async function RoutineTab({ client, staff }: { client: Client; staff: Sta
               Imprimir o PDF
             </Link>
           </div>
+          {canDelete && (
+            <OwnerDelete
+              key={current.id}
+              kind="routine"
+              id={current.id}
+              label="Borrar esta rutina"
+              question={past.length ? "¿Borrar esta rutina? La anterior vuelve a ser la actual." : "¿Borrar esta rutina?"}
+              done="Rutina borrada."
+              className="basis-full"
+            />
+          )}
         </div>
         <RoutineView routine={current} exercises={exercises} />
       </section>
@@ -111,6 +124,9 @@ export async function RoutineTab({ client, staff }: { client: Client; staff: Sta
                     <Link href={`${base}/nueva?desde=${r.id}`} className="font-semibold text-ink underline underline-offset-2">
                       Usar como base
                     </Link>
+                  )}
+                  {canDelete && (
+                    <OwnerDelete kind="routine" id={r.id} label="Borrar" question={`¿Borrar «${r.name}»?`} done="Rutina borrada." />
                   )}
                 </span>
               </li>

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { MeasurementSheet } from "@/components/clients/measurement-sheet";
 import { ProgressView } from "@/components/clients/progress-view";
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { RecordForm, type FormValues } from "@/components/desk/record-form";
 import { addDays, formatDate, todayCR } from "@/lib/clients/body";
 import { MEASUREMENT_GROUPS, type FieldGroup } from "@/lib/clients/fields";
@@ -137,6 +138,17 @@ export async function MeasurementsTab({
               <Link href={`${base}&editar=${shown.id}`} className="ml-auto text-sm font-semibold underline underline-offset-4">
                 Corregir esta medición
               </Link>
+            )}
+            {can(staff, "data.delete") && (
+              <OwnerDelete
+                key={shown.id}
+                kind="measurement"
+                id={shown.id}
+                label="Borrar esta medición"
+                question={`¿Borrar la medición del ${formatDate(shown.measured_on)}?`}
+                done="Medición borrada."
+                redirectTo={base}
+              />
             )}
           </div>
           <MeasurementSheet measurement={shown} previous={previous} gender={client.gender} birthDate={client.birth_date} />

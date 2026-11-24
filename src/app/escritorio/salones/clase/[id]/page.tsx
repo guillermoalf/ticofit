@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { DeskPageHeader } from "@/components/desk/page-header";
 import { formatDate, todayCR } from "@/lib/clients/body";
 import { crClock, crDate, crTime, spotsLeft, type Slot } from "@/lib/schedule";
@@ -146,6 +147,20 @@ export default async function ClassPage({ params }: { params: Promise<{ id: stri
             />
           </div>
           <CancelClass classId={c.id} booked={slot.booked} />
+        </section>
+      )}
+
+      {/* Weekly-schedule dates come back from the template; those are cancelled or the template ended instead. */}
+      {can(staff, "data.delete") && !c.template_id && (
+        <section className="mt-10 border-t border-border pt-6">
+          <OwnerDelete
+            kind="class"
+            id={c.id}
+            label="Borrar esta clase"
+            question={slot.booked > 0 ? `¿Borrar la clase y sus ${slot.booked} ${slot.booked === 1 ? "reserva" : "reservas"}?` : "¿Borrar esta clase?"}
+            done="Clase borrada."
+            redirectTo={`/escritorio/salones/${c.salon_id}?dia=${day}`}
+          />
         </section>
       )}
     </>

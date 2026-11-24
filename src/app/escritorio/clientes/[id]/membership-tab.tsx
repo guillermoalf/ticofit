@@ -1,5 +1,6 @@
 import { PaymentList, ReceiptList } from "@/components/billing/history";
 import { MembershipCard } from "@/components/billing/membership-card";
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { formatMoment, todayCR } from "@/lib/clients/body";
 import { signReceiptUrls } from "@/lib/billing/signed-urls";
 import type { Overview, Payment, Plan, Receipt } from "@/lib/billing/types";
@@ -37,6 +38,42 @@ export async function MembershipTab({ client, staff }: { client: Client; staff: 
   const names = Object.fromEntries((people ?? []).map((p) => [p.id as string, p.full_name as string]));
   const list = (receipts ?? []) as Receipt[];
   const urls = await signReceiptUrls(list.map((r) => r.file_path));
+  const pays = (payments ?? []) as Payment[];
+  const canDelete = can(staff, "data.delete");
+  const receiptActions = canDelete
+    ? Object.fromEntries(
+        list.map((r) => [
+          r.id,
+          <OwnerDelete
+            key={r.id}
+            kind="receipt"
+            id={r.id}
+            label="Borrar comprobante"
+            question={r.status === "approved" ? "¿Borrar el comprobante y el pago que generó?" : "¿Borrar este comprobante?"}
+            done="Comprobante borrado."
+          />,
+        ]),
+      )
+    : undefined;
+  const paymentActions = canDelete
+    ? Object.fromEntries(
+        pays.map((p) => [
+          p.id,
+          <OwnerDelete
+            key={p.id}
+            kind="payment"
+            id={p.id}
+            label="Borrar pago"
+            question={
+              p.method === "receipt"
+                ? "¿Borrar este pago? Se le restan los meses y el comprobante vuelve a pendiente."
+                : `¿Borrar este pago? Se le ${p.periods === 1 ? "resta 1 mes" : `restan ${p.periods} meses`} a la membresía.`
+            }
+            done="Pago borrado."
+          />,
+        ]),
+      )
+    : undefined;
 
   return (
     <div className="max-w-4xl space-y-8">
@@ -53,11 +90,11 @@ export async function MembershipTab({ client, staff }: { client: Client; staff: 
       />
       <section>
         <h2 className="mb-3 text-lg font-semibold">Comprobantes</h2>
-        <ReceiptList receipts={list} urls={urls} />
+        <ReceiptList receipts={list} urls={urls} actions={receiptActions} />
       </section>
       <section>
         <h2 className="mb-3 text-lg font-semibold">Pagos</h2>
-        <PaymentList payments={(payments ?? []) as Payment[]} people={names} />
+        <PaymentList payments={pays} people={names} actions={paymentActions} />
       </section>
       {!!events?.length && (
         <section>
@@ -71,6 +108,21 @@ export async function MembershipTab({ client, staff }: { client: Client; staff: 
               </li>
             ))}
           </ul>
+        </section>
+      )}
+      {canDelete && overview.plan_id && (
+        <section className="border-t border-border pt-6">
+          <h2 className="mb-2 text-lg font-semibold">Quitar la membresía</h2>
+          <p className="mb-3 text-[15px] text-muted">
+            Deja al cliente sin plan: borra el plan, sus movimientos y todos los pagos. Los comprobantes aprobados vuelven a pendiente.
+          </p>
+          <OwnerDelete
+            kind="membership"
+            id={client.id}
+            label="Quitar membresía y pagos"
+            question="¿Quitar la membresía y todos los pagos?"
+            done="Membresía quitada."
+          />
         </section>
       )}
     </div>

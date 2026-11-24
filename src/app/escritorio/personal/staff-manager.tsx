@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { OwnerDelete } from "@/components/desk/owner-delete";
 
 import { SlideOver } from "@/components/portal/slide-over";
 import { TextField, SelectField } from "@/components/portal/form-fields";
@@ -29,12 +30,15 @@ export function StaffManager({
   sedes,
   meId,
   canGrantPayroll,
+  canDelete,
 }: {
   rows: StaffRow[];
   roles: { id: string; label: string }[];
   sedes: { id: string; name: string }[];
   meId: string;
   canGrantPayroll: boolean;
+  /** Owners: may delete people. */
+  canDelete?: boolean;
 }) {
   const [editing, setEditing] = useState<Editing>(null);
   const roleLabel = new Map(roles.map((r) => [r.id, r.label]));
@@ -82,6 +86,17 @@ export function StaffManager({
                 Editar
               </button>
             </div>
+            {canDelete && r.id !== meId && (
+              <div className="basis-full">
+                <OwnerDelete
+                  kind="staff"
+                  id={r.id}
+                  label="Borrar persona"
+                  question={`¿Borrar a ${r.full_name}, con sus marcas de reloj y su PIN?`}
+                  done="Persona borrada."
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>

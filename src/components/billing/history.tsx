@@ -1,8 +1,19 @@
+import type { ReactNode } from "react";
+
 import { formatDate } from "@/lib/clients/body";
 import { formatCRC, type Payment, type Receipt } from "@/lib/billing/types";
 import { ReceiptBadge } from "./status-badge";
 
-export function ReceiptList({ receipts, urls }: { receipts: Receipt[]; urls: Record<string, string> }) {
+export function ReceiptList({
+  receipts,
+  urls,
+  actions,
+}: {
+  receipts: Receipt[];
+  urls: Record<string, string>;
+  /** Extra controls per receipt id (owners: delete). */
+  actions?: Record<string, ReactNode>;
+}) {
   if (!receipts.length) return <p className="text-[15px] text-muted">Todavía no hay comprobantes.</p>;
   return (
     <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
@@ -23,6 +34,7 @@ export function ReceiptList({ receipts, urls }: { receipts: Receipt[]; urls: Rec
               )}
             </p>
             {r.status === "rejected" && r.reject_reason && <p className="mt-1 text-sm">Motivo: {r.reject_reason}</p>}
+            {actions?.[r.id] && <div className="mt-1">{actions[r.id]}</div>}
           </div>
           <ReceiptBadge status={r.status} />
         </li>
@@ -31,7 +43,16 @@ export function ReceiptList({ receipts, urls }: { receipts: Receipt[]; urls: Rec
   );
 }
 
-export function PaymentList({ payments, people }: { payments: Payment[]; people?: Record<string, string> }) {
+export function PaymentList({
+  payments,
+  people,
+  actions,
+}: {
+  payments: Payment[];
+  people?: Record<string, string>;
+  /** Extra controls per payment id (owners: delete). */
+  actions?: Record<string, ReactNode>;
+}) {
   if (!payments.length) return <p className="text-[15px] text-muted">Todavía no hay pagos.</p>;
   return (
     <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
@@ -45,6 +66,7 @@ export function PaymentList({ payments, people }: { payments: Payment[]; people?
             {p.periods > 1 && ` · ${p.periods} meses`}
             {people && p.recorded_by_staff && people[p.recorded_by_staff] && ` · ${people[p.recorded_by_staff]}`}
           </span>
+          {actions?.[p.id] && <span className="basis-full">{actions[p.id]}</span>}
         </li>
       ))}
     </ul>

@@ -21,6 +21,8 @@ export const PERMISSIONS = [
   "settings.manage",
   "attendance.manage",
   "payroll.manage",
+  /** Owners (Dueño) only: delete or revert any record. */
+  "data.delete",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];

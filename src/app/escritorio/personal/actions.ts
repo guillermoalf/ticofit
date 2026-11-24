@@ -12,6 +12,8 @@ const PIN_RE = /^[0-9]{4}$/;
 function dbError(message: string | undefined): string {
   if (message?.includes("SEDE_NOT_ALLOWED")) return "Solo podés asignar sedes donde vos trabajás.";
   if (message?.includes("PIN_FORMAT")) return "El PIN tiene 4 números.";
+  if (message?.includes("OWNER_ONLY")) return "Solo un dueño puede dar o quitar el rol de dueño.";
+  if (message?.includes("LAST_OWNER")) return "Tiene que quedar al menos un dueño activo.";
   if (message?.includes("NOT_ALLOWED")) return "Tu rol no permite hacer esto.";
   return "No se pudo guardar. Intentá de nuevo.";
 }

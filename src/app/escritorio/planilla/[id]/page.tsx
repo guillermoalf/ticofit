@@ -5,6 +5,7 @@ import { DeskPageHeader } from "@/components/desk/page-header";
 import { formatMoment } from "@/lib/clients/body";
 import { colones } from "@/lib/staff/clock";
 import { requireStaff } from "@/lib/staff/context";
+import { can } from "@/lib/staff/permissions";
 import { PERIODS, RUN_STATUS, loadRun, missingRates, periodLabel, totals } from "@/lib/staff/payroll";
 import { createClient } from "@/lib/supabase/server";
 import { LineRow } from "./line-row";
@@ -16,7 +17,7 @@ const UUID_RE = /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i;
 
 /** One payroll run: a line per person, editable while it is a draft. */
 export default async function RunPage({ params }: { params: Promise<{ id: string }> }) {
-  await requireStaff("payroll.manage");
+  const staff = await requireStaff("payroll.manage");
   const { id } = await params;
   if (!UUID_RE.test(id)) notFound();
   const supabase = await createClient();
@@ -41,7 +42,7 @@ export default async function RunPage({ params }: { params: Promise<{ id: string
         }${run.paid_at ? ` · pagada el ${formatMoment(run.paid_at)}` : ""}`}
       />
 
-      <RunActions id={run.id} status={run.status} />
+      <RunActions id={run.id} status={run.status} canDelete={can(staff, "data.delete")} />
 
       {draft && missing.length > 0 && (
         <p className="mb-6 rounded-2xl border border-border-strong bg-surface px-5 py-4 text-[15px]">

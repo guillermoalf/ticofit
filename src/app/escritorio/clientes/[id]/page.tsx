@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { RecordView } from "@/components/clients/record-view";
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { DeskPageHeader } from "@/components/desk/page-header";
 import { RecordForm, type FormValues } from "@/components/desk/record-form";
 import { ageOn, todayCR } from "@/lib/clients/body";
@@ -102,6 +103,22 @@ export default async function ClientPage({
         ) : (
           <RecordView groups={PROFILE_GROUPS} record={client} />
         ))}
+      {tab === "perfil" && can(staff, "data.delete") && (
+        <section className="mt-12 max-w-3xl border-t border-border pt-6">
+          <h2 className="mb-2 text-lg font-semibold">Borrar cliente</h2>
+          <p className="mb-3 text-[15px] text-muted">
+            Borra el expediente completo: mediciones, historia clínica, rutinas, membresía, pagos, comprobantes, reservas y su acceso al portal.
+          </p>
+          <OwnerDelete
+            kind="client"
+            id={client.id}
+            label="Borrar este cliente"
+            question={`¿Borrar a ${client.full_name} y todo su historial?`}
+            done="Cliente borrado."
+            redirectTo="/escritorio/clientes"
+          />
+        </section>
+      )}
       {tab === "historia" && <ClinicalTab client={client} staff={staff} />}
       {tab === "mediciones" && (
         <MeasurementsTab client={client} staff={staff} creating={query.nueva === "1"} editing={query.editar} selected={query.m} />

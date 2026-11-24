@@ -73,8 +73,12 @@ commit messages and table/column names in English.
    - PINs are stored hashed, never in plain text; lock out after repeated wrong tries.
 3. **Database:** write the migrations, but apply them to the remote project only once
    the code that uses them is done and verified. Same additive-only rules as §0.4.
-4. **`staging` is production** (Vercel deploys it). Never merge the internal system into
-   `staging` or `main`; keep it on `feat/internal-system`.
+4. **`staging` is production** (Vercel deploys it). ~~Never merge the internal system into
+   `staging`~~ — **superseded 2026-11-23:** Guillermo asked to move everything to `staging` to
+   test it there before showing Jeremy. `main` still only moves when he says so.
+8. **Owners (2026-11-23):** Guillermo and Jeremy are the only people who can do absolutely
+   everything: role `owner` (Dueño), every permission plus `data.delete`. Any test or mistake
+   can be deleted or reverted by an owner (`owner_delete()`, migration 0030).
 5. **Prices:** the ones on the public `/membresias` page (`src/content/landing.ts`) are
    the correct ones. Seed plans from there. They match §2.
 6. **Consultorio:** not defined yet — do not build it. Only the disciplines (§2) and the
