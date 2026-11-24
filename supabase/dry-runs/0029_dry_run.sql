@@ -1,5 +1,5 @@
 -- PRUEBA de la migración 0029 (unos 77 casos). NO es una migración y NO guarda nada.
--- Migración probada: sha256 6a18b701aaee3cd69e0538165ff2a585777c3f2df77929f7cd3bddedeef10cc8
+-- Migración probada: sha256 56e527639a56c76b919699fdb91f084e4b2de989f7696ac81677a55bf8a77f03
 --
 -- Pegá TODO en el SQL Editor de Supabase (proyecto branjuyfmqqrbisclasy) y dale Run.
 -- Siempre termina en "error", a propósito, para deshacer todo:
@@ -278,7 +278,7 @@ declare
   v_sedes text[];
   v_sede  text;
   v_open  public.staff_time_entries%rowtype;
-  v_now   timestamptz := now();
+  v_now   timestamptz := clock_timestamp();  -- the real moment of the tap, not the transaction start
 begin
   if not public.is_desk() then
     raise exception 'NO_DESK' using errcode = '42501';

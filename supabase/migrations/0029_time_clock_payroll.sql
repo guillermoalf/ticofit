@@ -263,7 +263,7 @@ declare
   v_sedes text[];
   v_sede  text;
   v_open  public.staff_time_entries%rowtype;
-  v_now   timestamptz := now();
+  v_now   timestamptz := clock_timestamp();  -- the real moment of the tap, not the transaction start
 begin
   if not public.is_desk() then
     raise exception 'NO_DESK' using errcode = '42501';
