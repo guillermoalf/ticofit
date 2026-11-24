@@ -16,7 +16,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
 | 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
 | 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
-| 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO data deleted; Playwright walkthrough not done (see below) |
+| 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO data deleted; Playwright walkthrough passes (12/12) |
 
 ## Final state (2026-11-23)
 
@@ -25,11 +25,16 @@ dry run. `yarn lint` and `yarn build` pass (built in a separate worktree so the 
 dev server's `.next` was not touched).
 
 **Not done / not verified:**
-- Playwright end-to-end walkthrough per role (§4 phase 8). It needs a client login and a
-  test staff PIN on the production database, plus installing Playwright's browsers;
-  not started without Guillermo's go-ahead.
-- Client side untested in a browser: invitation email → login → portal, receipt upload,
-  booking and cancelling from `/portal/clases`. Desk side of all of them is tested.
+- **Playwright walkthrough** (`yarn e2e`, with `yarn dev` running; 2026-11-23: 12/12
+  pass in ~2 min). It creates DEMO E2E accounts on the real project (`e2e/data.mjs`,
+  service role from `.env.local`; credentials only in gitignored `e2e/.data/`) and its
+  teardown deletes them all. Covers: desk login, clock in/out with PIN, unlock,
+  measurement, 2-day routine, cash payment, one-spot class booked by the desk, client
+  routine + PDF, progress chart, receipt upload, capacity limit ("Llena"), the desk freeing
+  the spot, client booking and cancelling, client kept out of the desk, receipt approval,
+  payroll data → run → approved → paid → CSV.
+- Not covered by it: the invitation email itself (needs SMTP), coach/pasante roles
+  (covered by the SQL dry runs and `rls_check.sql`).
 - Phase 1 save actions (sedes, settings, staff edits) were checked on screen, not saved.
 - `supabase/tests/rls_check.sql`: ran 2026-11-23 → `RLS_OK` (rerun after any policy change).
 - DEMO rows: all deleted 2026-11-23 (verified: no clients, classes, templates,
