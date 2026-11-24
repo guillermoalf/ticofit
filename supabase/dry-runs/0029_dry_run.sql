@@ -1016,7 +1016,7 @@ begin
   v := public.dryrun_value(format($q$select aguinaldo::text || '/' || coalesce(vacation_accrued::text, 'null') from public.payroll_people() where staff_id = %L$q$, b));
   if v <> '83333.33/null' then f := f || ('aguinaldo ' || coalesce(v, 'null'))::text; end if;
   perform public.payroll_rate_set('vacation_days_per_50_weeks', '14');
-  perform public.employment_save(b, format('{"pay_type":"monthly","rate":"600000","hire_date":"%s"}', public.today_cr() - 350));
+  perform public.employment_save(b, format('{"pay_type":"monthly","rate":"600000","hire_date":"%s"}', public.today_cr() - 350)::jsonb);
   vac := public.vacation_save(b, public.today_cr(), 3, 'DEMO');
   v := public.dryrun_value(format($q$select vacation_accrued::text || '/' || vacation_taken::text from public.payroll_people() where staff_id = %L$q$, b));
   if v <> '14.0/3.0' then f := f || ('vacations ' || coalesce(v, 'null'))::text; end if;
