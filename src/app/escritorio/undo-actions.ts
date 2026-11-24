@@ -26,11 +26,18 @@ function undoError(message: string | undefined): string {
  * remove itself: receipt files in storage and a client's login.
  */
 export async function ownerDeleteAction(kind: UndoKind, id: string): Promise<Result> {
-  const auth = await staffForAction("data.delete");
+  const structure = kind === "salon" || kind === "discipline";
+  const auth = await staffForAction(structure ? "salons.manage" : "data.delete");
   if (!auth.staff) return { ok: false, error: auth.error };
   if (!UUID_RE.test(id)) return { ok: false, error: "No se pudo borrar." };
 
   const supabase = await createClient();
+  if (structure) {
+    const { error } = await supabase.rpc("structure_delete", { p_kind: kind, p_id: id });
+    if (error) return { ok: false, error: undoError(error.message) };
+    revalidatePath("/escritorio", "layout");
+    return { ok: true };
+  }
   const { data, error } = await supabase.rpc("owner_delete", { p_kind: kind, p_id: id });
   if (error) return { ok: false, error: undoError(error.message) };
 

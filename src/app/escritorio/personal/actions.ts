@@ -21,6 +21,8 @@ function dbError(message: string | undefined): string {
 export type StaffInput = {
   full_name: string;
   role_id: string;
+  /** Shown instead of the role name; empty = the role name. */
+  display_title: string;
   sede_ids: string[];
   phone: string;
   email: string;
@@ -32,10 +34,11 @@ export async function createStaffAction(input: StaffInput, pin: string): Promise
   if (!auth.staff) return { ok: false, error: auth.error };
   if (input.full_name.trim().length < 2) return { ok: false, error: "Escribí el nombre." };
   if (input.sede_ids.length === 0) return { ok: false, error: "Elegí al menos una sede." };
+  if (input.display_title.trim().length === 1) return { ok: false, error: "El cargo tiene que tener al menos 2 letras." };
   if (!PIN_RE.test(pin)) return { ok: false, error: "El PIN tiene 4 números." };
 
   const supabase = await createClient();
-  const { error } = await supabase.rpc("staff_create", {
+  const { data: newId, error } = await supabase.rpc("staff_create", {
     p_full_name: input.full_name,
     p_role_id: input.role_id,
     p_sede_ids: input.sede_ids,
@@ -45,6 +48,8 @@ export async function createStaffAction(input: StaffInput, pin: string): Promise
     p_can_manage_payroll: input.can_manage_payroll,
   });
   if (error) return { ok: false, error: dbError(error.message) };
+  const title = input.display_title.trim().replace(/\s+/g, " ");
+  if (title && newId) await supabase.from("staff").update({ display_title: title }).eq("id", newId as string);
   revalidatePath("/escritorio/personal");
   return { ok: true };
 }
@@ -54,6 +59,7 @@ export async function updateStaffAction(id: string, input: StaffInput & { active
   if (!auth.staff) return { ok: false, error: auth.error };
   if (input.full_name.trim().length < 2) return { ok: false, error: "Escribí el nombre." };
   if (input.sede_ids.length === 0) return { ok: false, error: "Elegí al menos una sede." };
+  if (input.display_title.trim().length === 1) return { ok: false, error: "El cargo tiene que tener al menos 2 letras." };
   if (id === auth.staff.id && !input.active) return { ok: false, error: "No podés desactivarte a vos mismo." };
 
   const supabase = await createClient();
@@ -62,6 +68,7 @@ export async function updateStaffAction(id: string, input: StaffInput & { active
     .update({
       full_name: input.full_name.trim(),
       role_id: input.role_id,
+      display_title: input.display_title.trim().replace(/\s+/g, " ") || null,
       phone: input.phone.trim() || null,
       email: input.email.trim().toLowerCase() || null,
       active: input.active,

@@ -43,7 +43,7 @@ export default async function SalonesPage() {
           Horario semanal
         </Link>
       )}
-      {can(staff, "settings.manage") && (
+      {can(staff, "salons.manage") && (
         <Link href="/escritorio/salones/configurar" className={PILL}>
           Salones y disciplinas
         </Link>

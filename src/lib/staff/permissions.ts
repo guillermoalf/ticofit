@@ -23,6 +23,8 @@ export const PERMISSIONS = [
   "payroll.manage",
   /** Owners (Dueño) only: delete or revert any record. */
   "data.delete",
+  /** Owners only: create, rename and delete salones and disciplines. */
+  "salons.manage",
 ] as const;
 
 export type Permission = (typeof PERMISSIONS)[number];

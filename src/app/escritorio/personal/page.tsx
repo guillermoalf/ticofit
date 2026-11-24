@@ -12,7 +12,7 @@ export default async function PersonalPage() {
   const supabase = await createClient();
 
   const [{ data: staff }, { data: staffSedes }, { data: roles }, { data: sedes }, { data: pins }] = await Promise.all([
-    supabase.from("staff").select("id, full_name, role_id, phone, email, active, can_manage_payroll").order("full_name"),
+    supabase.from("staff").select("id, full_name, role_id, display_title, phone, email, active, can_manage_payroll").order("full_name"),
     supabase.from("staff_sedes").select("staff_id, sede_id"),
     supabase.from("staff_roles").select("id, label").order("sort_order"),
     supabase.from("sedes").select("id, name").in("id", me.sede_ids).order("sort_order"),
