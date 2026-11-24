@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowLeft, MailCheck } from "lucide-react";
 
 import { TicofitLogo } from "@/components/brand/ticofit-logo";
@@ -35,6 +35,8 @@ function reducedMotion() {
 
 function LoginForm() {
   const router = useRouter();
+  // /auth/callback sends failed Google sign-ins back here with ?error=auth.
+  const callbackError = useSearchParams().get("error");
 
   const [stage, setStage] = useState<Stage>("intro");
   const [mode, setMode] = useState<Mode>("signin");
@@ -42,7 +44,9 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(
+    callbackError ? "No se pudo entrar con Google. Intentá de nuevo o usá tu correo y contraseña." : null,
+  );
 
   useEffect(() => {
     const t = setTimeout(() => setStage("form"), reducedMotion() ? 0 : INTRO_MS);
@@ -147,7 +151,7 @@ function LoginForm() {
       <div
         aria-hidden={stage === "form" ? undefined : true}
         className={cn(
-          "tf-login-field absolute inset-x-0 top-0 z-20 bg-verde-profundo text-lima-claro",
+          "tf-login-field relative z-20 bg-verde-profundo text-lima-claro",
           covered ? "h-dvh" : "h-[var(--tf-login-band)]",
         )}
       >
@@ -188,7 +192,7 @@ function LoginForm() {
       {/* The form, under the band. */}
       <main
         className={cn(
-          "relative z-10 mx-auto w-full max-w-md px-6 pt-[calc(var(--tf-login-band)+clamp(96px,24vw,140px)+8px)] pb-14 transition-[opacity,transform] duration-500",
+          "relative z-10 mx-auto w-full max-w-md px-6 mt-[calc(clamp(96px,24vw,140px)+8px)] pb-14 transition-[opacity,transform] duration-500",
           stage === "form" ? "translate-y-0 opacity-100 delay-300" : "translate-y-6 opacity-0",
         )}
       >
