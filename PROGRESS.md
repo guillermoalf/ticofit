@@ -12,9 +12,9 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 1 · Auth, roles, sedes, staff PIN | ⏳ screens checked in the browser; save actions not exercised yet |
 | 2 · Clients, expediente, measurements | ✅ tested against the database (DEMO client); invitations untested |
 | 3 · Memberships & payments | ✅ tested with the DEMO client; receipt upload/review untested (needs a client login) |
-| 4 · Exercise library & routines | 🟡 0027 applied; UI in progress |
-| 5 · Salones, disciplines, calendar | ⬜ |
-| 6 · Reservations & capacity | ⬜ |
+| 4 · Exercise library & routines | ✅ done; printed routine with QR per video |
+| 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
+| 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
 | 7 · Employees, time clock, payroll | ⬜ |
 | 8 · Final QA | ⬜ |
 
@@ -144,6 +144,29 @@ through `receipt_review()` and `payment_record_cash()`; nothing edits or deletes
   private `receipts` bucket; staff only see them through 10-minute signed URLs made
   after RLS showed them the receipt.
 
+## Phases 4–6 review (2026-11-23)
+
+**Phase 4:** routine print view fixed (day titles), QR code per exercise video on the
+printed routine. Known gap: no weight logging in new routines.
+
+**Phases 5–6 (0028):**
+- Classes come from weekly templates plus one-off classes; occurrences are generated
+  lazily by `class_slots` / `public_schedule`. Changing a template rebuilds future dates
+  without bookings.
+- Live occupancy polls (`router.refresh` every 30 s): Realtime can't carry
+  `x-staff-token`.
+- Costa Rica is fixed UTC−6.
+- Clients book only in their own sede, only if `sedes.status = 'open'`, and only with an
+  active or overdue membership. Per-salón and building capacity are enforced; no
+  per-membership class limit (out of scope).
+- Landing `#horario` reads `public_schedule` (spots left only, never the aforo);
+  "Reservar" goes to `/portal/clases`. The sample times and coach names are gone. Café
+  shows its waitlist until both `landing.ts` and `sedes.status` say it is open.
+- **Tested in the desk:** salón list and occupancy, day view, one-off class, edit,
+  cancel, roster booking, check-in, weekly template add/remove, configurar, client
+  Reservas tab. Test classes were cancelled ("Prueba del sistema"); deleting their rows
+  belongs in the DEMO cleanup.
+
 ## Phase 3 review (2026-11-22)
 
 **Exercised against the database (2026-11-23, DEMO client):** assign a plan, cash
@@ -263,6 +286,8 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
 
 ## Migrations created
 
+- `0028_salones_classes_reservations.sql`: applied 2026-11-23 by Guillermo after its dry
+  run; functions, policies and grants verified, anon limited to `public_schedule`.
 - `0025_memberships_payments.sql`: applied 2026-11-23 by Guillermo after its dry run
   (51 cases). Verified: function bodies, 9 policies, column grants, private bucket,
   anon refused.
