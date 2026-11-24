@@ -16,7 +16,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
 | 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
 | 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
-| 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO cleanup ready; Playwright walkthrough not done (see below) |
+| 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO data deleted; Playwright walkthrough not done (see below) |
 
 ## Final state (2026-11-23)
 
@@ -32,8 +32,9 @@ dev server's `.next` was not touched).
   booking and cancelling from `/portal/clases`. Desk side of all of them is tested.
 - Phase 1 save actions (sedes, settings, staff edits) were checked on screen, not saved.
 - `supabase/tests/rls_check.sql`: ran 2026-11-23 → `RLS_OK` (rerun after any policy change).
-- DEMO rows still in the database: run `supabase/cleanup/2026-11-23_demo_todo.sql`
-  (local, never committed).
+- DEMO rows: all deleted 2026-11-23 (verified: no clients, classes, templates,
+  reservations, payments, DEMO routines/exercises or payroll rows left). The cleanup SQL
+  stays local in `supabase/cleanup/`, never committed.
 
 **[Pendiente — Jeremy]** (left empty or generic and editable, never invented):
 - Salón names and capacities (seeded "Salón 1–5" at building capacity), coaches and the
@@ -64,7 +65,7 @@ helpers (older than this branch, listed under Known issues).
    día, Salones y clases, Ejercicios y rutinas, Personal, Reloj, Planilla, Ajustes.
 4. Invite a real client email and walk the portal: rutina, progreso, pagos (upload a
    receipt, approve it on the desk), clases (book, cancel).
-5. Run the DEMO cleanup, then load Jeremy's real data (salones, horario, staff, rates).
+5. Load Jeremy's real data (salones, horario, staff, rates).
 6. Only then decide how this reaches production: today `staging` is production and this
    branch never merges into it.
 
