@@ -16,7 +16,57 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
 | 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
 | 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
-| 8 · Final QA | ⬜ |
+| 8 · Final QA | 🟡 lint + build pass; RLS check written (`supabase/tests/rls_check.sql`); DEMO cleanup ready; Playwright walkthrough not done (see below) |
+
+## Final state (2026-11-23)
+
+**Done:** phases 0–7, migrations 0023–0029 applied and verified, every one after a full
+dry run. `yarn lint` and `yarn build` pass (built in a separate worktree so the running
+dev server's `.next` was not touched).
+
+**Not done / not verified:**
+- Playwright end-to-end walkthrough per role (§4 phase 8). It needs a client login and a
+  test staff PIN on the production database, plus installing Playwright's browsers;
+  not started without Guillermo's go-ahead.
+- Client side untested in a browser: invitation email → login → portal, receipt upload,
+  booking and cancelling from `/portal/clases`. Desk side of all of them is tested.
+- Phase 1 save actions (sedes, settings, staff edits) were checked on screen, not saved.
+- `supabase/tests/rls_check.sql` written; run it in the SQL Editor (expects `RLS_OK`).
+- DEMO rows still in the database: run `supabase/cleanup/2026-11-23_demo_todo.sql`
+  (local, never committed).
+
+**[Pendiente — Jeremy]** (left empty or generic and editable, never invented):
+- Salón names and capacities (seeded "Salón 1–5" at building capacity), coaches and the
+  real weekly class schedule (Horario semanal is empty), final sede names.
+- Payroll: CCSS employee and employer %, Banco Popular %, income-tax brackets, vacation
+  days per 50 weeks, payroll frequency (seeded monthly) — from the accountant.
+- Each employee's payroll data (cédula, puesto, ingreso, IBAN, pay type and rate).
+- Waist/hip "ELEVADO" thresholds, cancellation cutoff (2 h) and booking window (7 days),
+  recovery session details.
+
+**Before real use:** SMTP for invitations, the `/auth/invitacion` redirect URL,
+`NEXT_PUBLIC_SITE_URL`, Guillermo changes his PIN (it was exposed in a chat), a second
+payroll holder (the only one can't be recovered from the app), leaked-password protection
+on in Supabase Auth, decide whether desk accounts may change their own email/password.
+
+**Security advisor (2026-11-23):** the "signed-in users can execute SECURITY DEFINER"
+warnings are by design: every RPC checks the PIN session and permission inside. The anon
+ones are `public_schedule` (intentional: the landing reads it) and legacy 0001–0021
+helpers (older than this branch, listed under Known issues).
+
+### How to review this branch (Guillermo)
+
+1. `git log staging..feat/internal-system --oneline`: one commit per step; migrations in
+   `supabase/migrations/0023`–`0029`, each with its dry run in `supabase/dry-runs/`.
+2. Run `supabase/tests/rls_check.sql` in the SQL Editor → `RLS_OK`.
+3. On a desk: lock screen → mark entry with PIN → unlock → Hoy, Clientes (expediente,
+   historia clínica, mediciones, rutina, membresía, reservas), Comprobantes, Quién está al
+   día, Salones y clases, Ejercicios y rutinas, Personal, Reloj, Planilla, Ajustes.
+4. Invite a real client email and walk the portal: rutina, progreso, pagos (upload a
+   receipt, approve it on the desk), clases (book, cancel).
+5. Run the DEMO cleanup, then load Jeremy's real data (salones, horario, staff, rates).
+6. Only then decide how this reaches production: today `staging` is production and this
+   branch never merges into it.
 
 ## Inventory (2026-11-22)
 
