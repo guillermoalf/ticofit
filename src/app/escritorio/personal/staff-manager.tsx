@@ -14,6 +14,7 @@ export type StaffRow = {
   id: string;
   full_name: string;
   role_id: string;
+  display_title: string | null;
   phone: string | null;
   email: string | null;
   active: boolean;
@@ -65,7 +66,7 @@ export function StaffManager({
                 {r.id === meId && <span className="ml-2 text-sm font-normal text-muted">(vos)</span>}
               </p>
               <p className="text-sm text-muted">
-                {roleLabel.get(r.role_id) ?? r.role_id}
+                {r.display_title ? `${r.display_title} (${roleLabel.get(r.role_id) ?? r.role_id})` : (roleLabel.get(r.role_id) ?? r.role_id)}
                 {r.can_manage_payroll && " · planilla"} · {r.sede_ids.map((s) => sedeName.get(s) ?? s).join(", ")}
                 {!r.has_pin && r.active && " · sin PIN"}
               </p>
@@ -143,6 +144,7 @@ function StaffForm({
   const [name, setName] = useState(row?.full_name ?? "");
   const [role, setRole] = useState(row?.role_id ?? roles.find((r) => r.id === "coach")?.id ?? roles[0]?.id ?? "");
   const [sedeIds, setSedeIds] = useState<string[]>(row?.sede_ids ?? (sedes.length === 1 ? [sedes[0].id] : []));
+  const [title, setTitle] = useState(row?.display_title ?? "");
   const [phone, setPhone] = useState(row?.phone ?? "");
   const [email, setEmail] = useState(row?.email ?? "");
   const [payroll, setPayroll] = useState(row?.can_manage_payroll ?? false);
@@ -152,7 +154,7 @@ function StaffForm({
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const input: StaffInput = { full_name: name, role_id: role, sede_ids: sedeIds, phone, email, can_manage_payroll: payroll };
+    const input: StaffInput = { full_name: name, role_id: role, display_title: title, sede_ids: sedeIds, phone, email, can_manage_payroll: payroll };
     start(async () => {
       const res = row ? await updateStaffAction(row.id, { ...input, active }) : await createStaffAction(input, pin);
       if (!res.ok) return setError(res.error);
@@ -166,6 +168,7 @@ function StaffForm({
     <form onSubmit={submit} method="post" className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-5">
       <TextField label="Nombre completo" value={name} onChange={setName} required autoComplete="off" />
       <SelectField label="Rol" value={role} onChange={setRole} options={roles.map((r) => ({ value: r.id, label: r.label }))} />
+      <TextField label="Cargo que se muestra (opcional, no cambia permisos)" value={title} onChange={setTitle} autoComplete="off" />
       <fieldset>
         <legend className="mb-1.5 text-sm text-muted">Sedes</legend>
         <div className="flex flex-wrap gap-4">

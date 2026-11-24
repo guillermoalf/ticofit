@@ -198,12 +198,12 @@ export async function endTemplateAction(id: string): Promise<Result> {
   return { ok: true, message: "Clase semanal quitada. Las clases que ya tenían reservas siguen en el calendario." };
 }
 
-// --- Salones and disciplines (settings.manage) ----------------------------------------
+// --- Salones and disciplines (salons.manage, owners only) ----------------------------------------
 
 export type SalonInput = { name: string; capacity: string; sort_order: string; active: boolean };
 
 export async function saveSalonAction(id: string | null, sedeId: string, input: SalonInput): Promise<Result> {
-  const auth = await staffForAction("settings.manage");
+  const auth = await staffForAction("salons.manage");
   if (!auth.staff) return { ok: false, error: auth.error };
   if (id && !uuid(id)) return { ok: false, error: "No se encontró el salón." };
   if (!id && !auth.staff.sede_ids.includes(sedeId)) return { ok: false, error: "Tu rol no permite hacer esto." };
@@ -236,7 +236,7 @@ function slugify(name: string): string {
 }
 
 export async function saveDisciplineAction(id: string | null, input: DisciplineInput): Promise<Result> {
-  const auth = await staffForAction("settings.manage");
+  const auth = await staffForAction("salons.manage");
   if (!auth.staff) return { ok: false, error: auth.error };
   if (id && !uuid(id)) return { ok: false, error: "No se encontró la disciplina." };
   const name = input.name.trim().replace(/\s+/g, " ");
@@ -264,7 +264,7 @@ export async function saveDisciplineAction(id: string | null, input: DisciplineI
 
 /** The salón a discipline uses by default in one sede (salonId "" clears it). */
 export async function setDisciplineSalonAction(disciplineId: string, sedeId: string, salonId: string): Promise<Result> {
-  const auth = await staffForAction("settings.manage");
+  const auth = await staffForAction("salons.manage");
   if (!auth.staff) return { ok: false, error: auth.error };
   if (!uuid(disciplineId) || !auth.staff.sede_ids.includes(sedeId)) return { ok: false, error: "Tu rol no permite hacer esto." };
   const supabase = await createClient();

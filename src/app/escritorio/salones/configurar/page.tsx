@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { OwnerDelete } from "@/components/desk/owner-delete";
 import { DeskPageHeader } from "@/components/desk/page-header";
 import type { Discipline, Salon } from "@/lib/schedule";
 import { activeSedeIds, requireStaff } from "@/lib/staff/context";
@@ -10,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 /** Salones per sede and the shared list of disciplines. */
 export default async function ConfigurePage() {
-  const staff = await requireStaff("settings.manage");
+  const staff = await requireStaff("salons.manage");
   const sedeIds = await activeSedeIds(staff);
   const supabase = await createClient();
   const [{ data: sedes }, { data: salones }, { data: disciplines }, { data: links }] = await Promise.all([
@@ -32,7 +33,7 @@ export default async function ConfigurePage() {
       </p>
       <DeskPageHeader
         title="Salones y disciplinas"
-        description="La capacidad del salón es el tope de cualquier clase que se dé ahí. El cupo de la disciplina es el que lleva cada clase si no se pone otro."
+        description="Cambiá nombres, agregá o borrá salones y disciplinas. La capacidad del salón es el tope de cualquier clase que se dé ahí; el cupo de la disciplina es el que lleva cada clase si no se pone otro."
       />
       {sedeList.map((sede) => (
         <section key={sede.id} className="mb-10">
@@ -41,7 +42,18 @@ export default async function ConfigurePage() {
             {rooms
               .filter((r) => r.sede_id === sede.id)
               .map((r) => (
-                <SalonRow key={r.id} salon={r} sedeId={sede.id} />
+                <div key={r.id}>
+                  <SalonRow salon={r} sedeId={sede.id} />
+                  <div className="-mt-1 px-5 pb-4">
+                    <OwnerDelete
+                      kind="salon"
+                      id={r.id}
+                      label="Borrar salón"
+                      question={`¿Borrar «${r.name}» con todas sus clases y su horario semanal?`}
+                      done="Salón borrado."
+                    />
+                  </div>
+                </div>
               ))}
             <SalonRow salon={null} sedeId={sede.id} />
           </div>
@@ -54,6 +66,13 @@ export default async function ConfigurePage() {
           {((disciplines ?? []) as Discipline[]).map((d) => (
             <li key={d.id} className="space-y-3 px-5 py-4">
               <DisciplineRow discipline={d} />
+              <OwnerDelete
+                kind="discipline"
+                id={d.id}
+                label="Borrar disciplina"
+                question={`¿Borrar «${d.name}» con todas sus clases y su horario semanal en las dos sedes?`}
+                done="Disciplina borrada."
+              />
               <div className="grid gap-3 sm:grid-cols-2">
                 {sedeList.map((sede) => (
                   <DefaultSalon

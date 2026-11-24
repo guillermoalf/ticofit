@@ -10,4 +10,7 @@ export type UndoKind =
   | "class"
   | "reservation"
   | "staff"
-  | "payroll_run";
+  | "payroll_run"
+  /** structure_delete() (0031), salons.manage. */
+  | "salon"
+  | "discipline";
