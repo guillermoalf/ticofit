@@ -1,5 +1,5 @@
 -- PRUEBA de la migración 0029 (unos 77 casos). NO es una migración y NO guarda nada.
--- Migración probada: sha256 5a10f75f2bc7d00be7f10b2c934d5f7f11d1e4b8d3924bbeaefbc6a85588f7ed
+-- Migración probada: sha256 6a18b701aaee3cd69e0538165ff2a585777c3f2df77929f7cd3bddedeef10cc8
 --
 -- Pegá TODO en el SQL Editor de Supabase (proyecto branjuyfmqqrbisclasy) y dale Run.
 -- Siempre termina en "error", a propósito, para deshacer todo:
@@ -183,7 +183,7 @@ create table if not exists public.payroll_runs (
   updated_at        timestamptz not null default now(),
   created_by_staff  uuid references public.staff (id) on delete set null,
   updated_by_staff  uuid references public.staff (id) on delete set null,
-  constraint payroll_runs_period_check check (period_end >= period_start and period_end - period_start <= 31),
+  constraint payroll_runs_range_check check (period_end >= period_start and period_end - period_start <= 31),
   unique (period_start, period_end)
 );
 comment on table public.payroll_runs is 'One payroll per period. Lines are recomputed while draft and frozen once approved.';

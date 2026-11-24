@@ -168,7 +168,7 @@ create table if not exists public.payroll_runs (
   updated_at        timestamptz not null default now(),
   created_by_staff  uuid references public.staff (id) on delete set null,
   updated_by_staff  uuid references public.staff (id) on delete set null,
-  constraint payroll_runs_period_check check (period_end >= period_start and period_end - period_start <= 31),
+  constraint payroll_runs_range_check check (period_end >= period_start and period_end - period_start <= 31),
   unique (period_start, period_end)
 );
 comment on table public.payroll_runs is 'One payroll per period. Lines are recomputed while draft and frozen once approved.';
