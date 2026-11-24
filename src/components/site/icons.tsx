@@ -33,3 +33,19 @@ export function Check({ size = 16, className }: { size?: number; className?: str
     </svg>
   );
 }
+
+/** Arrow into a door: sign in. */
+export function SignIn({ className }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" className={className}>
+      <path
+        d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4M3 12h12M11 8l4 4-4 4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}

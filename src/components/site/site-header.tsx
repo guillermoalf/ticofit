@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 
 import { landing } from "@/content/landing";
 import { cn } from "@/lib/utils";
-import { Chevron } from "./icons";
+import { Chevron, SignIn } from "./icons";
 import { NumaLogo } from "@/components/brand/numa-logo";
 
 import { PillLink } from "./pill-link";
@@ -176,8 +176,13 @@ export function SiteHeader() {
           ),
         )}
 
-        <Link href={nav.ingresar.href} className={cn(linkBase, linkTone, "font-semibold")}>
-          {nav.ingresar.label}
+        <Link
+          href={nav.ingresar.href}
+          aria-label={nav.ingresar.label}
+          title={nav.ingresar.label}
+          className={cn("inline-flex size-11 items-center justify-center", linkTone)}
+        >
+          <SignIn />
         </Link>
 
         <PillLink
@@ -189,7 +194,17 @@ export function SiteHeader() {
         </PillLink>
       </nav>
 
-      {/* Mobile trigger */}
+      {/* Mobile: sign in + menu trigger */}
+      <Link
+        href={nav.ingresar.href}
+        aria-label={nav.ingresar.label}
+        className={cn(
+          "tf-intro-nav ml-auto inline-flex size-11 items-center justify-center lg:hidden",
+          dark ? "text-crema-claro" : "text-verde-profundo",
+        )}
+      >
+        <SignIn />
+      </Link>
       <button
         type="button"
         aria-expanded={menuOpen}
@@ -197,7 +212,7 @@ export function SiteHeader() {
         aria-label={nav.abrirMenu}
         onClick={() => setMenuOpen(true)}
         className={cn(
-          "tf-intro-nav ml-auto inline-flex size-11 cursor-pointer items-center justify-center bg-transparent lg:hidden",
+          "tf-intro-nav -ml-4 inline-flex size-11 cursor-pointer items-center justify-center bg-transparent lg:hidden",
           dark ? "text-crema-claro" : "text-verde-profundo",
         )}
       >
@@ -265,18 +280,13 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="mt-10 flex flex-wrap items-center gap-6">
-            <PillLink href={nav.reservar.href} variant="lima" className="min-h-[52px] px-8 text-[15px]">
-              {nav.reservar.label}
-            </PillLink>
-            <Link
-              href={nav.ingresar.href}
-              onClick={() => setMenuOpen(false)}
-              className="inline-flex min-h-11 items-center text-[17px] font-semibold text-inherit underline underline-offset-4"
-            >
-              {nav.ingresar.label}
-            </Link>
-          </div>
+          <PillLink
+            href={nav.reservar.href}
+            variant="lima"
+            className="mt-10 min-h-[52px] self-start px-8 text-[15px]"
+          >
+            {nav.reservar.label}
+          </PillLink>
         </div>
       )}
     </header>
