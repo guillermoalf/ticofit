@@ -357,9 +357,11 @@ begin
   if not public.staff_is_owner() then f := f || 'owner not owner'::text; end if;
   j2 := public.staff_create('DEMO Jeremy', 'owner', array['bellavista','cafe'], '1234');
   if (select can_manage_payroll from public.staff where id = j2) is not true then f := f || 'new owner without payroll'::text; end if;
-  f := f || public.dryrun_check('owner unsets payroll', format($q$update public.staff set can_manage_payroll = false where id = %L$q$, j2), 'ok:1');
+  -- real updates (dryrun_check rolls its statement back)
+  update public.staff set can_manage_payroll = false where id = j2;
   if (select can_manage_payroll from public.staff where id = j2) is not true then f := f || 'owner payroll dropped'::text; end if;
-  f := f || public.dryrun_check('owner deactivates owner', format($q$update public.staff set active = false where id = %L$q$, j2), 'ok:1');
+  update public.staff set active = false where id = j2;
+  if (select active from public.staff where id = j2) then f := f || 'owner not deactivated'::text; end if;
   f := f || public.dryrun_check('last owner demotes self', format($q$update public.staff set role_id = 'admin' where id = %L$q$, o), '%LAST_OWNER%');
   f := f || public.dryrun_check('delete self', format($q$select public.owner_delete('staff', %L)$q$, o), '%NOT_SELF%');
 
