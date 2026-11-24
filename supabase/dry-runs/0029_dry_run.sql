@@ -1,5 +1,5 @@
 -- PRUEBA de la migración 0029 (unos 77 casos). NO es una migración y NO guarda nada.
--- Migración probada: sha256 56e527639a56c76b919699fdb91f084e4b2de989f7696ac81677a55bf8a77f03
+-- Migración probada: sha256 64fd99deddbc38ed142495f2a030d23ea03126f38fdf59d255450817dd0bce3d
 --
 -- Pegá TODO en el SQL Editor de Supabase (proyecto branjuyfmqqrbisclasy) y dale Run.
 -- Siempre termina en "error", a propósito, para deshacer todo:
@@ -291,6 +291,10 @@ begin
     raise exception 'STAFF_NOT_HERE' using errcode = '42501';
   end if;
 
+  if p_sede_id is not null and not p_sede_id = any (v_sedes) then
+    raise exception 'SEDE_NOT_ALLOWED' using errcode = '42501';
+  end if;
+
   v_check := public.staff_pin_ok(p_staff_id, p_pin);
   if v_check <> 'OK' then
     return json_build_object('ok', false, 'error', v_check);
@@ -313,9 +317,6 @@ begin
   end if;
 
   if p_sede_id is not null then
-    if not p_sede_id = any (v_sedes) then
-      raise exception 'SEDE_NOT_ALLOWED' using errcode = '42501';
-    end if;
     v_sede := p_sede_id;
   elsif cardinality(v_sedes) = 1 then
     v_sede := v_sedes[1];
