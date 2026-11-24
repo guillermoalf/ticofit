@@ -1,26 +1,18 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+
+import { RoutineView, ValidityNote } from "@/components/routines/routine-view";
+import { formatDate, todayCR } from "@/lib/clients/body";
 import { requireProfile } from "@/lib/portal";
+import { ROUTINE_SELECT, normalizeRoutine } from "@/lib/routines/library";
+import { routineExercises } from "@/lib/routines/server";
 import { createClient } from "@/lib/supabase/server";
-import { PlanSummary } from "@/components/portal/plan-summary";
-import { fetchWeightHistory } from "@/lib/weights";
-import type { Routine, RoutineItemWithExercise } from "@/types/db";
-import { deleteMySetAction, logMySetAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
-const assignedFmt = new Intl.DateTimeFormat("es-CR", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
-
 /**
- * The client's own routine. Reads through the "client reads own routines" /
- * "client reads own routine items" policies from 0003 — no coach_id filter
- * here, RLS scopes the rows to auth.uid().
- *
- * This is also the client's training log: every exercise row carries an inline
- * field where they write the set they just did (see migrations 0020 / 0021).
+ * The client's current routine. RLS (0027) returns only the newest routine
+ * assigned to their file, so no filter is needed here.
  */
 export default async function RutinaPage() {
   const { userId, profile } = await requireProfile();
@@ -28,78 +20,52 @@ export default async function RutinaPage() {
 
   const supabase = await createClient();
 
-  const { data: routineRows } = await supabase
-    .from("routines")
-    .select("*")
-    .order("assigned_at", { ascending: false });
+  // Suspended for non-payment: the routine stays locked until a payment is approved.
+  const { data: file } = await supabase.from("clients").select("id").eq("user_id", userId).maybeSingle();
+  const { data: overview } = file
+    ? await supabase.from("membership_overview").select("status").eq("client_id", file.id).maybeSingle()
+    : { data: null };
+  if (overview?.status === "suspended") {
+    return (
+      <main className="mx-auto max-w-xl px-5 py-12 sm:px-6">
+        <h1 className="font-tf-serif text-[40px] leading-tight">Tu rutina está en pausa</h1>
+        <p className="mt-3 text-[16px] text-muted">
+          Tu membresía está suspendida por falta de pago. Subí el comprobante y la rutina se desbloquea apenas lo aprobemos.
+        </p>
+        <Link href="/portal/pagos" className="mt-6 inline-flex rounded-full bg-verde-profundo px-6 py-3 font-semibold text-crema-claro">
+          Subir comprobante
+        </Link>
+      </main>
+    );
+  }
 
-  const routines = (routineRows ?? []) as Routine[];
-
-  const { data: itemRows } = routines.length
-    ? await supabase
-        .from("routine_items")
-        .select("*, exercise:exercises(*)")
-        .in(
-          "routine_id",
-          routines.map((r) => r.id),
-        )
-        .order("day_label", { ascending: true })
-        .order("order_index", { ascending: true })
-    : { data: [] };
-
-  const items = (itemRows ?? []) as RoutineItemWithExercise[];
-
-  // Reads through "client reads own weight logs": the client sees the record
-  // of what they have been lifting, exactly as the coach entered it.
-  const weightHistory = await fetchWeightHistory(
-    supabase,
-    userId,
-    items.map((item) => item.exercise_id),
-  );
+  const { data } = await supabase.from("client_routines").select(ROUTINE_SELECT).limit(1).maybeSingle();
+  const routine = data ? normalizeRoutine(data as never) : null;
+  const exercises = routine ? await routineExercises(supabase, routine) : new Map();
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-10 sm:px-6 sm:py-12">
-      <header>
-        <p className="text-sm uppercase tracking-widest text-primary">
-          Tu portal
-        </p>
-        <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">
-          Mi rutina
-        </h1>
-      </header>
-
-      {routines.length === 0 ? (
-        <p className="mt-8 rounded-card border border-dashed border-border-strong px-4 py-10 text-center text-sm text-muted-2">
-          Tu entrenador todavía no te asignó una rutina.
-        </p>
-      ) : (
-        <div className="mt-8 flex flex-col gap-8">
-          {routines.map((routine) => (
-            <section key={routine.id}>
-              <div className="mb-3">
-                <h2 className="font-display text-xl font-semibold text-ink">
-                  {routine.name}
-                </h2>
-                <p className="mt-0.5 text-xs text-muted">
-                  Asignada el{" "}
-                  {assignedFmt.format(new Date(routine.assigned_at))}
-                </p>
-              </div>
-
-              <PlanSummary
-                items={items.filter((i) => i.routine_id === routine.id)}
-                showNotes
-                weightHistory={weightHistory}
-                logging={{
-                  routineId: routine.id,
-                  logSet: logMySetAction,
-                  deleteSet: deleteMySetAction,
-                }}
-                emptyMessage="Esta rutina todavía no tiene ejercicios."
-              />
-            </section>
-          ))}
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-tf-serif text-[40px] leading-tight">{routine?.name ?? "Mi rutina"}</h1>
+          {routine?.valid_from && <p className="text-[15px] text-muted">Desde el {formatDate(routine.valid_from)}</p>}
+          {routine && <ValidityNote routine={routine} today={todayCR()} audience="client" />}
         </div>
+        {routine && (
+          <Link
+            href={`/imprimir/rutina/${routine.id}`}
+            className="rounded-full border border-border-strong px-5 py-2.5 text-sm font-semibold hover:bg-surface-hover"
+          >
+            Descargar PDF
+          </Link>
+        )}
+      </header>
+      {routine ? (
+        <RoutineView routine={routine} exercises={exercises} />
+      ) : (
+        <p className="rounded-2xl border border-dashed border-border-strong bg-surface px-5 py-10 text-center text-muted">
+          Tu coach todavía no te asignó una rutina.
+        </p>
       )}
     </main>
   );

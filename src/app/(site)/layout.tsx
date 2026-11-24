@@ -1,17 +1,6 @@
-import localFont from "next/font/local";
-
 import { siteCssVars } from "@/config/brand";
+import { displaySerif } from "@/lib/fonts";
 import { SiteHeader } from "@/components/site/site-header";
-
-/**
- * Display serif — TRIAL: Antic Didone (SIL OFL), subset to Latin from
- * public/fonts. It ships Regular only, so italics are synthesised.
- */
-const displaySerif = localFont({
-  variable: "--font-tf-display",
-  src: [{ path: "../../fonts/antic-didone.woff2", weight: "400", style: "normal" }],
-  display: "swap",
-});
 
 /**
  * Public site shell: display font, colour tokens and the shared header.

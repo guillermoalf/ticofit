@@ -5,7 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { landing, type SedeId } from "@/content/landing";
 
 const { sedes, horario } = landing.home;
-const SERVICIOS = Object.keys(horario.cafe.servicios);
+const SERVICIOS: readonly string[] = horario.cafe.servicios;
 
 /**
  * Home page state kept in the URL: `?sede=` (shared by the hero card and the

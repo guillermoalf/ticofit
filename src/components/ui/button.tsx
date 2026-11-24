@@ -10,7 +10,7 @@ const button = cva(
       variant: {
         // clean white button with dark label — the high-contrast default
         primary:
-          "bg-white text-primary-ink hover:bg-white/90 hover:-translate-y-0.5",
+          "bg-[var(--button,#fff)] text-primary-ink hover:opacity-90 hover:-translate-y-0.5",
         // outlined; gains a faint wash + neon-edge accent on hover
         ghost:
           "border border-border-strong bg-transparent text-ink hover:bg-surface-hover hover:border-primary",

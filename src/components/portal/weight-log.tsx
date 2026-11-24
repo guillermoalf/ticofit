@@ -330,7 +330,7 @@ export function SessionHistoryModal({
                               onClick={() => remove(set.id)}
                               disabled={removing === set.id}
                               aria-label={`Borrar ${formatSet(Number(set.weight), set.reps)}`}
-                              className="rounded-lg p-1 text-muted-2 transition-colors hover:text-red-300 disabled:opacity-40"
+                              className="rounded-lg p-1 text-muted-2 transition-colors hover:text-[var(--danger)] disabled:opacity-40"
                             >
                               {removing === set.id ? (
                                 <Loader2 size={13} className="animate-spin" />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { KeyRound, ShieldCheck } from "lucide-react";
 import { requireProfile, hasPassword } from "@/lib/portal";
 import { AccountCard } from "./account-card";
+import { MyRecord } from "./my-record";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export const dynamic = "force-dynamic";
  * account — the "re-offer" half of the first-login step.
  */
 export default async function PerfilPage() {
-  const { profile, email } = await requireProfile();
+  const { profile, email, userId } = await requireProfile();
   const passwordSet = await hasPassword();
 
   return (
@@ -59,6 +60,8 @@ export default async function PerfilPage() {
           </div>
         </div>
       </section>
+
+      {profile.role === "client" && <MyRecord userId={userId} />}
     </main>
   );
 }

@@ -17,7 +17,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { Logo } from "@/components/ui/logo";
+import { TicofitLogo } from "@/components/brand/ticofit-logo";
 import { BRAND } from "@/config/brand";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/app/portal/signout-button";
@@ -48,7 +48,9 @@ const ADMIN_LINKS: NavItem[] = [
 
 const CLIENT_LINKS: NavItem[] = [
   { href: "/portal/rutina", label: "Mi rutina", icon: Dumbbell },
+  { href: "/portal/clases", label: "Clases", icon: CalendarCheck },
   { href: "/portal/progreso", label: "Mi progreso", icon: LineChart },
+  { href: "/portal/pagos", label: "Mis pagos", icon: CreditCard },
   { href: "/portal/evidencias", label: "Evidencias", icon: Camera },
   { href: "/portal/perfil", label: "Mi perfil", icon: User },
 ];
@@ -129,7 +131,7 @@ export function PortalSidebar({
       {/* Desktop sidebar */}
       <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-border bg-surface/40 px-4 py-6 lg:flex">
         <Link href="/portal" aria-label={BRAND.name} className="mb-8 inline-flex px-3">
-          <Logo className="h-9" />
+          <TicofitLogo className="h-9 w-auto text-ink" />
         </Link>
         <div className="flex-1 overflow-y-auto">{nav}</div>
         {footer}
@@ -139,7 +141,7 @@ export function PortalSidebar({
       <header className="sticky top-0 z-50 border-b border-border bg-base/80 backdrop-blur-md lg:hidden">
         <div className="flex h-16 items-center justify-between px-5">
           <Link href="/portal" aria-label={BRAND.name} className="inline-flex">
-            <Logo className="h-9" />
+            <TicofitLogo className="h-9 w-auto text-ink" />
           </Link>
           <button
             className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink"
@@ -167,7 +169,7 @@ export function PortalSidebar({
         aria-hidden={!open}
         className={cn(
           "fixed inset-x-0 top-16 bottom-0 z-[46] flex flex-col overflow-y-auto",
-          "border-t border-border bg-[#0a0a0a]/90 px-5 py-6 backdrop-blur-xl",
+          "border-t border-border bg-base/95 px-5 py-6 backdrop-blur-xl",
           "transition-transform duration-200 ease-out lg:hidden",
           open ? "translate-y-0 pointer-events-auto" : "-translate-y-full pointer-events-none",
         )}

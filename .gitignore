@@ -39,3 +39,11 @@ next-env.d.ts
 # Google Cloud OAuth client secrets (local only, never commit)
 client secret*.json
 client_secret*.json
+
+# Local DB backups (never commit)
+/backups/
+
+# Playwright: local test accounts, reports and traces (never commit)
+/e2e/.data/
+/playwright-report/
+/test-results/

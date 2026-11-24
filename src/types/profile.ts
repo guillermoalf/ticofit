@@ -1,4 +1,5 @@
-export type Role = "admin" | "coach" | "client";
+/** `desk` = a shared gym computer (staff act on it with their PIN, migration 0023). */
+export type Role = "admin" | "coach" | "client" | "desk";
 export type ClientStatus = "active" | "paused";
 export type TrainingType = "in_person" | "remote" | "hybrid";
 export type Gender = "female" | "male" | "other" | "unspecified";
@@ -59,7 +60,9 @@ export type Profile = {
 
 /** Where each role lands after signing in. */
 export const ROLE_HOME: Record<Role, string> = {
-  admin: "/portal/admin",
+  // Legacy admin logins work as desk accounts now.
+  admin: "/escritorio",
+  desk: "/escritorio",
   coach: "/portal/clientes",
   client: "/portal/inicio",
 };

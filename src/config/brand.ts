@@ -157,3 +157,40 @@ export function brandCssVars(): React.CSSProperties {
     "--accent-rgb": BRAND.accent.rgb,
   } as React.CSSProperties;
 }
+
+/**
+ * The internal system's light theme (desk + client portal): remaps the
+ * generic app tokens (`bg-base`, `text-ink`, `text-primary`…) to the brand so
+ * the existing portal components follow it without edits. Every text pair was
+ * checked for AA: ink 13.6:1, muted 7.3:1 and muted-2 5.6:1 on cream (4.9:1 on
+ * the hover wash), cream on verde 13.6:1, verde on lima 8.6:1.
+ */
+export function appCssVars(): React.CSSProperties {
+  const p = BRAND.palette;
+  const s = BRAND.site;
+  return {
+    ...siteCssVars(),
+    "--base": p.cremaClaro,
+    "--surface": "#FFFFFF",
+    "--surface-2": s.cremaSuave,
+    "--surface-hover": s.cremaCard,
+    "--border": "rgba(36, 48, 28, 0.12)",
+    "--border-strong": "rgba(36, 48, 28, 0.26)",
+    "--ink": p.verdeProfundo,
+    "--muted": s.musgo,
+    "--muted-2": s.salvia,
+    "--primary": p.verdeProfundo,
+    "--primary-2": p.verdeProfundo,
+    "--accent": p.verdeProfundo,
+    "--primary-ink": p.cremaClaro,
+    "--accent-rgb": "180 215 128",
+    // Primary Button fill, and the grey "previous measurement" bar.
+    "--button": p.verdeProfundo,
+    "--bar-previous": "#858580",
+    // Semantic states keep their own hues (never brand colours). AA on cream:
+    // danger 7.4:1, success 6.4:1, warning 6.2:1.
+    "--danger": "#9B2C1F",
+    "--success": "#1F6B3A",
+    "--warning": "#8A5300",
+  } as React.CSSProperties;
+}

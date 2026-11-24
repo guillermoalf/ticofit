@@ -12,5 +12,5 @@ export const config = {
   // would only pay getUser()'s network round-trip per request: up to ~30s
   // when a stale cookie's token refresh can't reach Supabase, since auth-js
   // retries with backoff for a full refresh tick.
-  matcher: ["/portal/:path*"],
+  matcher: ["/portal/:path*", "/escritorio/:path*", "/bloqueo", "/imprimir/:path*"],
 };
