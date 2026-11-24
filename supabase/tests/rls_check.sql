@@ -68,6 +68,8 @@ begin
   select id into plan from public.plans order by sort_order limit 1;
   insert into public.client_memberships (client_id, plan_id, start_date, periods_paid) values (k2, plan, public.today_cr(), 1), (kc, plan, public.today_cr(), 1);
   insert into public.payments (client_id, amount_crc, paid_on, method) values (k2, 1, public.today_cr(), 'cash'), (kc, 1, public.today_cr(), 'cash');
+  -- a receipt must point at a real upload: a DEMO storage row (rolled back with the rest)
+  insert into storage.objects (bucket_id, name) values ('receipts', k2 || '/demo-rls.jpg');
   insert into public.payment_receipts (client_id, file_path, amount_crc, paid_on) values (k2, k2 || '/demo-rls.jpg', 1, public.today_cr());
   insert into public.client_routines (client_id, sede_id, name, valid_from, valid_weeks, assigned_at) values
     (k2, 'bellavista', 'DEMO', public.today_cr(), 4, now()), (kc, 'cafe', 'DEMO', public.today_cr(), 4, now());
