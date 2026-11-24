@@ -25,7 +25,8 @@ begin
     got := 'ok:' || n;
   exception when others then got := sqlerrm;
   end;
-  if got = 'ok:0' or got like '%permission denied%' or got like '%NOT_ALLOWED%' then return null; end if;
+  if got = 'ok:0' or got like '%permission denied%' or got like '%NOT_ALLOWED%'
+     or got like '%violates row-level security%' then return null; end if;
   return p_name || ' => ' || got;
 end $c$;
 create function public.rls_count(p_sql text) returns integer
