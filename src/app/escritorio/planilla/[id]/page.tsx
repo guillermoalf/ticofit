@@ -5,7 +5,7 @@ import { DeskPageHeader } from "@/components/desk/page-header";
 import { formatMoment } from "@/lib/clients/body";
 import { colones } from "@/lib/staff/clock";
 import { requireStaff } from "@/lib/staff/context";
-import { PAY_TYPES, PERIODS, RUN_STATUS, loadRun, missingRates, periodLabel, totals } from "@/lib/staff/payroll";
+import { PERIODS, RUN_STATUS, loadRun, missingRates, periodLabel, totals } from "@/lib/staff/payroll";
 import { createClient } from "@/lib/supabase/server";
 import { LineRow } from "./line-row";
 import { RunActions } from "./run-actions";
@@ -74,7 +74,6 @@ export default async function RunPage({ params }: { params: Promise<{ id: string
               key={l.id}
               line={l}
               name={l.full_name}
-              unit={PAY_TYPES[l.pay_type].unit}
               editable={draft}
             />
           ))}

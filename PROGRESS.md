@@ -15,7 +15,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 4 · Exercise library & routines | ✅ done; printed routine with QR per video |
 | 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
 | 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
-| 7 · Employees, time clock, payroll | ⬜ |
+| 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
 | 8 · Final QA | ⬜ |
 
 ## Inventory (2026-11-22)
@@ -143,6 +143,29 @@ through `receipt_review()` and `payment_record_cash()`; nothing edits or deletes
 - **D12 · Receipt files go straight from the browser to the client's own folder** in the
   private `receipts` bucket; staff only see them through 10-minute signed URLs made
   after RLS showed them the receipt.
+
+## Phase 7 review (2026-11-23)
+
+- **Time clock** lives on the lock screen ("Marcar entrada o salida"): name + PIN, no desk
+  session. It shares the PIN attempt counter and lockout with unlocking. People in two
+  sedes of a desk pick the sede. A shift left open more than 16 h is closed at entry +1 min
+  with the note "Sin salida marcada" for a manager to fix.
+- **Reloj:** attendance.manage sees a day per sede and corrects, adds or deletes marks; each
+  correction records who made it. Everyone else sees their own last two weeks.
+- **Planilla** (payroll holders only): payroll data per person (cédula, puesto, ingreso,
+  IBAN, monthly / hourly / per class + rate), runs per period (draft → approved → paid,
+  approved can go back to draft), per-line adjustments (corrected quantity, extra, other
+  deductions), CSV (formula-safe) and print/PDF. Hours come from the clock and classes from
+  the schedule (taught, not cancelled, already ended).
+- Lines are a frozen snapshot once approved (a payroll is a document); rates are copied
+  into the run when it is computed.
+- Aguinaldo = gross of approved/paid runs with period ending Dec 1 – Nov 30, / 12.
+  Vacations = days per 50 weeks × weeks since hire / 50 − days taken. Shown, never paid.
+- **Verify with Jeremy's accountant (seeded EMPTY, no deduction is applied until set):**
+  CCSS employee %, CCSS employer %, Banco Popular %, income-tax monthly brackets, vacation
+  days per 50 weeks, and the payroll frequency (seeded monthly).
+- Income tax is applied to the monthly-equivalent gross and scaled back to the period.
+- Test data from the browser check was deleted (marks, draft run, rate).
 
 ## Phases 4–6 review (2026-11-23)
 
@@ -286,6 +309,10 @@ Dependencies were reinstalled from yarn.lock afterwards; now 15.5.29, as pinned.
 
 ## Migrations created
 
+- `0029_time_clock_payroll.sql`: applied 2026-11-23 by Guillermo after its dry run (77
+  cases, 4 rounds: constraint name clash, same-transaction clock times, a test typo, and a
+  real bug — an invalid sede was ignored when clocking out). Verified: 16 functions,
+  6 policies, grants (anon and internal helpers closed), fixes present.
 - `0028_salones_classes_reservations.sql`: applied 2026-11-23 by Guillermo after its dry
   run; functions, policies and grants verified, anon limited to `public_schedule`.
 - `0025_memberships_payments.sql`: applied 2026-11-23 by Guillermo after its dry run

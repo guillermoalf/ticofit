@@ -7,7 +7,7 @@ import { requireProfile } from "@/lib/portal";
 import { colones } from "@/lib/staff/clock";
 import { getStaff, isDeskRole } from "@/lib/staff/context";
 import { can } from "@/lib/staff/permissions";
-import { PAY_TYPES, PERIODS, RUN_STATUS, loadRun, periodLabel, totals } from "@/lib/staff/payroll";
+import { PERIODS, quantityLabel, RUN_STATUS, loadRun, periodLabel, totals } from "@/lib/staff/payroll";
 import { createClient } from "@/lib/supabase/server";
 import { PrintButton } from "../../rutina/[id]/print-button";
 
@@ -70,7 +70,7 @@ export default async function PrintPayrollPage({ params }: { params: Promise<{ i
               <tr key={l.id} className="border-b border-border break-inside-avoid">
                 <td className="px-2 py-1.5">{l.full_name}</td>
                 <td className={td}>
-                  {Number(l.quantity_override ?? l.quantity).toLocaleString("es-CR", { maximumFractionDigits: 2 })} {PAY_TYPES[l.pay_type].unit}
+                  {quantityLabel(l.quantity_override ?? l.quantity, l.pay_type)}
                 </td>
                 <td className={td}>{colones(l.gross)}</td>
                 <td className={td}>{colones(l.ccss_employee)}</td>

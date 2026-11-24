@@ -51,6 +51,14 @@ export function DeskLock({
     setPicked(null);
     setDone(null);
   };
+  // After a mark the screen goes back to the names to work, not to the clock:
+  // a second tap there would mark the exit right away.
+  const finishClock = (message: string) => {
+    setPicked(null);
+    setMode("unlock");
+    setDone(message);
+    router.refresh();
+  };
 
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-8 sm:py-12">
@@ -87,11 +95,7 @@ export function DeskLock({
             sedes={sedes}
             isIn={inside.has(picked.id)}
             onBack={back}
-            onDone={(message) => {
-              setPicked(null);
-              setDone(message);
-              router.refresh();
-            }}
+            onDone={finishClock}
           />
         ) : (
           <>

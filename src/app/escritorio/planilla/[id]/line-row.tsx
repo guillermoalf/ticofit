@@ -5,14 +5,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { colones } from "@/lib/staff/clock";
-import type { Line } from "@/lib/staff/payroll";
+import { PAY_TYPES, quantityLabel, type Line } from "@/lib/staff/payroll";
 import { BUTTON, CONTROL, LABEL } from "../../salones/class-form";
 import { updateLineAction, type LineInput } from "../actions";
 
 const num = (n: number) => Number(n).toLocaleString("es-CR", { maximumFractionDigits: 2 });
 
 /** One person's line: how it was computed, and its adjustments while draft. */
-export function LineRow({ line, name, unit, editable }: { line: Line; name: string; unit: string; editable: boolean }) {
+export function LineRow({ line, name, editable }: { line: Line; name: string; editable: boolean }) {
+  const unit = PAY_TYPES[line.pay_type].unit;
   const router = useRouter();
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -31,7 +32,7 @@ export function LineRow({ line, name, unit, editable }: { line: Line; name: stri
         <div className="min-w-0 flex-1">
           <p className="font-semibold">{name}</p>
           <p className="text-sm text-muted">
-            {num(qty)} {unit} × {colones(line.rate)}
+            {quantityLabel(qty, line.pay_type)} × {colones(line.rate)}
             {line.quantity_override != null && ` (corregido; el sistema contó ${num(line.quantity)})`}
             {Number(line.bonus) > 0 && ` + extra ${colones(line.bonus)}`}
             {line.note && ` · ${line.note}`}

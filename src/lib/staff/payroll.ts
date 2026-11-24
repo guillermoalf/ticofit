@@ -8,11 +8,17 @@ export type PayType = "monthly" | "hourly" | "per_class";
 export type RunStatus = "draft" | "approved" | "paid";
 export type Period = "monthly" | "biweekly" | "weekly";
 
-export const PAY_TYPES: Record<PayType, { label: string; unit: string; rate: string }> = {
-  monthly: { label: "Salario mensual", unit: "mes", rate: "Salario mensual (₡)" },
-  hourly: { label: "Por hora", unit: "horas", rate: "Pago por hora (₡)" },
-  per_class: { label: "Por clase", unit: "clases", rate: "Pago por clase (₡)" },
+export const PAY_TYPES: Record<PayType, { label: string; unit: string; one: string; rate: string }> = {
+  monthly: { label: "Salario mensual", unit: "meses", one: "mes", rate: "Salario mensual (₡)" },
+  hourly: { label: "Por hora", unit: "horas", one: "hora", rate: "Pago por hora (₡)" },
+  per_class: { label: "Por clase", unit: "clases", one: "clase", rate: "Pago por clase (₡)" },
 };
+
+/** "1 hora", "7,5 horas", "0,5 meses". */
+export function quantityLabel(qty: number, type: PayType): string {
+  const n = Number(qty);
+  return `${n.toLocaleString("es-CR", { maximumFractionDigits: 2 })} ${n === 1 ? PAY_TYPES[type].one : PAY_TYPES[type].unit}`;
+}
 
 export const PERIODS: Record<Period, string> = {
   monthly: "Mensual",
