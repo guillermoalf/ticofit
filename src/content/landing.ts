@@ -21,10 +21,6 @@ export type LinkItem = { label: string; href: string };
 export type SedeId = "bellavista" | "cafe";
 /** "abierta" shows its schedule; "proximamente" hides it behind a waitlist. */
 export type SedeEstado = "abierta" | "proximamente";
-export type Turno = { hora: string; coach: string };
-export type CafeServicio =
-  | { aforo: number; lunVie: readonly Turno[]; sabado: readonly Turno[] }
-  | { aforo: number; cadaHora: true; coach: string | null };
 
 const whatsappUrl = `https://wa.me/${BRAND.contact.whatsapp}`;
 const mapsUrl = BRAND.mapsUrl;
@@ -317,13 +313,11 @@ export const landing = {
         dia: "Ese día el club está cerrado.",
         servicio: "No hay espacios de esta clase ese día.",
         hoy: "Ya no quedan espacios hoy. Probá con mañana.",
+        error: "No pudimos cargar el horario. Escribinos por WhatsApp.",
       },
-      /**
-       * The public site can't sell or book: every "Reservar" opens WhatsApp,
-       * where the team closes the sale. Direct booking for members arrives
-       * with the Reservas y aforo module.
-       */
-      reservar: { label: "Reservar", href: whatsappUrl },
+      cargando: "Cargando horario…",
+      /** Members book from their portal: it asks them to log in first. */
+      reservar: { label: "Reservar", href: "/portal/clases" },
       /** Open gym the old way: nothing to book. Prices come from `membresias.bellavista`. */
       bellavista: {
         titulo: "Open gym, sin reservas.",
@@ -342,68 +336,13 @@ export const landing = {
         cta: { label: "Escribinos por WhatsApp", href: whatsappUrl },
       },
       /**
-       * Parque del Café, by service. `servicio` keys are slide ids from
-       * `home.hero.slides`, so the chips, `?servicio=` and the hero links share
-       * one list. `cadaHora` services run one slot every hour the club is open.
-       *
-       * SAMPLE data (times, coaches, capacities) to show the layout. It will be
-       * replaced by what is configured in the system.
+       * Parque del Café, by class. Ids are slide ids from `home.hero.slides`
+       * and discipline slugs in the system, so the chips, `?servicio=`, the
+       * hero links and the real schedule share one list. Times, coaches and
+       * spots come live from the class schedule in the internal system.
        */
       cafe: {
-        abierto: { lunVie: [6, 21], sabado: [8, 12] } as Record<"lunVie" | "sabado", [number, number]>,
-        servicios: {
-          reformer: {
-            aforo: 8,
-            lunVie: [
-              { hora: "06:00", coach: "Daniela Mora" },
-              { hora: "07:00", coach: "Daniela Mora" },
-              { hora: "12:00", coach: "Valeria Quesada" },
-              { hora: "17:00", coach: "Valeria Quesada" },
-              { hora: "18:00", coach: "Daniela Mora" },
-              { hora: "19:00", coach: "Valeria Quesada" },
-            ],
-            sabado: [
-              { hora: "08:00", coach: "Daniela Mora" },
-              { hora: "09:00", coach: "Daniela Mora" },
-              { hora: "10:00", coach: "Valeria Quesada" },
-              { hora: "11:00", coach: "Valeria Quesada" },
-            ],
-          },
-          yoga: {
-            aforo: 14,
-            lunVie: [
-              { hora: "06:30", coach: "Andrea Solís" },
-              { hora: "12:15", coach: "Mariana Castro" },
-              { hora: "18:30", coach: "Andrea Solís" },
-            ],
-            sabado: [{ hora: "09:00", coach: "Mariana Castro" }],
-          },
-          barre: {
-            aforo: 12,
-            lunVie: [
-              { hora: "08:00", coach: "Sofía Rojas" },
-              { hora: "17:30", coach: "Sofía Rojas" },
-              { hora: "19:30", coach: "Mariana Castro" },
-            ],
-            sabado: [{ hora: "10:00", coach: "Sofía Rojas" }],
-          },
-          functional: {
-            aforo: 16,
-            lunVie: [
-              { hora: "06:00", coach: "Andrés Vargas" },
-              { hora: "07:00", coach: "Andrés Vargas" },
-              { hora: "17:00", coach: "Diego Jiménez" },
-              { hora: "18:00", coach: "Diego Jiménez" },
-              { hora: "19:00", coach: "Andrés Vargas" },
-            ],
-            sabado: [
-              { hora: "08:00", coach: "Diego Jiménez" },
-              { hora: "09:00", coach: "Diego Jiménez" },
-            ],
-          },
-          "open-gym": { aforo: 40, cadaHora: true, coach: "Coach en piso" },
-          recovery: { aforo: 8, cadaHora: true, coach: null },
-        } as Record<string, CafeServicio>,
+        servicios: ["reformer", "yoga", "barre", "functional", "open-gym", "recovery"],
       },
     },
     resenas: {
