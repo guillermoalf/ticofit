@@ -5,7 +5,7 @@ import { displaySerif } from "@/lib/fonts";
 import { requireProfile } from "@/lib/portal";
 import { createClient } from "@/lib/supabase/server";
 import { getStaff, isDeskRole } from "@/lib/staff/context";
-import { DeskLock, type DeskLockStaff } from "@/app/escritorio/desk-lock";
+import { DeskLock, type ClockedIn, type DeskLockStaff } from "@/app/escritorio/desk-lock";
 
 // Session + PIN state per request; never prerendered.
 export const dynamic = "force-dynamic";
@@ -21,19 +21,23 @@ export default async function LockPage() {
   if (await getStaff()) redirect("/escritorio");
 
   const supabase = await createClient();
-  const [{ data: list }, { data: sedes }, { data: deskSedes }] = await Promise.all([
+  const [{ data: list }, { data: sedes }, { data: deskSedes }, { data: clocked }] = await Promise.all([
     supabase.rpc("desk_staff_list"),
     supabase.from("sedes").select("id, name").order("sort_order"),
     supabase.from("desk_sedes").select("sede_id").eq("desk_id", profile.id),
+    supabase.rpc("desk_clock_status"),
   ]);
   const here = new Set((deskSedes ?? []).map((d) => d.sede_id as string));
+  const deskSedeList = ((sedes ?? []) as { id: string; name: string }[]).filter((s) => here.has(s.id));
 
   return (
     <div style={appCssVars()} className={`${displaySerif.variable} min-h-screen bg-base text-ink`}>
       <DeskLock
         deskName={profile.full_name ?? "Computadora"}
-        sedeNames={(sedes ?? []).filter((s) => here.has(s.id)).map((s) => s.name as string)}
+        sedeNames={deskSedeList.map((s) => s.name)}
+        sedes={deskSedeList}
         staff={(list ?? []) as DeskLockStaff[]}
+        clockedIn={(clocked ?? []) as ClockedIn[]}
       />
     </div>
   );

@@ -69,3 +69,29 @@ export async function switchSedeAction(sedeId: string | null): Promise<void> {
   }
   revalidatePath("/escritorio", "layout");
 }
+
+export type ClockResult =
+  | { ok: true; action: "in" | "out"; at: string; since?: string }
+  | { ok: false; error: string; sedes?: string[] };
+
+/**
+ * Time clock from the lock screen: name + PIN marks entry or exit. It never
+ * opens a desk session. A person working in both sedes of this desk is asked
+ * which one (`sedes` comes back with no entry made).
+ */
+export async function clockAction(staffId: string, pin: string, sedeId?: string): Promise<ClockResult> {
+  if (!PIN_RE.test(pin)) return { ok: false, error: "El PIN tiene 4 números." };
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("staff_clock", {
+    p_staff_id: staffId,
+    p_pin: pin,
+    p_sede_id: sedeId ?? null,
+  });
+  if (error) return { ok: false, error: friendly(error.message) };
+  const r = data as { ok: boolean; action?: "in" | "out"; at?: string; since?: string; error?: string; sedes?: string[] };
+  revalidatePath("/bloqueo");
+  if (r.ok && r.action && r.at) return { ok: true, action: r.action, at: r.at, since: r.since };
+  if (r.error === "SEDE_REQUIRED") return { ok: false, error: "¿En cuál sede estás?", sedes: r.sedes ?? [] };
+  if (r.error === "WRONG_PIN") return { ok: false, error: "PIN incorrecto." };
+  return { ok: false, error: friendly(r.error) };
+}
