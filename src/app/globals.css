@@ -436,3 +436,61 @@
     animation: tf-story 7000ms linear both;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Login (src/app/login/page.tsx): the verde profundo field lifts off the
+   celeste page with a curved edge, and drops back when you get in.
+   --------------------------------------------------------------------------- */
+:root {
+  --tf-login-band: clamp(180px, 28dvh, 260px);
+}
+.tf-login-field {
+  transition: height 900ms cubic-bezier(0.76, 0, 0.24, 1);
+}
+.tf-login-logo {
+  animation: tf-login-logo-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes tf-login-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+.tf-login-submit {
+  transition: width 420ms cubic-bezier(0.76, 0, 0.24, 1), background-color 200ms;
+}
+.tf-login-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: tf-login-dot 900ms ease-in-out infinite;
+}
+.tf-login-dot:nth-child(2) {
+  animation-delay: 150ms;
+}
+.tf-login-dot:nth-child(3) {
+  animation-delay: 300ms;
+}
+@keyframes tf-login-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-5px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tf-login-field,
+  .tf-login-submit {
+    transition: none;
+  }
+  .tf-login-logo,
+  .tf-login-dot {
+    animation: none;
+  }
+}

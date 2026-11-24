@@ -1,24 +1,42 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowLeft, MailCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/ui/logo";
+
+import { TicofitLogo } from "@/components/brand/ticofit-logo";
+import { authErrorToSpanish } from "@/lib/auth-errors";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
-import { authErrorToSpanish } from "@/lib/auth-errors";
+import { cn } from "@/lib/utils";
 
 /**
- * "recover" swaps the card's contents rather than routing anywhere: recovering
+ * "recover" swaps the panel's contents rather than routing anywhere: recovering
  * is a two-field detour off signing in, and a whole page for it would lose the
  * address already typed.
  */
 type Mode = "signin" | "recover" | "sent";
 
+/**
+ * The verde profundo field over the celeste page:
+ *   intro → full screen with the logo, then it lifts to the top with a curved edge
+ *   form  → resting at the top, the form underneath
+ *   enter → after a good sign-in it drops back over everything, then /portal
+ */
+type Stage = "intro" | "form" | "enter";
+
+const INTRO_MS = 1100;
+const ENTER_MS = 700;
+
+function reducedMotion() {
+  return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 function LoginForm() {
   const router = useRouter();
 
+  const [stage, setStage] = useState<Stage>("intro");
   const [mode, setMode] = useState<Mode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,44 +44,33 @@ function LoginForm() {
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const t = setTimeout(() => setStage("form"), reducedMotion() ? 0 : INTRO_MS);
+    return () => clearTimeout(t);
+  }, []);
+
   /**
    * Sends the recovery link. Supabase answers the same way whether or not the
-   * address has an account — it will not confirm who is registered — so the
-   * copy afterwards has to be "if it exists", never "we sent it".
-   *
-   * The link signs the user in and lands on /portal/crear-contrasena, which
-   * already knows how to set a password on the current session.
+   * address has an account, so the copy afterwards says "if it exists".
+   * The link signs the user in and lands on /portal/crear-contrasena.
    */
   async function onRecover(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-
     if (!isSupabaseConfigured) {
-      setError("El portal aún no está disponible. Intentá más tarde.");
+      setError("El acceso aún no está disponible. Intentá más tarde.");
       return;
     }
-
     setLoading(true);
     const supabase = createClient();
-
     try {
       const next = encodeURIComponent("/portal/crear-contrasena");
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        email.trim(),
-        {
-          // Same origin the browser is on, like the Google flow above, so it
-          // works in dev and on the deployed domain without an env var.
-          redirectTo: `${window.location.origin}/auth/callback?next=${next}`,
-        },
-      );
-
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        // Same origin the browser is on, so it works in dev and on the deployed domain.
+        redirectTo: `${window.location.origin}/auth/callback?next=${next}`,
+      });
       if (resetError) {
-        setError(
-          authErrorToSpanish(
-            resetError,
-            "No se pudo enviar el correo. Intentá de nuevo.",
-          ),
-        );
+        setError(authErrorToSpanish(resetError, "No se pudo enviar el correo. Intentá de nuevo."));
         return;
       }
       setMode("sent");
@@ -82,228 +89,231 @@ function LoginForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-
     if (!isSupabaseConfigured) {
-      setError("El portal aún no está disponible. Intentá más tarde.");
+      setError("El acceso aún no está disponible. Intentá más tarde.");
       return;
     }
-
     setLoading(true);
     const supabase = createClient();
-
     try {
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
       if (signInError) {
         setError(authErrorToSpanish(signInError));
+        setLoading(false);
         return;
       }
-
-      // /portal resolves the role, the first-login password step and the
-      // invite-only checks in one place — no need to duplicate them here.
-      router.push("/portal");
-      router.refresh();
+      // The field drops back over the page, then /portal resolves the role
+      // (client, desk), the first-login password step and the invite checks.
+      // The field lives at the top of the page: be there when it drops.
+      window.scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" });
+      setStage("enter");
+      setTimeout(
+        () => {
+          router.push("/portal");
+          router.refresh();
+        },
+        reducedMotion() ? 0 : ENTER_MS,
+      );
     } catch {
       setError("Ocurrió un error inesperado. Intentá de nuevo.");
-    } finally {
       setLoading(false);
     }
   }
 
-  // Google OAuth — redirects the browser to Google, then back to /auth/callback.
+  // Google OAuth: to Google, then back to /auth/callback on this same origin.
   async function onGoogleSignIn() {
     setError(null);
-
     if (!isSupabaseConfigured) {
-      setError("El portal aún no está disponible. Intentá más tarde.");
+      setError("El acceso aún no está disponible. Intentá más tarde.");
       return;
     }
-
     setGoogleLoading(true);
     const supabase = createClient();
-
-    // Derive the redirect from the browser's actual origin so OAuth always
-    // returns to wherever the user is (localhost in dev, the deployed domain
-    // in prod). Avoids depending on an env var that can be missing or have a
-    // stray space. The origin must be in Supabase's Redirect URLs allowlist.
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },
     });
-
     if (oauthError) {
       setError("No se pudo continuar con Google. Intentá de nuevo.");
       setGoogleLoading(false);
     }
-    // On success the browser navigates to Google, so no further action here.
   }
 
+  const covered = stage !== "form";
+
   return (
-    <main className="flex min-h-screen items-center justify-center px-5 py-16">
-      <div className="w-full max-w-sm">
-        <div className="mb-8 flex justify-center">
-          <Logo className="h-12" />
+    <div className="relative min-h-dvh overflow-x-hidden">
+      {/* The field: full screen while covered, a band with a curved edge at rest. */}
+      <div
+        aria-hidden={stage === "form" ? undefined : true}
+        className={cn(
+          "tf-login-field absolute inset-x-0 top-0 z-20 bg-verde-profundo text-lima-claro",
+          covered ? "h-dvh" : "h-[var(--tf-login-band)]",
+        )}
+      >
+        <svg
+          viewBox="0 0 400 90"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          className="absolute inset-x-0 top-full -mt-px h-[clamp(96px,24vw,140px)] w-full text-verde-profundo"
+        >
+          <path d="M0 0H400V6C356 8 322 90 200 90C96 90 46 52 0 34Z" fill="currentColor" />
+        </svg>
+
+        {/* Intro and enter: the logo in the middle. */}
+        <div
+          className={cn(
+            "absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 transition-opacity duration-500",
+            covered ? "opacity-100" : "pointer-events-none opacity-0",
+          )}
+        >
+          <TicofitLogo className="tf-login-logo h-auto w-[min(62vw,300px)]" />
+          <p className="font-tf-serif text-[clamp(20px,4.5vw,28px)] italic text-crema-claro">Un nuevo comienzo se siente.</p>
         </div>
 
-        <div className="rounded-3xl border border-border-strong bg-surface/70 p-7 shadow-glow">
-          {mode === "sent" ? (
-            <>
-              <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-border-strong bg-base/60">
-                <MailCheck size={20} className="text-primary" />
-              </span>
-              <h1 className="font-display text-2xl font-bold">Revisá tu correo</h1>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                Si <span className="text-ink">{email.trim()}</span> tiene una
-                cuenta, te llegó un enlace para crear una contraseña nueva.
-                Abrilo en este mismo dispositivo y vence en una hora.
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-muted-2">
-                ¿No lo ves? Mirá en spam antes de pedir otro.
-              </p>
-
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={backToSignIn}
-                className="mt-6 w-full"
-              >
-                <ArrowLeft size={16} />
-                Volver
-              </Button>
-            </>
-          ) : mode === "recover" ? (
-            <>
-              <p className="font-display text-sm font-medium uppercase tracking-widest text-primary">
-                Recuperar acceso
-              </p>
-              <h1 className="mt-2 font-display text-2xl font-bold">
-                ¿Olvidaste tu contraseña?
-              </h1>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                Escribí tu correo y te mandamos un enlace para crear una nueva.
-              </p>
-
-              <form onSubmit={onRecover} className="mt-6 space-y-4" noValidate>
-                <Field
-                  label="Correo electrónico"
-                  type="email"
-                  value={email}
-                  onChange={setEmail}
-                  autoComplete="email"
-                  required
-                />
-
-            {error && (
-              <p
-                role="alert"
-                className="flex items-start gap-2 rounded-xl border border-border-strong bg-base/60 px-3 py-2.5 text-sm text-ink"
-              >
-                <AlertCircle size={16} className="mt-0.5 shrink-0 text-primary" />
-                <span>{error}</span>
-              </p>
-            )}
-
-                <Button type="submit" loading={loading} className="w-full">
-                  {loading ? "Enviando…" : "Enviar enlace"}
-                </Button>
-              </form>
-
-              <button
-                type="button"
-                onClick={backToSignIn}
-                className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-full px-6 py-2 text-sm text-muted transition-colors hover:text-ink"
-              >
-                <ArrowLeft size={15} />
-                Volver a iniciar sesión
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="font-display text-sm font-medium uppercase tracking-widest text-primary">
-                Portal de clientes
-              </p>
-              <h1 className="mt-2 font-display text-2xl font-bold">
-                Iniciá sesión
-              </h1>
-
-              <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
-                <Field
-                  label="Correo electrónico"
-                  type="email"
-                  value={email}
-                  onChange={setEmail}
-                  autoComplete="email"
-                  required
-                />
-                <Field
-                  label="Contraseña"
-                  type="password"
-                  value={password}
-                  onChange={setPassword}
-                  autoComplete="current-password"
-                  required
-                />
-
-                <div className="flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setError(null);
-                      setMode("recover");
-                    }}
-                    className="cursor-pointer text-sm text-muted underline-offset-4 transition-colors hover:text-ink hover:underline"
-                  >
-                    ¿Olvidaste tu contraseña?
-                  </button>
-                </div>
-
-            {error && (
-              <p
-                role="alert"
-                className="flex items-start gap-2 rounded-xl border border-border-strong bg-base/60 px-3 py-2.5 text-sm text-ink"
-              >
-                <AlertCircle size={16} className="mt-0.5 shrink-0 text-primary" />
-                <span>{error}</span>
-              </p>
-            )}
-
-                <Button type="submit" loading={loading} className="w-full">
-                  {loading ? "Entrando…" : "Entrar"}
-                </Button>
-              </form>
-
-              <div className="my-6 flex items-center gap-3">
-                <span className="h-px flex-1 bg-border" />
-                <span className="text-xs uppercase tracking-widest text-muted-2">
-                  o
-                </span>
-                <span className="h-px flex-1 bg-border" />
-              </div>
-
-              <button
-                type="button"
-                onClick={onGoogleSignIn}
-                disabled={googleLoading || loading}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-full border border-border-strong bg-surface px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-surface-hover disabled:pointer-events-none disabled:opacity-60"
-              >
-                <GoogleIcon />
-                {googleLoading ? "Conectando…" : "Continuar con Google"}
-              </button>
-
-              <p className="mt-6 text-center text-sm text-muted">
-                ¿No tenés acceso? Pedíselo a tu entrenador.
-              </p>
-            </>
+        {/* At rest: logo and greeting in the band. */}
+        <div
+          className={cn(
+            "mx-auto flex h-full max-w-md flex-col justify-end px-6 pb-2 transition-[opacity,transform] duration-500",
+            covered ? "pointer-events-none -translate-y-3 opacity-0" : "translate-y-0 opacity-100 delay-200",
           )}
+        >
+          <Link href="/" aria-label="ticofit, volver al sitio" className="w-fit text-lima-claro">
+            <TicofitLogo className="h-auto w-[132px]" />
+          </Link>
+          <p className="mt-3 text-[15px] text-crema-claro">Qué bueno verte de vuelta.</p>
         </div>
       </div>
-    </main>
+
+      {/* The form, under the band. */}
+      <main
+        className={cn(
+          "relative z-10 mx-auto w-full max-w-md px-6 pt-[calc(var(--tf-login-band)+clamp(96px,24vw,140px)+8px)] pb-14 transition-[opacity,transform] duration-500",
+          stage === "form" ? "translate-y-0 opacity-100 delay-300" : "translate-y-6 opacity-0",
+        )}
+      >
+        {mode === "sent" ? (
+          <>
+            <MailCheck size={28} aria-hidden="true" />
+            <h1 className="mt-4 font-tf-serif text-[40px] leading-none">Revisá tu correo</h1>
+            <p className="mt-4 text-[16px] leading-relaxed">
+              Si <span className="font-semibold">{email.trim()}</span> tiene una cuenta, te llegó un enlace para crear una
+              contraseña nueva. Abrilo en este mismo dispositivo; vence en una hora.
+            </p>
+            <p className="mt-3 text-[15px]">¿No lo ves? Mirá en spam antes de pedir otro.</p>
+            <button type="button" onClick={backToSignIn} className={cn(GHOST, "mt-8")}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              Volver
+            </button>
+          </>
+        ) : mode === "recover" ? (
+          <>
+            <h1 className="font-tf-serif text-[40px] leading-none">¿Olvidaste tu contraseña?</h1>
+            <p className="mt-3 text-[16px]">Escribí tu correo y te mandamos un enlace para crear una nueva.</p>
+            <form onSubmit={onRecover} className="mt-7 space-y-5" noValidate>
+              <Field label="Correo electrónico" type="email" value={email} onChange={setEmail} autoComplete="email" required />
+              <ErrorNote error={error} />
+              <SubmitButton loading={loading} label="Enviar enlace" />
+            </form>
+            <button type="button" onClick={backToSignIn} className={cn(GHOST, "mt-5")}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              Volver a ingresar
+            </button>
+          </>
+        ) : (
+          <>
+            <h1 className="font-tf-serif text-[48px] leading-none">Ingresar</h1>
+            <form onSubmit={onSubmit} className="mt-7 space-y-5" noValidate>
+              <Field label="Correo electrónico" type="email" value={email} onChange={setEmail} autoComplete="email" required />
+              <Field
+                label="Contraseña"
+                type="password"
+                value={password}
+                onChange={setPassword}
+                autoComplete="current-password"
+                required
+              />
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setError(null);
+                    setMode("recover");
+                  }}
+                  className="min-h-11 cursor-pointer text-[15px] underline underline-offset-4"
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              </div>
+              <ErrorNote error={error} />
+              <SubmitButton loading={loading} label="Entrar" />
+            </form>
+
+            <div className="my-7 flex items-center gap-3" aria-hidden="true">
+              <span className="h-px flex-1 bg-verde-profundo/30" />
+              <span className="text-xs tracking-[2px]">O</span>
+              <span className="h-px flex-1 bg-verde-profundo/30" />
+            </div>
+
+            <button
+              type="button"
+              onClick={onGoogleSignIn}
+              disabled={googleLoading || loading}
+              className="inline-flex min-h-[52px] w-full cursor-pointer items-center justify-center gap-3 rounded-full border border-verde-profundo/40 bg-white/40 px-6 text-[15px] font-semibold transition-colors hover:bg-white/60 disabled:pointer-events-none disabled:opacity-60"
+            >
+              <GoogleIcon />
+              {googleLoading ? "Conectando…" : "Continuar con Google"}
+            </button>
+
+            <p className="mt-8 text-center text-[15px]">¿No tenés acceso? Pedíselo a tu entrenador.</p>
+          </>
+        )}
+      </main>
+    </div>
   );
 }
 
-/** Google "G" mark — official four-color logo, inline so it needs no asset. */
+const GHOST =
+  "inline-flex min-h-11 cursor-pointer items-center gap-1.5 text-[15px] font-semibold underline-offset-4 hover:underline";
+
+/** Full width at rest; while it works it shrinks to a pill with three dots. */
+function SubmitButton({ loading, label }: { loading: boolean; label: string }) {
+  return (
+    <div className="flex justify-center">
+      <button
+        type="submit"
+        disabled={loading}
+        aria-busy={loading}
+        className={cn(
+          "tf-login-submit inline-flex h-[52px] cursor-pointer items-center justify-center overflow-hidden rounded-full bg-verde-profundo text-[15px] font-semibold text-lima-claro",
+          loading ? "w-24" : "w-full",
+        )}
+      >
+        {loading ? (
+          <span className="flex gap-1.5" aria-label="Cargando">
+            <span className="tf-login-dot" />
+            <span className="tf-login-dot" />
+            <span className="tf-login-dot" />
+          </span>
+        ) : (
+          label
+        )}
+      </button>
+    </div>
+  );
+}
+
+function ErrorNote({ error }: { error: string | null }) {
+  if (!error) return null;
+  return (
+    <p role="alert" className="flex items-start gap-2 rounded-2xl bg-white/60 px-4 py-3 text-[15px]">
+      <AlertCircle size={18} className="mt-0.5 shrink-0 text-[var(--danger)]" aria-hidden="true" />
+      <span>{error}</span>
+    </p>
+  );
+}
+
+/** Google "G" mark: official four-color logo, inline so it needs no asset. */
 function GoogleIcon() {
   return (
     <svg width={18} height={18} viewBox="0 0 18 18" aria-hidden="true">
@@ -344,14 +354,14 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-sm text-muted">{label}</span>
+      <span className="mb-1.5 block text-[14px] font-semibold">{label}</span>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete}
         required={required}
-        className="w-full rounded-xl border border-border bg-base/60 px-4 py-3 text-ink outline-none transition-colors placeholder:text-muted-2 focus:border-primary"
+        className="h-[52px] w-full rounded-2xl border border-verde-profundo/35 bg-white/45 px-4 text-[16px] text-verde-profundo outline-none transition-colors focus:border-verde-profundo focus:bg-white/70 focus-visible:ring-2 focus-visible:ring-verde-profundo/40"
       />
     </label>
   );
