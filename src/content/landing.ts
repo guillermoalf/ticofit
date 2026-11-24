@@ -8,8 +8,8 @@
  * PENDIENTE marks content Jeremy has not sent yet. Never replace one with
  * invented data — it stays visible on the page until the real value arrives.
  *
- * Nothing here links to /login: only existing clients and staff can sign in,
- * so every "Reservar" / "Comprar" CTA opens WhatsApp instead.
+ * Sign-in is invite-only, so "Reservar" / "Comprar" CTAs open WhatsApp. The one
+ * way into /login is the header's "Ingresar" (clients and the desk computers).
  */
 
 import { BRAND } from "@/config/brand";
@@ -73,6 +73,7 @@ export const landing = {
       { label: "Comunidad", href: "/comunidad" },
     ],
     reservar,
+    ingresar: { label: "Ingresar", href: "/login" },
     inicioLabel: "ticofit, inicio",
     menuLabel: "Menú",
     abrirMenu: "Abrir menú",

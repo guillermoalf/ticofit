@@ -176,6 +176,10 @@ export function SiteHeader() {
           ),
         )}
 
+        <Link href={nav.ingresar.href} className={cn(linkBase, linkTone, "font-semibold")}>
+          {nav.ingresar.label}
+        </Link>
+
         <PillLink
           href={nav.reservar.href}
           variant={overlay ? "verde" : "lima"}
@@ -261,13 +265,18 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <PillLink
-            href={nav.reservar.href}
-            variant="lima"
-            className="mt-10 min-h-[52px] self-start px-8 text-[15px]"
-          >
-            {nav.reservar.label}
-          </PillLink>
+          <div className="mt-10 flex flex-wrap items-center gap-6">
+            <PillLink href={nav.reservar.href} variant="lima" className="min-h-[52px] px-8 text-[15px]">
+              {nav.reservar.label}
+            </PillLink>
+            <Link
+              href={nav.ingresar.href}
+              onClick={() => setMenuOpen(false)}
+              className="inline-flex min-h-11 items-center text-[17px] font-semibold text-inherit underline underline-offset-4"
+            >
+              {nav.ingresar.label}
+            </Link>
+          </div>
         </div>
       )}
     </header>
