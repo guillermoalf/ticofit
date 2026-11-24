@@ -16,7 +16,7 @@ decisions and overrides the rest). Branch: `feat/internal-system`. **Never merge
 | 5 · Salones, disciplines, calendar | ✅ 0028 applied; desk tested in the browser (2026-11-23) |
 | 6 · Reservations & capacity | 🟡 desk side tested; client portal booking untested (needs a client login) |
 | 7 · Employees, time clock, payroll | ✅ 0029 applied; clock, corrections, payroll run, CSV and PDF tested in the browser (2026-11-23) |
-| 8 · Final QA | 🟡 lint + build pass; RLS check written (`supabase/tests/rls_check.sql`); DEMO cleanup ready; Playwright walkthrough not done (see below) |
+| 8 · Final QA | 🟡 lint + build pass; RLS check passes (`supabase/tests/rls_check.sql`); DEMO cleanup ready; Playwright walkthrough not done (see below) |
 
 ## Final state (2026-11-23)
 
@@ -31,7 +31,7 @@ dev server's `.next` was not touched).
 - Client side untested in a browser: invitation email → login → portal, receipt upload,
   booking and cancelling from `/portal/clases`. Desk side of all of them is tested.
 - Phase 1 save actions (sedes, settings, staff edits) were checked on screen, not saved.
-- `supabase/tests/rls_check.sql` written; run it in the SQL Editor (expects `RLS_OK`).
+- `supabase/tests/rls_check.sql`: ran 2026-11-23 → `RLS_OK` (rerun after any policy change).
 - DEMO rows still in the database: run `supabase/cleanup/2026-11-23_demo_todo.sql`
   (local, never committed).
 
